@@ -1,7 +1,7 @@
 {
     "name": "ecommerce-backend",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "src/index.ts",
     "license": "MIT",
     "scripts": {
         "start:dev": "cross-env NODE_ENV=development npx nodemon",
@@ -26,6 +26,8 @@
         "@types/supertest": "^6.0.2",
         "@typescript-eslint/eslint-plugin": "^7.13.0",
         "@typescript-eslint/parser": "^7.13.0",
+        "bcrypt": "^5.1.1",
+        "cross-env": "^7.0.3",
         "eslint": "8.56.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-import-resolver-node": "^0.3.9",
@@ -44,11 +46,17 @@
         "ts-node": "^10.9.2",
         "tsc-alias": "^1.8.10",
         "tsconfig-paths": "^4.2.0",
-        "typescript": "^5.4.5"
+        "typescript": "^5.4.5",
+        "uuid": "^10.0.0"
     },
     "dependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/uuid": "^10.0.0",
         "dotenv": "^16.4.5",
-        "express": "^4.19.2"
+        "express": "^4.19.2",
+        "mysql2": "^3.10.1",
+        "sequelize": "^6.37.3",
+        "zod": "^3.23.8"
     },
     "jest": {
         "moduleFileExtensions": [
