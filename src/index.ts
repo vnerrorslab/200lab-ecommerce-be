@@ -1,10 +1,14 @@
 import dotenv from 'dotenv'
 import express, { type Express, type Request, type Response } from 'express'
 import { Sequelize } from 'sequelize'
-import { init } from './modules/users/infras/repository/dto/user'
+import { initUsers } from './modules/users/infras/repository/dto/user'
 import { UserService } from './modules/users/infras/transport/rest/routes'
 import { UserUseCase } from './modules/users/usecase/user_usecase'
-import { MySQLRepository } from './modules/users/infras/repository/mysql_user_repository'
+import { MySQLUserRepository } from './modules/users/infras/repository/mysql_user_repository'
+import { BrandService } from './modules/brand/infras/transport/rest/routes'
+import { BrandUseCase } from './modules/brand/usecase/brand_usecase'
+import { MySQLBrandRepository } from './modules/brand/infras/repository/mysql_brand_repository'
+import { initBrands } from './modules/brand/infras/repository/dto/brand'
 
 dotenv.config()
 
@@ -30,7 +34,8 @@ const sequelize = new Sequelize({
   try {
     await sequelize.authenticate()
     console.log('Connection successfully.')
-    init(sequelize)
+    initUsers(sequelize)
+    initBrands(sequelize)
 
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
@@ -38,9 +43,20 @@ const sequelize = new Sequelize({
 
     app.use(express.json())
 
-    const userService = new UserService(new UserUseCase(new MySQLRepository(sequelize)))
+    const services = [
+      new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
+      new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize)))
+    ]
 
-    app.use('/v1', userService.setupRoutes())
+    services.forEach((service) => {
+      app.use('/v1', service.setupRoutes())
+    })
+
+    // const brandService = new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize)))
+    // const userService = new UserService(new UserUseCase(new MySQLUserRepository(sequelize)))
+
+    // app.use('/v1', userService.setupRoutes())
+    // app.use('/v1', brandService.setupRoutes())
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}`)

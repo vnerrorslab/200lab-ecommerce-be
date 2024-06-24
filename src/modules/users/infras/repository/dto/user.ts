@@ -3,7 +3,7 @@ import { UserStatus } from '../../../../../shared/dto/status'
 
 export class UserPersistence extends Model {}
 
-export function init(sequelize: Sequelize) {
+export function initUsers(sequelize: Sequelize) {
   UserPersistence.init(
     {
       id: {

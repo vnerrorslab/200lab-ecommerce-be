@@ -21,6 +21,9 @@ const ErrIdentificationCardPattern = new Error('Identification Card must only co
 const ErrIdentificationCardLength = new Error('Identification Card must be 12 characters long')
 const ErrStatusPattern = new Error('Status must be ACTIVE or INACTIVE')
 
+const ErrorBrandNameEmpty = new Error('Name is required')
+const ErrorLogoEmpty = new Error('Logo is required')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -40,5 +43,7 @@ export {
   ErrIdentificationCardEmpty,
   ErrIdentificationCardPattern,
   ErrIdentificationCardLength,
-  ErrStatusPattern
+  ErrStatusPattern,
+  ErrorBrandNameEmpty,
+  ErrorLogoEmpty
 }

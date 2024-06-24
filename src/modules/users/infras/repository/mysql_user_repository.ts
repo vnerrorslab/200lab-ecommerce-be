@@ -1,14 +1,14 @@
 import { Sequelize, Op, type WhereOptions } from 'sequelize'
 
-import type { Paging } from '../../../../shared/dto/paging'
+import type { Paging } from '~/shared/dto/paging'
 import type { IUserRepository } from '../../interfaces/repository'
 import { User } from '../../model/user'
 import { UserUpdateDTO, UserListingConditionDTO } from '../../model/user'
 import { UserPersistence } from './dto/user'
 import type { UserDetailDTO } from '../transport/dto/user_detail'
-import { UserStatus } from '../../../../shared/dto/status'
+import { UserStatus } from '~/shared/dto/status'
 
-export class MySQLRepository implements IUserRepository {
+export class MySQLUserRepository implements IUserRepository {
   constructor(readonly sequelize: Sequelize) {}
 
   async insert(data: User): Promise<string> {
