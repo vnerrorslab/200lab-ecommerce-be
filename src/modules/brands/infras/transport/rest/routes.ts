@@ -2,8 +2,8 @@ import { Router, type Request, type Response } from 'express'
 
 import { CreateBrandDTO } from '../dto/brand_creation'
 import { UpdateBrandDTO } from '../dto/brand_update'
-import { IBrandUseCase } from '~/modules/brand/interfaces/usecase'
-import { BrandListingConditionDTO } from '~/modules/brand/model/brand'
+import { IBrandUseCase } from '~/modules/brands/interfaces/usecase'
+import { BrandListingConditionDTO } from '~/modules/brands/model/brand'
 import { Paging } from '~/shared/dto/paging'
 
 export class BrandService {
