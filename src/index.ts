@@ -9,6 +9,10 @@ import { BrandService } from './modules/brand/infras/transport/rest/routes'
 import { BrandUseCase } from './modules/brand/usecase/brand_usecase'
 import { MySQLBrandRepository } from './modules/brand/infras/repository/mysql_brand_repository'
 import { initBrands } from './modules/brand/infras/repository/dto/brand'
+import { initCategories } from './modules/categories/infras/repository/dto/category'
+import { CategoryService } from './modules/categories/infras/transport/rest/routes'
+import { CategoryUseCase } from './modules/categories/usecase/category_usecase'
+import { MySQLCategoryRepository } from './modules/categories/infras/repository/mysql_category_repository'
 
 dotenv.config()
 
@@ -36,6 +40,7 @@ const sequelize = new Sequelize({
     console.log('Connection successfully.')
     initUsers(sequelize)
     initBrands(sequelize)
+    initCategories(sequelize)
 
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
@@ -45,18 +50,13 @@ const sequelize = new Sequelize({
 
     const services = [
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
-      new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize)))
+      new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
+      new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize)))
     ]
 
     services.forEach((service) => {
       app.use('/v1', service.setupRoutes())
     })
-
-    // const brandService = new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize)))
-    // const userService = new UserService(new UserUseCase(new MySQLUserRepository(sequelize)))
-
-    // app.use('/v1', userService.setupRoutes())
-    // app.use('/v1', brandService.setupRoutes())
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}`)

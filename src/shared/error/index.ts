@@ -24,6 +24,9 @@ const ErrStatusPattern = new Error('Status must be ACTIVE or INACTIVE')
 const ErrorBrandNameEmpty = new Error('Name is required')
 const ErrorLogoEmpty = new Error('Logo is required')
 
+const ErrorCategoryNameEmpty = new Error('Category name is required')
+const ErrorParentEmpty = new Error('Parent is required')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -45,5 +48,7 @@ export {
   ErrIdentificationCardLength,
   ErrStatusPattern,
   ErrorBrandNameEmpty,
-  ErrorLogoEmpty
+  ErrorLogoEmpty,
+  ErrorCategoryNameEmpty,
+  ErrorParentEmpty
 }
