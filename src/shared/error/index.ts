@@ -27,6 +27,10 @@ const ErrorLogoEmpty = new Error('Logo is required')
 const ErrorCategoryNameEmpty = new Error('Category name is required')
 const ErrorParentEmpty = new Error('Parent is required')
 
+const ErrProductNameEmpty = new Error('Product name is required')
+const ErrImageEmpty = new Error('Image is required')
+const ErrPriceEmpty = new Error('Price is required')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -50,5 +54,8 @@ export {
   ErrorBrandNameEmpty,
   ErrorLogoEmpty,
   ErrorCategoryNameEmpty,
-  ErrorParentEmpty
+  ErrorParentEmpty,
+  ErrProductNameEmpty,
+  ErrImageEmpty,
+  ErrPriceEmpty
 }

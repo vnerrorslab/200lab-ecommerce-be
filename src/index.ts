@@ -13,6 +13,10 @@ import { initCategories } from './modules/categories/infras/repository/dto/categ
 import { CategoryService } from './modules/categories/infras/transport/rest/routes'
 import { CategoryUseCase } from './modules/categories/usecase/category_usecase'
 import { MySQLCategoryRepository } from './modules/categories/infras/repository/mysql_category_repository'
+import { initProducts } from './modules/products/infras/repository/dto/product'
+import { ProductService } from './modules/products/infras/transport/rest/routes'
+import { ProductUseCase } from './modules/products/usecase/product_usecase'
+import { MySQLProductsRepository } from './modules/products/infras/repository/mysql_product_repository'
 
 dotenv.config()
 
@@ -41,6 +45,7 @@ const sequelize = new Sequelize({
     initUsers(sequelize)
     initBrands(sequelize)
     initCategories(sequelize)
+    initProducts(sequelize)
 
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
@@ -51,7 +56,8 @@ const sequelize = new Sequelize({
     const services = [
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
       new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
-      new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize)))
+      new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
+      new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize)))
     ]
 
     services.forEach((service) => {
