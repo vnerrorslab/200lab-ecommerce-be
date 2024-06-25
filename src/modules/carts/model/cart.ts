@@ -13,7 +13,10 @@ export class CartUpdateDTO {
 }
 
 export class CartListingConditionDTO {
-  constructor(readonly searchStr: string) {}
+  constructor(
+    readonly searchStr: string,
+    readonly id: string
+  ) {}
 }
 
 export class CartDeleteDTO {

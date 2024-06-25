@@ -24,9 +24,10 @@ export class CartService {
   async list_carts(req: Request, res: Response) {
     try {
       const { searchStr } = req.query
-      const condition = new CartListingConditionDTO(searchStr as string)
+      const { id } = req.params
+      const condition = new CartListingConditionDTO(searchStr as string, id)
 
-      //phân trang nè
+      //phân trang á nè nha
       const limit = parseInt(req.query.limit as string) || 10
       const page = parseInt(req.query.page as string) || 1
 
@@ -72,7 +73,7 @@ export class CartService {
   setupRoutes(): Router {
     const router = Router()
 
-    router.get('/carts', this.list_carts.bind(this))
+    router.get('/carts/:id', this.list_carts.bind(this))
 
     router.post('/carts', this.insert_cart.bind(this))
 

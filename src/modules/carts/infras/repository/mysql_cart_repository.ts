@@ -55,6 +55,13 @@ export class MySQLCartRepository implements ICartRepository {
         }
       }
 
+      if (condition.id) {
+        whereClause = {
+          ...whereClause,
+          created_by: condition.id
+        }
+      }
+
       const { rows: carts, count: total_count } = await CartPersistence.findAndCountAll({
         where: whereClause,
         limit: paging.limit,
