@@ -31,6 +31,11 @@ const ErrProductNameEmpty = new Error('Product name is required')
 const ErrImageEmpty = new Error('Image is required')
 const ErrPriceEmpty = new Error('Price is required')
 
+const ErrProductIdEmpty = new Error('Product id is required')
+const ErrQuantityEmpty = new Error('Quantity is required')
+const ErrUnitPriceEmpty = new Error('Unit price is required')
+const ErrUserIdEmpty = new Error('User id is required')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -57,5 +62,9 @@ export {
   ErrorParentEmpty,
   ErrProductNameEmpty,
   ErrImageEmpty,
-  ErrPriceEmpty
+  ErrPriceEmpty,
+  ErrProductIdEmpty,
+  ErrQuantityEmpty,
+  ErrUnitPriceEmpty,
+  ErrUserIdEmpty
 }
