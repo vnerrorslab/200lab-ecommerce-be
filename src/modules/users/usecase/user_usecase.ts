@@ -22,7 +22,7 @@ export class UserUseCase implements IUserUseCase {
       throw new Error(error.message)
     }
 
-    let user = await this.userRepository.findByEmail(dto.email)
+    const user = await this.userRepository.findByEmail(dto.email)
 
     if (user) {
       throw ErrUserExists
