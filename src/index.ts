@@ -21,6 +21,12 @@ import { initCarts } from './modules/carts/infras/repository/dto/cart'
 import { CartService } from './modules/carts/infras/transport/rest/routes'
 import { CartUseCase } from './modules/carts/usecase/cart_usecase'
 import { MySQLCartRepository } from './modules/carts/infras/repository/mysql_cart_repository'
+import { initAuth } from './modules/auth/infras/repository/dto/auth'
+import { initPermission } from './modules/auth/infras/repository/dto/user_permission'
+import { AuthService } from './modules/auth/infras/transport/rest/routes'
+import { AuthUseCase } from './modules/auth/usecase/user_usecase'
+import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql_auth_repository'
+import { JwtTokenService } from './shared/token/jwt-token-service'
 
 dotenv.config()
 
@@ -51,6 +57,8 @@ const sequelize = new Sequelize({
     initCategories(sequelize)
     initProducts(sequelize)
     initCarts(sequelize)
+    initAuth(sequelize)
+    initPermission(sequelize)
 
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
@@ -58,12 +66,19 @@ const sequelize = new Sequelize({
 
     app.use(express.json())
 
+    const tokenService = new JwtTokenService(process.env.JWT_SECRET_KEY || '200', '1h')
+
     const services = [
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
       new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
       new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
-      new CartService(new CartUseCase(new MySQLCartRepository(sequelize)))
+      new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),
+      new AuthService(
+        new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService),
+        tokenService,
+        new MySQLAuthRepository(sequelize)
+      )
     ]
 
     services.forEach((service) => {

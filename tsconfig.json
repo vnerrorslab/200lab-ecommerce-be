@@ -16,5 +16,7 @@
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
-  "include": ["src/**/*"] // Đường dẫn include cho các file cần build
+  "include": ["src/**/*"], // Đường dẫn include cho các file cần build
+  "files": ["./src/shared/types/req.d.ts", "./node_modules/@types/node/index.d.ts"],
+  "typeRoots": ["./node_modules/@types"]
 }
