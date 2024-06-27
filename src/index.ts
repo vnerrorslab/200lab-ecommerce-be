@@ -21,6 +21,11 @@ import { initCarts } from './modules/carts/infras/repository/dto/cart'
 import { CartService } from './modules/carts/infras/transport/rest/routes'
 import { CartUseCase } from './modules/carts/usecase/cart_usecase'
 import { MySQLCartRepository } from './modules/carts/infras/repository/mysql_cart_repository'
+import { JwtTokenService } from './shared/token/jwt-token-service'
+import { initInventory } from './modules/inventories/infas/repository/dto/inventory'
+import { InventoryService } from './modules/inventories/infas/transport/rest/routes'
+import { InventoryUseCase } from './modules/inventories/usecase/inventory-usecase'
+import { MysqlInventoryRepository } from './modules/inventories/infas/repository/mysql_inventory_repository'
 import { initAuth } from './modules/auth/infras/repository/dto/auth'
 import { initPermission } from './modules/auth/infras/repository/dto/user_permission'
 import { AuthService } from './modules/auth/infras/transport/rest/routes'
@@ -57,6 +62,7 @@ const sequelize = new Sequelize({
     initCategories(sequelize)
     initProducts(sequelize)
     initCarts(sequelize)
+    initInventory(sequelize)
     initAuth(sequelize)
     initPermission(sequelize)
 
@@ -74,11 +80,13 @@ const sequelize = new Sequelize({
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
       new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
       new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),
+      new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize)))
       new AuthService(
         new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService),
         tokenService,
         new MySQLAuthRepository(sequelize)
       )
+
     ]
 
     services.forEach((service) => {
