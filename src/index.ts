@@ -27,6 +27,10 @@ import { AuthService } from './modules/auth/infras/transport/rest/routes'
 import { AuthUseCase } from './modules/auth/usecase/user_usecase'
 import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql_auth_repository'
 import { JwtTokenService } from './shared/token/jwt-token-service'
+import { initImages } from './modules/images/infras/repository/dto/image'
+import { ImageService } from './modules/images/infras/transport/rest/routes'
+import { ImageUseCase } from './modules/images/usecase/image_usecase'
+import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_image_repository'
 
 dotenv.config()
 
@@ -50,6 +54,7 @@ const sequelize = new Sequelize({
 
 ;(async () => {
   try {
+    // check connection to database
     await sequelize.authenticate()
     console.log('Connection successfully.')
     initUsers(sequelize)
@@ -59,7 +64,9 @@ const sequelize = new Sequelize({
     initCarts(sequelize)
     initAuth(sequelize)
     initPermission(sequelize)
+    initImages(sequelize)
 
+    // check API
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
     })
@@ -78,7 +85,8 @@ const sequelize = new Sequelize({
         new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService),
         tokenService,
         new MySQLAuthRepository(sequelize)
-      )
+      ),
+      new ImageService(new ImageUseCase(new MySQLImagesRepository(sequelize)))
     ]
 
     services.forEach((service) => {
