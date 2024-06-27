@@ -1,6 +1,8 @@
 export enum BaseStatus {
   ACTIVE = 'active',
-  INACTIVE = 'inactive'
+  INACTIVE = 'inactive',
+  AVAILABLE = 'available',
+  OUTOFSTOCK = 'out_of_stock'
 }
 
 export enum UserStatus {
