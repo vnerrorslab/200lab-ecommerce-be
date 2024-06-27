@@ -21,15 +21,17 @@ import { initCarts } from './modules/carts/infras/repository/dto/cart'
 import { CartService } from './modules/carts/infras/transport/rest/routes'
 import { CartUseCase } from './modules/carts/usecase/cart_usecase'
 import { MySQLCartRepository } from './modules/carts/infras/repository/mysql_cart_repository'
-// import { initAuth } from './modules/auth/infras/repository/dto/auth'
 import { JwtTokenService } from './shared/token/jwt-token-service'
 import { initInventory } from './modules/inventories/infas/repository/dto/inventory'
 import { InventoryService } from './modules/inventories/infas/transport/rest/routes'
 import { InventoryUseCase } from './modules/inventories/usecase/inventory-usecase'
 import { MysqlInventoryRepository } from './modules/inventories/infas/repository/mysql_inventory_repository'
-// import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql_auth_repository'
-// import { AuthUseCase } from './modules/auth/usecase/user_usecase'
-// import { AuthService } from './modules/auth/infras/transport/rest/routes'
+import { initAuth } from './modules/auth/infras/repository/dto/auth'
+import { initPermission } from './modules/auth/infras/repository/dto/user_permission'
+import { AuthService } from './modules/auth/infras/transport/rest/routes'
+import { AuthUseCase } from './modules/auth/usecase/user_usecase'
+import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql_auth_repository'
+import { JwtTokenService } from './shared/token/jwt-token-service'
 
 dotenv.config()
 
@@ -60,8 +62,9 @@ const sequelize = new Sequelize({
     initCategories(sequelize)
     initProducts(sequelize)
     initCarts(sequelize)
-    // initAuth(sequelize)
     initInventory(sequelize)
+    initAuth(sequelize)
+    initPermission(sequelize)
 
     app.get('/', (req: Request, res: Response) => {
       res.send('200lab Server')
@@ -69,7 +72,7 @@ const sequelize = new Sequelize({
 
     app.use(express.json())
 
-    const tokenService = new JwtTokenService(process.env.JWT_SECRET_KEY || 'your_secret_key', '1h')
+    const tokenService = new JwtTokenService(process.env.JWT_SECRET_KEY || '200', '1h')
 
     const services = [
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
@@ -78,7 +81,12 @@ const sequelize = new Sequelize({
       new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
       new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),
       new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize)))
-      // new AuthService(new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService), tokenService, new MySQLAuthRepository(sequelize))
+      new AuthService(
+        new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService),
+        tokenService,
+        new MySQLAuthRepository(sequelize)
+      )
+
     ]
 
     services.forEach((service) => {
