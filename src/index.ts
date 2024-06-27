@@ -31,7 +31,6 @@ import { initPermission } from './modules/auth/infras/repository/dto/user_permis
 import { AuthService } from './modules/auth/infras/transport/rest/routes'
 import { AuthUseCase } from './modules/auth/usecase/user_usecase'
 import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql_auth_repository'
-import { JwtTokenService } from './shared/token/jwt-token-service'
 
 dotenv.config()
 
@@ -80,13 +79,12 @@ const sequelize = new Sequelize({
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
       new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
       new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),
-      new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize)))
+      new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize))),
       new AuthService(
         new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService),
         tokenService,
         new MySQLAuthRepository(sequelize)
       )
-
     ]
 
     services.forEach((service) => {
