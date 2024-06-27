@@ -41,6 +41,7 @@ const ErrWidthEmpty = new Error('Image width is required')
 const ErrHeightEmpty = new Error('Image height is required')
 const ErrSizeEmpty = new Error('Image size is required')
 const ErrImageStatusPattern = new Error('Image status must be UPLOADED or USED')
+const ErrImageType = new Error('Invalid image type')
 
 export {
   ErrFirstNamePattern,
@@ -77,5 +78,6 @@ export {
   ErrWidthEmpty,
   ErrHeightEmpty,
   ErrSizeEmpty,
-  ErrImageStatusPattern
+  ErrImageStatusPattern,
+  ErrImageType
 }

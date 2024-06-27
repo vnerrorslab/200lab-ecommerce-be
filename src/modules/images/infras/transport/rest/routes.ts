@@ -8,7 +8,8 @@ import { UploadImageDTO } from '../dto/image_uploaded'
 
 import { uploadFileToS3 } from '~/shared/utils/upload-service'
 import { ImageStatus } from '~/shared/dto/status'
-import { ErrImageType } from '~/modules/images/model/image.error'
+import { ErrImageType } from '~/shared/error'
+import { ErrImageNotFound } from '~/modules/images/model/image.error'
 
 export class ImageService {
   constructor(readonly imageUseCase: IImageUseCase) {}
@@ -65,6 +66,24 @@ export class ImageService {
     }
   }
 
+  async detail_image(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+
+      const image = await this.imageUseCase.detailImage(id)
+
+      if (!image) {
+        return res.status(404).json({ code: 404, message: ErrImageNotFound })
+      }
+
+      const fullPath = process.env.URL_PUBLIC + '/' + image.path
+
+      return res.status(200).json({ code: 200, message: 'image', data: { ...image, path: fullPath } })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
+
   setupRoutes(): Router {
     const router = Router()
 
@@ -91,6 +110,8 @@ export class ImageService {
     })
 
     router.post('/images', upload.single('image'), this.insert_image.bind(this))
+
+    router.get('/images/:id', this.detail_image.bind(this))
 
     return router
   }
