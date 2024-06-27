@@ -6,4 +6,6 @@ export interface IImageRepository {
   insertImage(image: Image): Promise<string>
 
   findById(id: string): Promise<ImageDetailDTO | null>
+
+  deleteImageById(id: string): Promise<boolean>
 }

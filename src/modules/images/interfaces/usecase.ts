@@ -6,4 +6,6 @@ export interface IImageUseCase {
   uploadImages(dto: UploadImageDTO): Promise<boolean>
 
   detailImage(id: string): Promise<ImageDetailDTO | null>
+
+  deleteImage(id: string): Promise<boolean>
 }

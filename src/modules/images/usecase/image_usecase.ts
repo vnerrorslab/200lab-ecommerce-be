@@ -39,4 +39,12 @@ export class ImageUseCase implements IImageUseCase {
       throw ErrImageNotFound
     }
   }
+
+  async deleteImage(id: string): Promise<boolean> {
+    try {
+      return await this.imageRepository.deleteImageById(id)
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
 }

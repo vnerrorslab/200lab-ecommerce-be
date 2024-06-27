@@ -3,6 +3,7 @@ import { IImageRepository } from '../../interfaces/repository'
 import { Image } from '../../model/image'
 import { ImagePersistence } from './dto/image'
 import { ImageDetailDTO } from '../transport/dto/image_detail'
+import { ErrSystem } from '~/shared/error'
 
 export class MySQLImagesRepository implements IImageRepository {
   constructor(readonly sequelize: Sequelize) {}
@@ -32,6 +33,15 @@ export class MySQLImagesRepository implements IImageRepository {
       return image ? image.get({ plain: true }) : null
     } catch (error: any) {
       throw new Error(`Error finding image: ${error.message}`)
+    }
+  }
+
+  async deleteImageById(id: string): Promise<boolean> {
+    try {
+      const image = await ImagePersistence.destroy({ where: { id } })
+      return image ? true : false
+    } catch (error: any) {
+      throw new Error(`Error deleting image: ${error.message}`)
     }
   }
 }

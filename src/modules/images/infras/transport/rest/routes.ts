@@ -6,10 +6,12 @@ import fs from 'fs'
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
 import { UploadImageDTO } from '../dto/image_uploaded'
 
-import { uploadFileToS3 } from '~/shared/utils/upload-service'
+import { s3, uploadFileToS3 } from '~/shared/utils/upload-service'
 import { ImageStatus } from '~/shared/dto/status'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
+import { DeleteObjectCommand } from '@aws-sdk/client-s3'
+// import { config } from 'dotenv'
 
 export class ImageService {
   constructor(readonly imageUseCase: IImageUseCase) {}
@@ -84,6 +86,37 @@ export class ImageService {
     }
   }
 
+  async delete_image(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+
+      const image = await this.imageUseCase.detailImage(id)
+
+      if (!image) {
+        return res.status(404).json({ code: 404, message: ErrImageNotFound })
+      }
+
+      const deleteParams = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: image.path
+      }
+
+      //delete file on s3
+      try {
+        s3.send(new DeleteObjectCommand(deleteParams))
+      } catch (error) {
+        res.status(500).send({ error: 'Error deleting file' })
+        return
+      }
+
+      await this.imageUseCase.deleteImage(id)
+
+      res.status(200).send({ code: 200, message: 'delete image successful' })
+    } catch (error: any) {
+      res.status(400).send({ error: error.message })
+    }
+  }
+
   setupRoutes(): Router {
     const router = Router()
 
@@ -112,6 +145,8 @@ export class ImageService {
     router.post('/images', upload.single('image'), this.insert_image.bind(this))
 
     router.get('/images/:id', this.detail_image.bind(this))
+
+    router.delete('/images/:id', this.delete_image.bind(this))
 
     return router
   }
