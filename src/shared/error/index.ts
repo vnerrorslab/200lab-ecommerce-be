@@ -36,6 +36,12 @@ const ErrQuantityEmpty = new Error('Quantity is required')
 const ErrUnitPriceEmpty = new Error('Unit price is required')
 const ErrUserIdEmpty = new Error('User id is required')
 
+const ErrPathEmpty = new Error('Path is required')
+const ErrWidthEmpty = new Error('Image width is required')
+const ErrHeightEmpty = new Error('Image height is required')
+const ErrSizeEmpty = new Error('Image size is required')
+const ErrImageStatusPattern = new Error('Image status must be UPLOADED or USED')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -66,5 +72,10 @@ export {
   ErrProductIdEmpty,
   ErrQuantityEmpty,
   ErrUnitPriceEmpty,
-  ErrUserIdEmpty
+  ErrUserIdEmpty,
+  ErrPathEmpty,
+  ErrWidthEmpty,
+  ErrHeightEmpty,
+  ErrSizeEmpty,
+  ErrImageStatusPattern
 }

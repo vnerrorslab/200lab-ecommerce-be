@@ -10,3 +10,8 @@ export enum UserStatus {
   PENDING = 'pending',
   INACTIVE = 'inactive'
 }
+
+export enum ImageStatus {
+  UPLOADED = 'uploaded',
+  USED = 'used'
+}
