@@ -32,7 +32,7 @@ export const uploadFileToS3 = ({ filename, contentType }: { filename: string; co
   })
 
   parallelUploads3.on('httpUploadProgress', (progress) => {
-    console.log(progress)
+    // console.log(progress)
   })
-  return
+  return parallelUploads3.done()
 }

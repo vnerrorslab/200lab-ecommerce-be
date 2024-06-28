@@ -3,6 +3,8 @@ import { IImageUseCase } from '../interfaces/usecase'
 import { IImageRepository } from '../interfaces/repository'
 import { UploadImageDTO } from '../infras/transport/dto/image_uploaded'
 import { ImageStatus } from '~/shared/dto/status'
+import { ImageDetailDTO } from '../infras/transport/dto/image_detail'
+import { ErrImageNotFound } from '../model/image.error'
 
 export class ImageUseCase implements IImageUseCase {
   constructor(readonly imageRepository: IImageRepository) {}
@@ -28,5 +30,21 @@ export class ImageUseCase implements IImageUseCase {
     await this.imageRepository.insertImage(uploadImages)
 
     return true
+  }
+
+  async detailImage(id: string): Promise<ImageDetailDTO | null> {
+    try {
+      return await this.imageRepository.findById(id)
+    } catch (error: any) {
+      throw ErrImageNotFound
+    }
+  }
+
+  async deleteImage(id: string): Promise<boolean> {
+    try {
+      return await this.imageRepository.deleteImageById(id)
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
   }
 }

@@ -1,3 +1,3 @@
-const ErrImageType = new Error('Invalid image type')
+const ErrImageNotFound = new Error('Image Not Found')
 
-export { ErrImageType }
+export { ErrImageNotFound }
