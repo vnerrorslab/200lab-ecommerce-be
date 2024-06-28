@@ -16,7 +16,7 @@ import {
   ErrAddressPattern,
   ErrIdentificationCardPattern,
   ErrIdentificationCardLength
-} from '../../../../../shared/error'
+} from '~/shared/error'
 
 export class CreateUserDTO {
   constructor(
@@ -26,7 +26,8 @@ export class CreateUserDTO {
     readonly password: string,
     readonly phone: string,
     readonly address: string,
-    readonly identification_card: string
+    readonly identification_card: string,
+    readonly image_id: string
   ) {}
 
   validate(): void {

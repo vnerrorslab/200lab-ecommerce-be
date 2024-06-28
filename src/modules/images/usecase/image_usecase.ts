@@ -1,35 +1,49 @@
 import { v4 as uuidv4 } from 'uuid'
-import { IImageUseCase } from '../interfaces/usecase'
+import { IImageUploader, IImageUseCase } from '../interfaces/usecase'
 import { IImageRepository } from '../interfaces/repository'
-import { UploadImageDTO } from '../infras/transport/dto/image_uploaded'
 import { ImageStatus } from '~/shared/dto/status'
 import { ImageDetailDTO } from '../infras/transport/dto/image_detail'
 import { ErrImageNotFound } from '../model/image.error'
+import sizeOf from 'image-size'
+import fs from 'fs'
 
 export class ImageUseCase implements IImageUseCase {
-  constructor(readonly imageRepository: IImageRepository) {}
+  constructor(
+    readonly imageRepository: IImageRepository,
+    readonly imageUploader: IImageUploader
+  ) {}
 
-  async uploadImages(dto: UploadImageDTO): Promise<boolean> {
-    try {
-      dto.validate()
-    } catch (error: any) {
-      throw new Error(error.message)
-    }
+  async uploadImage(filename: string, filesize: number, contentType: string): Promise<string> {
+    //get width, height
+    const dimensions = sizeOf(filename)
+
+    this.imageUploader.uploadImage(filename, filesize, contentType)
 
     const imageId = uuidv4()
 
     const uploadImages = {
       id: imageId,
-      path: dto.path,
-      width: dto.width,
-      height: dto.height,
-      size: dto.size,
+      path: filename,
+      cloud_name: this.imageUploader.cloudName(),
+      width: dimensions.width as number,
+      height: dimensions.height as number,
+      size: filesize,
       status: ImageStatus.UPLOADED
     }
 
     await this.imageRepository.insertImage(uploadImages)
 
-    return true
+    if (this.imageUploader.cloudName() !== 'local') {
+      //xóa file
+      fs.unlink(filename, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+    }
+
+    return imageId
   }
 
   async detailImage(id: string): Promise<ImageDetailDTO | null> {

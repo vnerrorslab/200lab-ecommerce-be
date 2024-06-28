@@ -23,7 +23,8 @@ export class MySQLUserRepository implements IUserRepository {
         phone: data.phone,
         address: data.address,
         identification_card: data.identification_card,
-        status: data.status
+        status: data.status,
+        image: data.image
       }
 
       const result = await UserPersistence.create(userData)

@@ -10,8 +10,17 @@ export class UserService {
 
   async insert_user(req: Request, res: Response) {
     try {
-      const { first_name, last_name, email, password, phone, address, identification_card } = req.body
-      const userDTO = new CreateUserDTO(first_name, last_name, email, password, phone, address, identification_card)
+      const { first_name, last_name, email, password, phone, address, identification_card, image_id } = req.body
+      const userDTO = new CreateUserDTO(
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        address,
+        identification_card,
+        image_id
+      )
 
       const user = await this.userUseCase.createUser(userDTO)
 

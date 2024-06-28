@@ -1,16 +1,11 @@
 import { Router, type Request, type Response } from 'express'
 import multer from 'multer'
-import sizeOf from 'image-size'
-import fs from 'fs'
 
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
-import { UploadImageDTO } from '../dto/image_uploaded'
-
-import { s3, uploadFileToS3 } from '~/shared/utils/upload-service'
-import { ImageStatus } from '~/shared/dto/status'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { s3 } from '../../repository/uploader/s3_uploader'
 // import { config } from 'dotenv'
 
 export class ImageService {
@@ -26,42 +21,15 @@ export class ImageService {
         return
       }
 
-      //get width, height
-      const dimensions = sizeOf(file.destination + '/' + file.filename)
-
-      //upload file to s3
-      try {
-        await uploadFileToS3({
-          filename: file.destination + '/' + file.filename,
-          contentType: file.mimetype
-        })
-      } catch (error) {
-        res.status(500).send({ error: 'Error uploading file' })
-        return
-      }
-
-      const imageDTO = new UploadImageDTO(
+      const imageId = await this.imageUseCase.uploadImage(
         file.destination + '/' + file.filename,
-        dimensions.width as number,
-        dimensions.height as number,
-        file?.size,
-        ImageStatus.UPLOADED
+        file.size,
+        file.mimetype
       )
-      const resultInsert = await this.imageUseCase.uploadImages(imageDTO)
-
-      if (resultInsert) {
-        //xóa file
-        fs.unlink(file.destination + '/' + file.filename, (err) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-        })
-      }
 
       res.status(201).send({
         code: 201,
-        message: 'insert image successful'
+        message: imageId
       })
     } catch (error: any) {
       res.status(400).send({ error: error.message })

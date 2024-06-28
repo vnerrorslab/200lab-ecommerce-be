@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 import { User, UserListingConditionDTO } from '../model/user'
 import { ErrEmailExists, ErrUserExists, ErrUserInActive, ErrUserNotFound } from '../model/user.error'
-import type { IUserRepository } from '../interfaces/repository'
+import type { IImageRepository, IUserRepository } from '../interfaces/repository'
 import type { IUserUseCase } from '../interfaces/usecase'
 import type { CreateUserDTO } from '../infras/transport/dto/user_creation'
 import type { UpdateUserDTO } from '../infras/transport/dto/user_update'
@@ -11,9 +11,13 @@ import { Paging } from '../../../shared/dto/paging'
 import { generateRandomString } from '../../../shared/utils/generateRandomString'
 import type { UserDetailDTO } from '../infras/transport/dto/user_detail'
 import { UserStatus } from '../../../shared/dto/status'
+import { USER_USING_IMAGE, userEventEmitter } from '~/shared/utils/event-emitter'
 
 export class UserUseCase implements IUserUseCase {
-  constructor(readonly userRepository: IUserRepository) {}
+  constructor(
+    readonly userRepository: IUserRepository,
+    readonly imageRepo: IImageRepository
+  ) {}
 
   async createUser(dto: CreateUserDTO): Promise<boolean> {
     try {
@@ -28,13 +32,16 @@ export class UserUseCase implements IUserUseCase {
       throw ErrUserExists
     }
 
-    let userId = uuidv4()
+    const userId = uuidv4()
 
-    let salt = generateRandomString(8)
-    let password = dto.password + salt
-    let hashedPassword = await bcrypt.hash(password, 10)
+    const salt = generateRandomString(8)
+    const password = dto.password + salt
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-    let newUser = new User(
+    // get image from image id
+    const image = await this.imageRepo.findById(dto.image_id)
+
+    const newUser = new User(
       userId,
       dto.first_name,
       dto.last_name,
@@ -44,10 +51,25 @@ export class UserUseCase implements IUserUseCase {
       dto.phone,
       dto.address,
       dto.identification_card,
-      UserStatus.ACTIVE
+      UserStatus.ACTIVE,
+      image
     )
 
     await this.userRepository.insert(newUser)
+
+    // publish event to image service for update image status
+
+    // User service use A,B
+    // Image service
+
+    // User service pub message have A,B
+    // Image service listen message have A,B
+
+    // EvenEmiter
+    userEventEmitter.emit(USER_USING_IMAGE, { image_id: dto.image_id })
+
+    // Update status a,b
+    // After 1month,xoas C (Cronjob)
 
     return true
   }
@@ -60,14 +82,14 @@ export class UserUseCase implements IUserUseCase {
     }
 
     //check user
-    let user = await this.userRepository.findById(id)
+    const user = await this.userRepository.findById(id)
     if (!user) {
       throw ErrUserNotFound
     }
 
     //check email
     if (dto.email && dto.email !== user.email) {
-      let userEmailExist = await this.userRepository.findByEmail(dto.email)
+      const userEmailExist = await this.userRepository.findByEmail(dto.email)
 
       if (userEmailExist && userEmailExist.id !== id) {
         throw ErrEmailExists
@@ -87,10 +109,10 @@ export class UserUseCase implements IUserUseCase {
     }
 
     if (dto.password) {
-      let salt = generateRandomString(8)
+      const salt = generateRandomString(8)
       updatedUser.salt = salt
 
-      let hashPassword = dto.password + salt
+      const hashPassword = dto.password + salt
       updatedUser.password = await bcrypt.hash(hashPassword, 10)
     }
 
@@ -100,7 +122,7 @@ export class UserUseCase implements IUserUseCase {
   }
 
   async deleteUser(id: string): Promise<boolean> {
-    let user = await this.userRepository.findById(id)
+    const user = await this.userRepository.findById(id)
 
     if (!user) {
       throw ErrUserNotFound
