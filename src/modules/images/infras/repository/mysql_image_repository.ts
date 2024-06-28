@@ -37,6 +37,16 @@ export class MySQLImagesRepository implements IImageRepository {
     }
   }
 
+  async findByPath(path: string): Promise<ImageDetailDTO | null> {
+    try {
+      const image = await ImagePersistence.findOne({ where: { path } })
+
+      return image ? image.get({ plain: true }) : null
+    } catch (error: any) {
+      throw new Error(`Error finding image by path: ${error.message}`)
+    }
+  }
+
   async deleteImageById(id: string): Promise<boolean> {
     try {
       const image = await ImagePersistence.destroy({ where: { id } })

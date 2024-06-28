@@ -6,10 +6,15 @@ export interface IImageUseCase {
 
   detailImage(id: string): Promise<ImageDetailDTO | null>
 
-  deleteImage(id: string): Promise<boolean>
+  deleteImage(filename: string): Promise<boolean>
 }
 
 export interface IImageUploader {
   uploadImage(filename: string, filesize: number, contentType: string): Promise<boolean>
+  cloudName(): string
+}
+
+export interface IImageDeleter {
+  deleteImage(filename: string): Promise<boolean>
   cloudName(): string
 }

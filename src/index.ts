@@ -38,6 +38,7 @@ import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_
 import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/users/infras/rpc-client/mysql_image_repository'
 import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
 import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
+import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
 
 dotenv.config()
 
@@ -96,7 +97,7 @@ const sequelize = new Sequelize({
         tokenService,
         new MySQLAuthRepository(sequelize)
       ),
-      new ImageService(new ImageUseCase(new MySQLImagesRepository(sequelize), new S3Uploader()))
+      new ImageService(new ImageUseCase(new MySQLImagesRepository(sequelize), new S3Uploader(), new S3Deleter()))
     ]
 
     services.forEach((service) => {

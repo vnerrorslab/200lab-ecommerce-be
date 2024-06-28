@@ -64,22 +64,12 @@ export class ImageService {
         return res.status(404).json({ code: 404, message: ErrImageNotFound })
       }
 
-      const deleteParams = {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: image.path
-      }
-
-      //delete file on s3
       try {
-        s3.send(new DeleteObjectCommand(deleteParams))
-      } catch (error) {
-        res.status(500).send({ error: 'Error deleting file' })
-        return
+        await this.imageUseCase.deleteImage(image.path)
+        return res.status(200).json({ code: 200, message: 'delete image successful' })
+      } catch (error: any) {
+        return res.status(400).json({ error: error.message })
       }
-
-      await this.imageUseCase.deleteImage(id)
-
-      res.status(200).send({ code: 200, message: 'delete image successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }

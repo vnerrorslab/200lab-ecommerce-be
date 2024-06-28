@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { IImageUploader, IImageUseCase } from '../interfaces/usecase'
+import { IImageDeleter, IImageUploader, IImageUseCase } from '../interfaces/usecase'
 import { IImageRepository } from '../interfaces/repository'
 import { ImageStatus } from '~/shared/dto/status'
 import { ImageDetailDTO } from '../infras/transport/dto/image_detail'
@@ -10,7 +10,8 @@ import fs from 'fs'
 export class ImageUseCase implements IImageUseCase {
   constructor(
     readonly imageRepository: IImageRepository,
-    readonly imageUploader: IImageUploader
+    readonly imageUploader: IImageUploader,
+    readonly imageDeleter: IImageDeleter
   ) {}
 
   async uploadImage(filename: string, filesize: number, contentType: string): Promise<string> {
@@ -54,9 +55,27 @@ export class ImageUseCase implements IImageUseCase {
     }
   }
 
-  async deleteImage(id: string): Promise<boolean> {
+  async deleteImage(filename: string): Promise<boolean> {
     try {
-      return await this.imageRepository.deleteImageById(id)
+      const image = await this.imageRepository.findByPath(filename)
+      if (!image) {
+        throw ErrImageNotFound
+      }
+
+      if (this.imageDeleter.cloudName() !== 'local') {
+        this.imageDeleter.deleteImage(filename)
+      } else {
+        fs.unlink(filename, (err) => {
+          if (err) {
+            console.error(err)
+            return false
+          }
+        })
+      }
+
+      await this.imageRepository.deleteImageById(image.id)
+
+      return true
     } catch (error: any) {
       throw new Error(error.message)
     }
