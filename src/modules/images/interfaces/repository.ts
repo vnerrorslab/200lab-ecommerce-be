@@ -7,5 +7,7 @@ export interface IImageRepository {
 
   findById(id: string): Promise<ImageDetailDTO | null>
 
+  findByPath(path: string): Promise<ImageDetailDTO | null>
+
   deleteImageById(id: string): Promise<boolean>
 }

@@ -26,7 +26,6 @@ export class InventoryService {
         new Date(created_at),
         new Date(updated_at)
       )
-      console.log(invDTO)
 
       const inventory = await this.inventoryUseCase.createInventory(invDTO)
 

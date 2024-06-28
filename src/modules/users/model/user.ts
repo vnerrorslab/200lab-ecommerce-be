@@ -1,4 +1,5 @@
 import type { UserStatus } from '../../../shared/dto/status'
+import { Image } from './image'
 
 export class User {
   constructor(
@@ -11,7 +12,8 @@ export class User {
     readonly phone: string,
     readonly address: string,
     readonly identification_card: string,
-    readonly status: UserStatus
+    readonly status: UserStatus,
+    readonly image: Image | null
   ) {}
 }
 

@@ -1,16 +1,11 @@
 import { Router, type Request, type Response } from 'express'
 import multer from 'multer'
-import sizeOf from 'image-size'
-import fs from 'fs'
 
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
-import { UploadImageDTO } from '../dto/image_uploaded'
-
-import { s3, uploadFileToS3 } from '~/shared/utils/upload-service'
-import { ImageStatus } from '~/shared/dto/status'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { s3 } from '../../repository/uploader/s3_uploader'
 // import { config } from 'dotenv'
 
 export class ImageService {
@@ -26,42 +21,15 @@ export class ImageService {
         return
       }
 
-      //get width, height
-      const dimensions = sizeOf(file.destination + '/' + file.filename)
-
-      //upload file to s3
-      try {
-        await uploadFileToS3({
-          filename: file.destination + '/' + file.filename,
-          contentType: file.mimetype
-        })
-      } catch (error) {
-        res.status(500).send({ error: 'Error uploading file' })
-        return
-      }
-
-      const imageDTO = new UploadImageDTO(
+      const imageId = await this.imageUseCase.uploadImage(
         file.destination + '/' + file.filename,
-        dimensions.width as number,
-        dimensions.height as number,
-        file?.size,
-        ImageStatus.UPLOADED
+        file.size,
+        file.mimetype
       )
-      const resultInsert = await this.imageUseCase.uploadImages(imageDTO)
-
-      if (resultInsert) {
-        //xóa file
-        fs.unlink(file.destination + '/' + file.filename, (err) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-        })
-      }
 
       res.status(201).send({
         code: 201,
-        message: 'insert image successful'
+        message: imageId
       })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
@@ -96,22 +64,12 @@ export class ImageService {
         return res.status(404).json({ code: 404, message: ErrImageNotFound })
       }
 
-      const deleteParams = {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: image.path
-      }
-
-      //delete file on s3
       try {
-        s3.send(new DeleteObjectCommand(deleteParams))
-      } catch (error) {
-        res.status(500).send({ error: 'Error deleting file' })
-        return
+        await this.imageUseCase.deleteImage(image.path)
+        return res.status(200).json({ code: 200, message: 'delete image successful' })
+      } catch (error: any) {
+        return res.status(400).json({ error: error.message })
       }
-
-      await this.imageUseCase.deleteImage(id)
-
-      res.status(200).send({ code: 200, message: 'delete image successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }

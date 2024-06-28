@@ -13,6 +13,7 @@ export class MySQLImagesRepository implements IImageRepository {
       const imageData = {
         id: data.id,
         path: data.path,
+        cloud_name: data.cloud_name,
         width: data.width,
         height: data.height,
         size: data.size
@@ -33,6 +34,16 @@ export class MySQLImagesRepository implements IImageRepository {
       return image ? image.get({ plain: true }) : null
     } catch (error: any) {
       throw new Error(`Error finding image: ${error.message}`)
+    }
+  }
+
+  async findByPath(path: string): Promise<ImageDetailDTO | null> {
+    try {
+      const image = await ImagePersistence.findOne({ where: { path } })
+
+      return image ? image.get({ plain: true }) : null
+    } catch (error: any) {
+      throw new Error(`Error finding image by path: ${error.message}`)
     }
   }
 

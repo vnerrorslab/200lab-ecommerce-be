@@ -1,5 +1,6 @@
 import type { Paging } from '../../../shared/dto/paging'
 import type { UserDetailDTO } from '../infras/transport/dto/user_detail'
+import { Image } from '../model/image'
 import type { User, UserUpdateDTO, UserListingConditionDTO } from '../model/user'
 
 export interface IUserRepository {
@@ -16,4 +17,10 @@ export interface IUserRepository {
   deleteById(id: string): Promise<boolean>
 
   findUserDetail(id: string): Promise<UserDetailDTO | null>
+}
+
+export interface IImageRepository {
+  findById(id: string): Promise<Image | null>
+
+  findByIds(ids: string[]): Promise<Image[]>
 }

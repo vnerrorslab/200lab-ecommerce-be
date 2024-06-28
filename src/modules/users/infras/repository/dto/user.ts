@@ -47,6 +47,10 @@ export function initUsers(sequelize: Sequelize) {
       status: {
         type: DataTypes.ENUM(UserStatus.ACTIVE, UserStatus.INACTIVE),
         allowNull: false
+      },
+      image: {
+        type: DataTypes.JSON,
+        allowNull: true
       }
     },
     {

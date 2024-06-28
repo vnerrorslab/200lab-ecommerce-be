@@ -1,5 +1,4 @@
 import { DataTypes, Model, type Sequelize } from 'sequelize'
-import { ImageStatus } from '~/shared/dto/status'
 
 export class ImagePersistence extends Model {}
 
@@ -29,16 +28,6 @@ export function initImages(sequelize: Sequelize) {
 
       height: {
         type: DataTypes.INTEGER,
-        allowNull: true
-      },
-
-      size: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-
-      status: {
-        type: DataTypes.ENUM(ImageStatus.UPLOADED, ImageStatus.USED),
         allowNull: true
       }
     },

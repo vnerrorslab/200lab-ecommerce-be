@@ -35,6 +35,10 @@ import { initImages } from './modules/images/infras/repository/dto/image'
 import { ImageService } from './modules/images/infras/transport/rest/routes'
 import { ImageUseCase } from './modules/images/usecase/image_usecase'
 import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_image_repository'
+import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/users/infras/rpc-client/mysql_image_repository'
+import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
+import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
+import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
 
 dotenv.config()
 
@@ -70,6 +74,7 @@ const sequelize = new Sequelize({
     initAuth(sequelize)
     initPermission(sequelize)
     initImages(sequelize)
+    initImagesInUser(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
@@ -81,7 +86,7 @@ const sequelize = new Sequelize({
     const tokenService = new JwtTokenService(process.env.JWT_SECRET_KEY || '200', '1h')
 
     const services = [
-      new UserService(new UserUseCase(new MySQLUserRepository(sequelize))),
+      new UserService(new UserUseCase(new MySQLUserRepository(sequelize), new MySQLImageInUserRepository(sequelize))),
       new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
       new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
@@ -92,7 +97,7 @@ const sequelize = new Sequelize({
         tokenService,
         new MySQLAuthRepository(sequelize)
       ),
-      new ImageService(new ImageUseCase(new MySQLImagesRepository(sequelize)))
+      new ImageService(new ImageUseCase(new MySQLImagesRepository(sequelize), new S3Uploader(), new S3Deleter()))
     ]
 
     services.forEach((service) => {

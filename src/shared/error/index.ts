@@ -45,6 +45,8 @@ const ErrImageType = new Error('Invalid image type')
 
 const ErrSystem = new Error('System error')
 
+const ErrCloudNameEmpty = new Error('Cloud name is required')
+
 export {
   ErrFirstNamePattern,
   ErrFirstNameEmpty,
@@ -82,5 +84,6 @@ export {
   ErrSizeEmpty,
   ErrImageStatusPattern,
   ErrImageType,
-  ErrSystem
+  ErrSystem,
+  ErrCloudNameEmpty
 }
