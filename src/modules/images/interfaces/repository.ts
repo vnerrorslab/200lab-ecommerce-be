@@ -12,4 +12,6 @@ export interface IImageRepository {
   deleteImageById(id: string): Promise<boolean>
 
   updateStatus(id: string, status: string): Promise<boolean>
+
+  findAll(condition: any): Promise<Image[]>
 }

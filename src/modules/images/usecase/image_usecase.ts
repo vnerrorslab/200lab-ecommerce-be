@@ -6,13 +6,16 @@ import { ImageDetailDTO } from '../infras/transport/dto/image_detail'
 import { ErrImageNotFound } from '../model/image.error'
 import sizeOf from 'image-size'
 import fs from 'fs'
+import { ImageCleanupScheduler } from '../schedule/cron_cleanup'
 
 export class ImageUseCase implements IImageUseCase {
   constructor(
     readonly imageRepository: IImageRepository,
     readonly imageUploader: IImageUploader,
     readonly imageDeleter: IImageDeleter
-  ) {}
+  ) {
+    new ImageCleanupScheduler(imageRepository, this)
+  }
 
   async uploadImage(filename: string, filesize: number, contentType: string): Promise<string> {
     //get width, height

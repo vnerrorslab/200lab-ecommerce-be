@@ -5,7 +5,6 @@ import { IImageUseCase } from '~/modules/images/interfaces/usecase'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
 import { ImageEventHandler } from '../conditions/image_event_handler'
-// import { config } from 'dotenv'
 
 export class ImageService {
   constructor(readonly imageUseCase: IImageUseCase) {
