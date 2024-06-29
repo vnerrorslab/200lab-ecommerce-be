@@ -55,4 +55,13 @@ export class MySQLImagesRepository implements IImageRepository {
       throw new Error(`Error deleting image: ${error.message}`)
     }
   }
+
+  async updateStatus(id: string, status: string): Promise<boolean> {
+    try {
+      const image = await ImagePersistence.update({ status }, { where: { id } })
+      return image ? true : false
+    } catch (error: any) {
+      throw new Error(`Error updating image status: ${error.message}`)
+    }
+  }
 }

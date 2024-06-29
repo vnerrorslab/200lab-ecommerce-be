@@ -4,12 +4,13 @@ import multer from 'multer'
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
-import { DeleteObjectCommand } from '@aws-sdk/client-s3'
-import { s3 } from '../../repository/uploader/s3_uploader'
+import { ImageEventHandler } from '../conditions/image_event_handler'
 // import { config } from 'dotenv'
 
 export class ImageService {
-  constructor(readonly imageUseCase: IImageUseCase) {}
+  constructor(readonly imageUseCase: IImageUseCase) {
+    new ImageEventHandler(imageUseCase)
+  }
 
   async insert_image(req: Request, res: Response) {
     try {

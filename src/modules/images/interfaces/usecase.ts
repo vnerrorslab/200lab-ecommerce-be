@@ -7,6 +7,8 @@ export interface IImageUseCase {
   detailImage(id: string): Promise<ImageDetailDTO | null>
 
   deleteImage(filename: string): Promise<boolean>
+
+  changeStatus(id: string, status: string): Promise<boolean>
 }
 
 export interface IImageUploader {

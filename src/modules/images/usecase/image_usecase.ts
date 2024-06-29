@@ -80,4 +80,12 @@ export class ImageUseCase implements IImageUseCase {
       throw new Error(error.message)
     }
   }
+
+  async changeStatus(id: string, status: string): Promise<boolean> {
+    try {
+      return await this.imageRepository.updateStatus(id, status)
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
 }
