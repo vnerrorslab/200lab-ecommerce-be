@@ -1,6 +1,7 @@
 import type { Paging } from '~/shared/dto/paging'
 import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
 import type { Product, ProductListingConditionDTO, ProductUpdateDTO } from '../model/product'
+import { Image } from '../model/image'
 
 // xu ly nghiep vu - duoi database
 export interface IProductRepository {
@@ -20,4 +21,10 @@ export interface IProductRepository {
   deleteProductById(id: string): Promise<boolean>
 
   findProductById(id: string): Promise<ProductDetailDTO | null>
+}
+
+export interface IImageRepository {
+  findById(id: string): Promise<Image | null>
+
+  findByIds(ids: string[]): Promise<Image[]>
 }

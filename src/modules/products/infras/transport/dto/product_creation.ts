@@ -4,7 +4,7 @@ import { ErrImageEmpty, ErrPriceEmpty, ErrProductNameEmpty } from '~/shared/erro
 export class CreateProductDTO {
   constructor(
     readonly name: string,
-    readonly image_url: string,
+    readonly images: string[],
     readonly price: number,
     readonly quantity: number,
     readonly brand_id: string,
@@ -17,8 +17,6 @@ export class CreateProductDTO {
   validate(): void {
     const schema = z.object({
       name: z.string().min(1, { message: ErrProductNameEmpty.message }),
-
-      image_url: z.string().min(1, { message: ErrImageEmpty.message }),
 
       price: z.string().min(1, { message: ErrPriceEmpty.message }),
 
@@ -38,7 +36,7 @@ export class CreateProductDTO {
     try {
       schema.parse({
         name: this.name,
-        image_url: this.image_url,
+        images: this.images,
         price: this.price,
         quantity: this.quantity,
         brand_id: this.brand_id,

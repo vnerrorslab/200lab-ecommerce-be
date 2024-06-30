@@ -4,7 +4,7 @@ export class ProductDetailDTO {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly image_url: string,
+    readonly images: string[],
     readonly price: number,
     readonly quantity: number,
     readonly brand_id: string,

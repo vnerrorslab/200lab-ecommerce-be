@@ -36,6 +36,7 @@ import { ImageService } from './modules/images/infras/transport/rest/routes'
 import { ImageUseCase } from './modules/images/usecase/image_usecase'
 import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_image_repository'
 import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/users/infras/rpc-client/mysql_image_repository'
+import { MySQLImagesRepository as MySQLImagesInProductRepository } from './modules/products/infras/rpc-client/mysql_images_repository'
 import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
 import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
 import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
@@ -89,7 +90,9 @@ const sequelize = new Sequelize({
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize), new MySQLImageInUserRepository(sequelize))),
       new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
-      new ProductService(new ProductUseCase(new MySQLProductsRepository(sequelize))),
+      new ProductService(
+        new ProductUseCase(new MySQLProductsRepository(sequelize), new MySQLImagesInProductRepository(sequelize))
+      ),
       new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),
       new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize))),
       new AuthService(

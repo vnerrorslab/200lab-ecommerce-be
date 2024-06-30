@@ -15,7 +15,7 @@ export class MySQLProductsRepository implements IProductRepository {
       const productData = {
         id: data.id,
         name: data.name,
-        image_url: data.image_url,
+        images: data.images,
         price: data.price,
         quantity: data.quantity,
         brand_id: data.brand_id,

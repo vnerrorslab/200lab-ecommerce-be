@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import { Product, ProductListingConditionDTO } from '../model/product'
-import type { IProductRepository } from '../interfaces/repository'
+import type { IImageRepository, IProductRepository } from '../interfaces/repository'
 import type { IProductUseCase } from '../interfaces/usecase'
 import type { CreateProductDTO } from '../infras/transport/dto/product_creation'
 import type { UpdateProductDTO } from '../infras/transport/dto/product_update'
@@ -9,9 +9,13 @@ import { ErrProductExists, ErrProductInActive } from '../model/product.error'
 import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
 import { BaseStatus } from '~/shared/dto/status'
 import { Paging } from '~/shared/dto/paging'
+import { Image } from '../model/image'
 
 export class ProductUseCase implements IProductUseCase {
-  constructor(readonly productRepository: IProductRepository) {}
+  constructor(
+    readonly productRepository: IProductRepository,
+    readonly imageRepository: IImageRepository
+  ) {}
 
   async createProduct(dto: CreateProductDTO): Promise<boolean> {
     try {
@@ -28,10 +32,17 @@ export class ProductUseCase implements IProductUseCase {
 
     const productId = uuidv4()
 
+    console.log('dto.images', dto.images)
+    // dto.images [
+    //     'e32657f6-a7b1-4ed7-a212-b2719bbd3bf6',
+    //     '12b51ea0-6907-4311-8135-5e4ead01ee0d'
+    //   ]
+    const images = await this.imageRepository.findByIds(dto.images)
+
     const newProduct = new Product(
       productId,
       dto.name,
-      dto.image_url,
+      images,
       dto.price,
       dto.quantity,
       dto.brand_id,
@@ -64,7 +75,7 @@ export class ProductUseCase implements IProductUseCase {
     const updatedProduct = {
       ...product,
       name: dto.name ?? product.name,
-      image_url: dto.image_url ?? product.image_url,
+      images: dto.images ?? product.images,
       price: dto.price ?? product.price,
       quantity: dto.quantity ?? product.quantity,
       brand_id: dto.brand_id ?? product.brand_id,

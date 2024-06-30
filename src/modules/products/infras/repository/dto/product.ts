@@ -17,8 +17,8 @@ export function initProducts(sequelize: Sequelize) {
         allowNull: false
       },
 
-      image_url: {
-        type: DataTypes.STRING,
+      images: {
+        type: DataTypes.JSON,
         allowNull: false
       },
 

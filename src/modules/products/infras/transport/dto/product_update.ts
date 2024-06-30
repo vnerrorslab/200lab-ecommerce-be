@@ -5,7 +5,7 @@ import { ErrImageEmpty, ErrPriceEmpty, ErrProductNameEmpty, ErrStatusPattern } f
 export class UpdateProductDTO {
   constructor(
     readonly name: string,
-    readonly image_url: string,
+    readonly images: string[],
     readonly price: number,
     readonly quantity: number,
     readonly brand_id: string,
@@ -19,8 +19,6 @@ export class UpdateProductDTO {
   validate(): void {
     const schema = z.object({
       name: z.string().min(1, { message: ErrProductNameEmpty.message }),
-
-      image_url: z.string().min(1, { message: ErrImageEmpty.message }),
 
       price: z.string().min(1, { message: ErrPriceEmpty.message }),
 
@@ -42,7 +40,7 @@ export class UpdateProductDTO {
     try {
       schema.parse({
         name: this.name,
-        image_url: this.image_url,
+        images: this.images,
         price: this.price,
         quantity: this.quantity,
         brand_id: this.brand_id,

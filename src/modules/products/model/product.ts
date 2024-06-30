@@ -1,10 +1,11 @@
 import type { BaseStatus } from '~/shared/dto/status'
+import { Image } from './image'
 
 export class Product {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly image_url: string,
+    readonly images: Image[] | null,
     readonly price: number,
     readonly quantity: number,
     readonly brand_id: string,
@@ -18,7 +19,7 @@ export class Product {
 
 export class ProductUpdateDTO {
   name?: string
-  image_url?: string
+  images?: string[]
   price?: number
   quantity?: number
   brand_id?: string

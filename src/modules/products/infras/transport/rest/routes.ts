@@ -10,10 +10,10 @@ export class ProductService {
 
   async insert_product(req: Request, res: Response) {
     try {
-      const { name, image_url, price, quantity, brand_id, category_id, description, created_by, updated_by } = req.body
+      const { name, images, price, quantity, brand_id, category_id, description, created_by, updated_by } = req.body
       const productDTO = new CreateProductDTO(
         name,
-        image_url,
+        images,
         price,
         quantity,
         brand_id,
@@ -38,11 +38,11 @@ export class ProductService {
   async update_product(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { name, image_url, price, quantity, brand_id, category_id, description, status, created_by, updated_by } =
+      const { name, images, price, quantity, brand_id, category_id, description, status, created_by, updated_by } =
         req.body
       const productDTO = new UpdateProductDTO(
         name,
-        image_url,
+        images,
         price,
         quantity,
         brand_id,
