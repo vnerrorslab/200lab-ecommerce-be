@@ -64,4 +64,13 @@ export class MySQLImagesRepository implements IImageRepository {
       throw new Error(`Error updating image status: ${error.message}`)
     }
   }
+
+  async findAll(condition: any): Promise<Image[]> {
+    try {
+      const images = await ImagePersistence.findAll(condition)
+      return images.map((image) => image.get({ plain: true }))
+    } catch (error: any) {
+      throw new Error(`Error finding all images: ${error.message}`)
+    }
+  }
 }
