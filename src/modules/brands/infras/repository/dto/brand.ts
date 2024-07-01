@@ -17,9 +17,9 @@ export function initBrands(sequelize: Sequelize) {
         allowNull: false
       },
 
-      logo: {
-        type: DataTypes.STRING,
-        allowNull: false
+      image: {
+        type: DataTypes.JSON,
+        allowNull: true
       },
 
       tag_line: {

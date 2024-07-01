@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import { ErrorBrandNameEmpty, ErrorLogoEmpty } from '~/shared/error'
+import { ErrorBrandNameEmpty } from '~/shared/error'
 
 export class CreateBrandDTO {
   constructor(
     readonly name: string,
-    readonly logo: string,
+    readonly image: string,
     readonly tag_line: string,
     readonly description: string
   ) {}
@@ -12,8 +12,6 @@ export class CreateBrandDTO {
   validate(): void {
     const schema = z.object({
       name: z.string().min(1, { message: ErrorBrandNameEmpty.message }),
-
-      logo: z.string().min(1, { message: ErrorLogoEmpty.message }),
 
       tag_line: z.string().optional(),
 
@@ -23,7 +21,7 @@ export class CreateBrandDTO {
     try {
       schema.parse({
         name: this.name,
-        logo: this.logo,
+        image: this.image,
         tag_line: this.tag_line,
         description: this.description
       })

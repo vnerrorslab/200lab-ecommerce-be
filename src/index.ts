@@ -37,8 +37,10 @@ import { ImageUseCase } from './modules/images/usecase/image_usecase'
 import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_image_repository'
 import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/users/infras/rpc-client/mysql_image_repository'
 import { MySQLImagesRepository as MySQLImagesInProductRepository } from './modules/products/infras/rpc-client/mysql_images_repository'
+import { MySQLImageRepository as MySQLImageInBrandRepository } from './modules/brands/infras/rpc-client/mysql_image_repository'
 import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
 import { initImages as initImagesInProduct } from './modules/products/infras/rpc-client/dto/image'
+import { initImages as initImagesInBrand } from './modules/brands/infras/rpc-client/dto/image'
 import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
 import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
 
@@ -78,6 +80,7 @@ const sequelize = new Sequelize({
     initImages(sequelize)
     initImagesInUser(sequelize)
     initImagesInProduct(sequelize)
+    initImagesInBrand(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
@@ -90,7 +93,9 @@ const sequelize = new Sequelize({
 
     const services = [
       new UserService(new UserUseCase(new MySQLUserRepository(sequelize), new MySQLImageInUserRepository(sequelize))),
-      new BrandService(new BrandUseCase(new MySQLBrandRepository(sequelize))),
+      new BrandService(
+        new BrandUseCase(new MySQLBrandRepository(sequelize), new MySQLImageInBrandRepository(sequelize))
+      ),
       new CategoryService(new CategoryUseCase(new MySQLCategoryRepository(sequelize))),
       new ProductService(
         new ProductUseCase(new MySQLProductsRepository(sequelize), new MySQLImagesInProductRepository(sequelize))

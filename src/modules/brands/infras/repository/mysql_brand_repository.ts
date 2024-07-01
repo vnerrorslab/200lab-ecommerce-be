@@ -15,7 +15,7 @@ export class MySQLBrandRepository implements IBrandRepository {
       const brandData = {
         id: data.id,
         name: data.name,
-        logo: data.logo,
+        image: data.image,
         tag_line: data.tag_line,
         description: data.description,
         status: data.status
@@ -106,7 +106,7 @@ export class MySQLBrandRepository implements IBrandRepository {
 
   async findBrandById(id: string): Promise<BrandDetailDTO | null> {
     const brand = await BrandPersistence.findByPk(id, {
-      attributes: ['id', 'name', 'logo', 'tag_line', 'description', 'status']
+      attributes: ['id', 'name', 'image', 'tag_line', 'description', 'status']
     })
 
     if (!brand) return null
