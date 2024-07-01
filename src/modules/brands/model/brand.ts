@@ -5,7 +5,7 @@ export class Brand {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly image: Image | null,
+    public image: Image | null,
     readonly tag_line: string,
     readonly description: string,
     readonly status: BaseStatus

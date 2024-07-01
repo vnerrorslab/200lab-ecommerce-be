@@ -1,13 +1,6 @@
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
 import { ImageStatus } from '~/shared/dto/status'
-import {
-  PRODUCT_USING_IMAGE,
-  ProductUsingImageEvent,
-  USER_USING_IMAGE,
-  UserUsingImageEvent,
-  productEventEmitter,
-  userEventEmitter
-} from '~/shared/utils/event-emitter'
+import { USING_IMAGE, UsingImageEvent, sharedEventEmitter } from '~/shared/utils/event-emitter'
 
 export class ImageEventHandler {
   constructor(readonly imageUseCase: IImageUseCase) {
@@ -15,15 +8,10 @@ export class ImageEventHandler {
   }
 
   initialize() {
-    userEventEmitter.on(USER_USING_IMAGE, this.handleUserUsingImage.bind(this))
-    productEventEmitter.on(PRODUCT_USING_IMAGE, this.handleProductUsingImage.bind(this))
+    sharedEventEmitter.on(USING_IMAGE, this.handleUsingImage.bind(this))
   }
 
-  async handleUserUsingImage({ image_id }: UserUsingImageEvent) {
-    await this.changeImageStatus(image_id, ImageStatus.USED)
-  }
-
-  async handleProductUsingImage({ image_id }: ProductUsingImageEvent) {
+  async handleUsingImage({ image_id }: UsingImageEvent) {
     await this.changeImageStatus(image_id, ImageStatus.USED)
   }
 
