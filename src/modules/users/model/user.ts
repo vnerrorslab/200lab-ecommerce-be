@@ -13,7 +13,7 @@ export class User {
     readonly address: string,
     readonly identification_card: string,
     readonly status: UserStatus,
-    readonly image: Image | null
+    public image: Image | null
   ) {}
 }
 

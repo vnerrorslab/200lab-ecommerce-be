@@ -102,7 +102,17 @@ export class MySQLUserRepository implements IUserRepository {
 
   async findUserDetail(id: string): Promise<UserDetailDTO | null> {
     const user = await UserPersistence.findByPk(id, {
-      attributes: ['id', 'first_name', 'last_name', 'email', 'phone', 'address', 'identification_card', 'status']
+      attributes: [
+        'id',
+        'image',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'address',
+        'identification_card',
+        'status'
+      ]
     })
 
     if (!user) return null

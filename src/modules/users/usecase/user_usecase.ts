@@ -11,7 +11,7 @@ import { Paging } from '../../../shared/dto/paging'
 import { generateRandomString } from '../../../shared/utils/generateRandomString'
 import type { UserDetailDTO } from '../infras/transport/dto/user_detail'
 import { UserStatus } from '../../../shared/dto/status'
-import { USER_USING_IMAGE, userEventEmitter } from '~/shared/utils/event-emitter'
+import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
 
 export class UserUseCase implements IUserUseCase {
   constructor(
@@ -57,19 +57,7 @@ export class UserUseCase implements IUserUseCase {
 
     await this.userRepository.insert(newUser)
 
-    // publish event to image service for update image status
-
-    // User service use A,B
-    // Image service
-
-    // User service pub message have A,B
-    // Image service listen message have A,B
-
-    // EvenEmiter
-    userEventEmitter.emit(USER_USING_IMAGE, { image_id: dto.image_id })
-
-    // Update status a,b
-    // After 1month,xoas C (Cronjob)
+    sharedEventEmitter.emit(USING_IMAGE, { image_id: dto.image_id })
 
     return true
   }

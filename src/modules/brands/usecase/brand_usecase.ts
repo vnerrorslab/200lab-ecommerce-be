@@ -9,6 +9,7 @@ import type { UpdateBrandDTO } from '../infras/transport/dto/brand_update'
 import { ErrBrandExists, ErrBrandInActive } from '../model/brand.error'
 import type { BrandDetailDTO } from '../infras/transport/dto/brand_detail'
 import { Paging } from '~/shared/dto/paging'
+import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
 
 export class BrandUseCase implements IBrandUseCase {
   constructor(
@@ -36,6 +37,8 @@ export class BrandUseCase implements IBrandUseCase {
     const newBrand = new Brand(brandId, dto.name, image, dto.tag_line, dto.description, BaseStatus.ACTIVE)
 
     await this.brandRepository.insertBrand(newBrand)
+
+    sharedEventEmitter.emit(USING_IMAGE, { image_id: dto.image })
 
     return true
   }

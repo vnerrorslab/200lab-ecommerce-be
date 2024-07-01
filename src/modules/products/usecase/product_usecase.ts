@@ -10,7 +10,7 @@ import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
 import { BaseStatus } from '~/shared/dto/status'
 import { Paging } from '~/shared/dto/paging'
 import { Image } from '../model/image'
-import { PRODUCT_USING_IMAGE, productEventEmitter } from '~/shared/utils/event-emitter'
+import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
 
 export class ProductUseCase implements IProductUseCase {
   constructor(
@@ -53,7 +53,7 @@ export class ProductUseCase implements IProductUseCase {
 
     if (images.length > 0) {
       images.forEach(async (image: Image) => {
-        productEventEmitter.emit(PRODUCT_USING_IMAGE, { image_id: image.id })
+        sharedEventEmitter.emit(USING_IMAGE, { image_id: image.id })
       })
     }
 
