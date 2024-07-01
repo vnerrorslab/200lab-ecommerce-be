@@ -3,8 +3,9 @@ import { Router, type Request, type Response } from 'express'
 import { CreateBrandDTO } from '../dto/brand_creation'
 import { UpdateBrandDTO } from '../dto/brand_update'
 import { IBrandUseCase } from '~/modules/brands/interfaces/usecase'
-import { BrandListingConditionDTO } from '~/modules/brands/model/brand'
+import { Brand, BrandListingConditionDTO } from '~/modules/brands/model/brand'
 import { Paging } from '~/shared/dto/paging'
+import { Image } from '~/modules/brands/model/image'
 
 export class BrandService {
   constructor(readonly brandUseCase: IBrandUseCase) {}
@@ -61,6 +62,23 @@ export class BrandService {
 
       const { brands, total_pages } = await this.brandUseCase.listingBrand(condition, paging)
 
+      if (brands.length > 0) {
+        brands.forEach((brand: Brand) => {
+          if (brand.image) {
+            const image = new Image(
+              brand.image.id,
+              brand.image.path,
+              brand.image.cloud_name,
+              brand.image.width,
+              brand.image.height,
+              brand.image.size
+            )
+            image.fillUrl(process.env.URL_PUBLIC || '')
+            brand.image = image
+          }
+        })
+      }
+
       const total = Math.ceil(total_pages / limit)
 
       return res.status(200).json({ code: 200, message: 'list brands', data: brands, total_pages: total })
@@ -77,6 +95,19 @@ export class BrandService {
 
       if (!brand) {
         return res.status(404).json({ code: 404, message: 'brand not found' })
+      }
+
+      if (brand.image) {
+        const image = new Image(
+          brand.image.id,
+          brand.image.path,
+          brand.image.cloud_name,
+          brand.image.width,
+          brand.image.height,
+          brand.image.size
+        )
+        image.fillUrl(process.env.URL_PUBLIC || '')
+        brand.image = image
       }
 
       return res.status(200).json({ code: 200, message: 'brand detail', data: brand })
