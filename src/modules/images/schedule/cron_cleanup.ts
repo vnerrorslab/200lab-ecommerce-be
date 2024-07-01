@@ -12,7 +12,7 @@ export class ImageCleanupScheduler {
   }
 
   private scheduleImageCleanup() {
-    cron.schedule('0 0 * * *', async () => {
+    cron.schedule('0 15 * * *', async () => {
       console.log('Running cleanup')
 
       const oneMonthAgo = new Date()

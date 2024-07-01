@@ -18,7 +18,6 @@ export class MySQLImagesRepository implements IImageRepository {
 
   async findByIds(ids: string[]): Promise<Image[]> {
     try {
-      console.log('ids', ids)
       const images = await ImagePersistence.findAll({
         where: {
           id: {
