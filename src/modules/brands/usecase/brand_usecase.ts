@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import { Brand, BrandListingConditionDTO } from '../model/brand'
-import type { IBrandRepository } from '../interfaces/repository'
+import type { IBrandRepository, IImageRepository } from '../interfaces/repository'
 import type { IBrandUseCase } from '../interfaces/usecase'
 import type { CreateBrandDTO } from '../infras/transport/dto/brand_creation'
 import { BaseStatus } from '~/shared/dto/status'
@@ -11,7 +11,10 @@ import type { BrandDetailDTO } from '../infras/transport/dto/brand_detail'
 import { Paging } from '~/shared/dto/paging'
 
 export class BrandUseCase implements IBrandUseCase {
-  constructor(readonly brandRepository: IBrandRepository) {}
+  constructor(
+    readonly brandRepository: IBrandRepository,
+    readonly imageRepository: IImageRepository
+  ) {}
 
   async createBrand(dto: CreateBrandDTO): Promise<boolean> {
     try {
@@ -28,7 +31,9 @@ export class BrandUseCase implements IBrandUseCase {
 
     const brandId = uuidv4()
 
-    const newBrand = new Brand(brandId, dto.name, dto.logo, dto.tag_line, dto.description, BaseStatus.ACTIVE)
+    const image = await this.imageRepository.findById(dto.image)
+
+    const newBrand = new Brand(brandId, dto.name, image, dto.tag_line, dto.description, BaseStatus.ACTIVE)
 
     await this.brandRepository.insertBrand(newBrand)
 
@@ -52,7 +57,7 @@ export class BrandUseCase implements IBrandUseCase {
     const updatedBrand = {
       ...brand,
       name: dto.name ?? brand.name,
-      logo: dto.logo ?? brand.logo,
+      image: dto.image ?? brand.image,
       tag_line: dto.tag_line ?? brand.tag_line,
       description: dto.description ?? brand.description,
       status: dto.status ?? brand.status
