@@ -19,39 +19,19 @@ export class MySQLImagesRepository implements IImageRepository {
   async findByIds(ids: string[]): Promise<Image[]> {
     try {
       console.log('ids', ids)
-      const images = await ImagePersistence.findOne({
+      const images = await ImagePersistence.findAll({
         where: {
-          id: 'e32657f6-a7b1-4ed7-a212-b2719bbd3bf6',
-          raw: true
+          id: {
+            [Op.in]: ids
+          }
         }
       })
 
-      console.log('images', images)
-      //   const result = images.map((image) => image.get({ plain: true }))
-      //   console.log('result', result)
-      return []
+      const result = images.map((image) => image.get({ plain: true }))
+      return result
     } catch (error: any) {
-      console.log('error', error.message)
+      console.log('error', error)
       throw new Error(`Error finding images: ${error.message}`)
     }
   }
-
-  //   async findByIds(ids: string[]): Promise<Image[]> {
-  //     try {
-  //       const query = `
-  //         SELECT *
-  //         FROM images
-  //         WHERE id IN (:ids)
-  //       `;
-
-  //       const images = await this.sequelize.query(query, {
-  //         replacements: { ids },
-  //         type: QueryTypes.SELECT,
-  //       });
-
-  //       return images;
-  //     } catch (error: any) {
-  //       throw new Error(`Error finding images: ${error.message}`);
-  //     }
-  //   }
 }

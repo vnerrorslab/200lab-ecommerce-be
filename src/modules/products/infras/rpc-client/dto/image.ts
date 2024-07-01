@@ -6,9 +6,8 @@ export function initImages(sequelize: Sequelize) {
   ImagePersistence.init(
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true
-        // defaultValue: DataTypes.UUIDV4
       },
 
       path: {
@@ -27,6 +26,11 @@ export function initImages(sequelize: Sequelize) {
       },
 
       height: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+
+      size: {
         type: DataTypes.INTEGER,
         allowNull: true
       }

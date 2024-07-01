@@ -38,6 +38,7 @@ import { MySQLImagesRepository } from './modules/images/infras/repository/mysql_
 import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/users/infras/rpc-client/mysql_image_repository'
 import { MySQLImagesRepository as MySQLImagesInProductRepository } from './modules/products/infras/rpc-client/mysql_images_repository'
 import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
+import { initImages as initImagesInProduct } from './modules/products/infras/rpc-client/dto/image'
 import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
 import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
 
@@ -76,6 +77,7 @@ const sequelize = new Sequelize({
     initPermission(sequelize)
     initImages(sequelize)
     initImagesInUser(sequelize)
+    initImagesInProduct(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {

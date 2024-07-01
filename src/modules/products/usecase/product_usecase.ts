@@ -32,11 +32,6 @@ export class ProductUseCase implements IProductUseCase {
 
     const productId = uuidv4()
 
-    console.log('dto.images', dto.images)
-    // dto.images [
-    //     'e32657f6-a7b1-4ed7-a212-b2719bbd3bf6',
-    //     '12b51ea0-6907-4311-8135-5e4ead01ee0d'
-    //   ]
     const images = await this.imageRepository.findByIds(dto.images)
 
     const newProduct = new Product(

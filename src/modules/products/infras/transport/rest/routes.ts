@@ -3,7 +3,8 @@ import { CreateProductDTO } from '../dto/product_creation'
 import { UpdateProductDTO } from '../dto/product_update'
 import { Paging } from '~/shared/dto/paging'
 import { IProductUseCase } from '~/modules/products/interfaces/usecase'
-import { ProductListingConditionDTO } from '~/modules/products/model/product'
+import { Product, ProductListingConditionDTO } from '~/modules/products/model/product'
+import { Image } from '~/modules/products/model/image'
 
 export class ProductService {
   constructor(readonly productUseCase: IProductUseCase) {}
@@ -90,6 +91,18 @@ export class ProductService {
 
       const { products, total_pages } = await this.productUseCase.listingProduct(condition, paging)
 
+      if (products.length > 0) {
+        products.forEach((product: Product) => {
+          if (product.images) {
+            product.images.forEach((item: Image) => {
+              const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
+              image.fillUrl(process.env.URL_PUBLIC || '')
+              item.url = image.url
+            })
+          }
+        })
+      }
+
       const total = Math.ceil(total_pages / limit)
 
       return res.status(200).json({
@@ -111,6 +124,14 @@ export class ProductService {
 
       if (!product) {
         return res.status(404).json({ code: 404, message: 'product not found' })
+      }
+
+      if (product.images) {
+        product.images.forEach((item: Image) => {
+          const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
+          image.fillUrl(process.env.URL_PUBLIC || '')
+          item.url = image.url
+        })
       }
 
       return res.status(200).json({ code: 200, message: 'product detail', data: product })

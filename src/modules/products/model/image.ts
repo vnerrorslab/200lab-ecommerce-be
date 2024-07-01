@@ -6,7 +6,8 @@ export class Image {
     readonly path: string,
     readonly cloud_name: string,
     readonly width: number,
-    readonly height: number
+    readonly height: number,
+    readonly size: number
   ) {}
 
   fillUrl(domain: string) {

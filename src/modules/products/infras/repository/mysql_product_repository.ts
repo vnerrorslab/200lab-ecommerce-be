@@ -110,7 +110,7 @@ export class MySQLProductsRepository implements IProductRepository {
 
   async findProductById(id: string): Promise<ProductDetailDTO | null> {
     const product = await ProductPersistence.findByPk(id, {
-      attributes: ['id', 'name', 'image_url', 'price', 'quantity', 'brand_id', 'category_id', 'description', 'status']
+      attributes: ['id', 'name', 'images', 'price', 'quantity', 'brand_id', 'category_id', 'description', 'status']
     })
 
     if (!product) return null
