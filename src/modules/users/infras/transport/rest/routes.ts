@@ -1,9 +1,10 @@
 import { Router, type Request, type Response } from 'express'
 import { CreateUserDTO } from '../dto/user_creation'
-import { UserListingConditionDTO } from '../../../model/user'
+import { User, UserListingConditionDTO } from '../../../model/user'
 import { Paging } from '../../../../../shared/dto/paging'
 import type { IUserUseCase } from '../../../interfaces/usecase'
 import { UpdateUserDTO } from '../dto/user_update'
+import { Image } from '../../../model/image'
 
 export class UserService {
   constructor(readonly userUseCase: IUserUseCase) {}
@@ -42,6 +43,23 @@ export class UserService {
       const paging: Paging = new Paging(page, 0, limit)
 
       const { users, total_pages } = await this.userUseCase.listUsers(condition, paging)
+
+      if (users.length > 0) {
+        users.forEach((user: User) => {
+          if (user.image) {
+            const image = new Image(
+              user.image.id,
+              user.image.path,
+              user.image.cloud_name,
+              user.image.width,
+              user.image.height,
+              user.image.size
+            )
+            image.fillUrl(process.env.URL_PUBLIC || '')
+            user.image = image
+          }
+        })
+      }
 
       const total = Math.ceil(total_pages / limit)
 
@@ -92,6 +110,23 @@ export class UserService {
       const { id } = req.params
 
       const user = await this.userUseCase.getUserDetail(id)
+
+      if (!user) {
+        return res.status(404).send({ code: 404, message: 'user not found' })
+      }
+
+      if (user.image) {
+        const image = new Image(
+          user.image.id,
+          user.image.path,
+          user.image.cloud_name,
+          user.image.width,
+          user.image.height,
+          user.image.size
+        )
+        image.fillUrl(process.env.URL_PUBLIC || '')
+        user.image = image
+      }
 
       return res.status(200).send({ code: 200, message: 'user information', data: user })
     } catch (error: any) {
