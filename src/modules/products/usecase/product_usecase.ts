@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { Product, ProductListingConditionDTO } from '../model/product'
-import type { IImageRepository, IProductRepository } from '../interfaces/repository'
+import { Product, ProductDetail, ProductListingConditionDTO } from '../model/product'
+import type { IBrandRepository, IImageRepository, IProductRepository } from '../interfaces/repository'
 import type { IProductUseCase } from '../interfaces/usecase'
 import type { CreateProductDTO } from '../infras/transport/dto/product_creation'
 import type { UpdateProductDTO } from '../infras/transport/dto/product_update'
@@ -11,11 +11,13 @@ import { BaseStatus } from '~/shared/dto/status'
 import { Paging } from '~/shared/dto/paging'
 import { Image } from '../model/image'
 import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
+import { Brand } from '../model/brand'
 
 export class ProductUseCase implements IProductUseCase {
   constructor(
     readonly productRepository: IProductRepository,
-    readonly imageRepository: IImageRepository
+    readonly imageRepository: IImageRepository,
+    readonly brandRepository: IBrandRepository
   ) {}
 
   async createProduct(dto: CreateProductDTO): Promise<boolean> {
@@ -111,8 +113,32 @@ export class ProductUseCase implements IProductUseCase {
   async listingProduct(
     condition: ProductListingConditionDTO,
     paging: Paging
-  ): Promise<{ products: Product[]; total_pages: number }> {
-    return await this.productRepository.listingProduct(condition, paging)
+  ): Promise<{ products: ProductDetail[]; total_pages: number }> {
+    const listProducts = await this.productRepository.listingProduct(condition, paging)
+    const brandId = new Set(listProducts.products.map((product) => product.brand_id))
+
+    const brandMap = new Map<string, Brand>()
+    if (brandId.size !== 0) {
+      const brands = await this.brandRepository.findByIds(Array.from(brandId))
+      brands.forEach((brand) => brandMap.set(brand.id, brand))
+    }
+
+    const listProductDetail = listProducts.products.map((product) => {
+      return new ProductDetail(
+        product.id,
+        product.name,
+        product.images,
+        product.price,
+        product.quantity,
+        product.description,
+        product.status,
+        product.created_by,
+        product.updated_by,
+        brandMap.get(product.brand_id) ?? null
+      )
+    })
+
+    return { products: listProductDetail, total_pages: listProducts.total_pages }
   }
 
   async detailProduct(id: string): Promise<ProductDetailDTO | null> {

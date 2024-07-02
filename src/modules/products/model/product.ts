@@ -1,5 +1,6 @@
 import type { BaseStatus } from '~/shared/dto/status'
 import { Image } from './image'
+import { Brand } from './brand'
 
 export class Product {
   constructor(
@@ -14,6 +15,21 @@ export class Product {
     readonly status: BaseStatus,
     readonly created_by: string,
     readonly updated_by: string
+  ) {}
+}
+
+export class ProductDetail {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+    readonly images: Image[] | null,
+    readonly price: number,
+    readonly quantity: number,
+    readonly description: string,
+    readonly status: BaseStatus,
+    readonly created_by: string,
+    readonly updated_by: string,
+    readonly brand: Brand | null
   ) {}
 }
 
