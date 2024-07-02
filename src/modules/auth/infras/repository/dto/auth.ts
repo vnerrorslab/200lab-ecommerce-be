@@ -10,13 +10,15 @@ export function initAuth(sequelize: Sequelize) {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'first_name'
       },
       last_name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'last_name'
       },
       email: {
         type: DataTypes.STRING,
