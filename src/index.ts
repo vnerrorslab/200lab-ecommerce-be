@@ -39,10 +39,12 @@ import { MySQLImageRepository as MySQLImageInUserRepository } from './modules/us
 import { MySQLImagesRepository as MySQLImagesInProductRepository } from './modules/products/infras/rpc-client/mysql_images_repository'
 import { MySQLImageRepository as MySQLImageInBrandRepository } from './modules/brands/infras/rpc-client/mysql_image_repository'
 import { MySQLBrandRepository as MySQLBrandInProductRepository } from './modules/products/infras/rpc-client/mysql_brand_repository'
+import { MySQLCategoryRepository as MySQLCategoryInProductRepository } from './modules/products/infras/rpc-client/mysql_category_repository'
 import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
 import { initImages as initImagesInProduct } from './modules/products/infras/rpc-client/dto/image'
 import { initImages as initImagesInBrand } from './modules/brands/infras/rpc-client/dto/image'
 import { initBrands as initBrandInProduct } from './modules/products/infras/rpc-client/dto/brand'
+import { initCategories as initCategoryInProduct } from './modules/products/infras/rpc-client/dto/category'
 import { S3Uploader } from './modules/images/infras/repository/uploader/s3_uploader'
 import { S3Deleter } from './modules/images/infras/repository/delete/s3_deleter'
 
@@ -84,6 +86,7 @@ const sequelize = new Sequelize({
     initImagesInProduct(sequelize)
     initImagesInBrand(sequelize)
     initBrandInProduct(sequelize)
+    initCategoryInProduct(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
@@ -104,7 +107,8 @@ const sequelize = new Sequelize({
         new ProductUseCase(
           new MySQLProductsRepository(sequelize),
           new MySQLImagesInProductRepository(sequelize),
-          new MySQLBrandInProductRepository(sequelize)
+          new MySQLBrandInProductRepository(sequelize),
+          new MySQLCategoryInProductRepository(sequelize)
         )
       ),
       new CartService(new CartUseCase(new MySQLCartRepository(sequelize))),

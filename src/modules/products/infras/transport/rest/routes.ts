@@ -3,7 +3,7 @@ import { CreateProductDTO } from '../dto/product_creation'
 import { UpdateProductDTO } from '../dto/product_update'
 import { Paging } from '~/shared/dto/paging'
 import { IProductUseCase } from '~/modules/products/interfaces/usecase'
-import { Product, ProductListingConditionDTO } from '~/modules/products/model/product'
+import { Product, ProductDetail, ProductListingConditionDTO } from '~/modules/products/model/product'
 import { Image } from '~/modules/products/model/image'
 
 export class ProductService {
@@ -89,10 +89,10 @@ export class ProductService {
 
       const paging: Paging = new Paging(page, 0, limit)
 
-      const { products, total_pages } = await this.productUseCase.listingProduct(condition, paging)
+      const { data, total_pages } = await this.productUseCase.listingProduct(condition, paging)
 
-      if (products.length > 0) {
-        products.forEach((product: Product) => {
+      if (data.length > 0) {
+        data.forEach((product: ProductDetail) => {
           if (product.images) {
             product.images.forEach((item: Image) => {
               const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
@@ -108,7 +108,7 @@ export class ProductService {
       return res.status(200).json({
         code: 200,
         message: 'list products',
-        data: products,
+        data,
         total_pages: total
       })
     } catch (error: any) {

@@ -7,3 +7,10 @@ export class Paging {
     readonly nextCursor?: string
   ) {}
 }
+
+export class BasePaging<T> {
+  constructor(
+    readonly data: T[],
+    readonly total_pages: number
+  ) {}
+}

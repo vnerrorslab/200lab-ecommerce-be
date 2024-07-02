@@ -3,6 +3,7 @@ import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
 import type { Product, ProductListingConditionDTO, ProductUpdateDTO } from '../model/product'
 import { Image } from '../model/image'
 import { Brand } from '../model/brand'
+import { Category } from '../model/category'
 
 // xu ly nghiep vu - duoi database
 export interface IProductRepository {
@@ -34,4 +35,10 @@ export interface IBrandRepository {
   findById(id: string): Promise<Brand | null>
 
   findByIds(ids: string[]): Promise<Brand[]>
+}
+
+export interface ICategoryRepository {
+  findById(id: string): Promise<Category | null>
+
+  findByIds(ids: string[]): Promise<Category[]>
 }
