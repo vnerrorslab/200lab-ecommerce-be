@@ -1,8 +1,8 @@
-import type { Paging } from '~/shared/dto/paging'
+import type { BasePaging, Paging } from '~/shared/dto/paging'
 import type { CreateProductDTO } from '../infras/transport/dto/product_creation'
 import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
 import type { UpdateProductDTO } from '../infras/transport/dto/product_update'
-import type { ProductListingConditionDTO } from '../model/product'
+import type { ProductDetail, ProductListingConditionDTO } from '../model/product'
 
 //nghiep vu
 export interface IProductUseCase {
@@ -12,7 +12,7 @@ export interface IProductUseCase {
 
   deleteProduct(id: string): Promise<boolean>
 
-  listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<any>
+  listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail>>
 
-  detailProduct(id: string): Promise<ProductDetailDTO | null>
+  detailProduct(id: string): Promise<ProductDetail | null>
 }
