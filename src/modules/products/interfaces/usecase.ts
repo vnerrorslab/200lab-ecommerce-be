@@ -14,5 +14,5 @@ export interface IProductUseCase {
 
   listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail>>
 
-  detailProduct(id: string): Promise<ProductDetailDTO | null>
+  detailProduct(id: string): Promise<ProductDetail | null>
 }

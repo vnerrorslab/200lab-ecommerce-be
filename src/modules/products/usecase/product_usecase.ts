@@ -168,7 +168,30 @@ export class ProductUseCase implements IProductUseCase {
     return { data: listProductDetail, total_pages: listProducts.total_pages }
   }
 
-  async detailProduct(id: string): Promise<ProductDetailDTO | null> {
-    return await this.productRepository.findProductById(id)
+  async detailProduct(id: string): Promise<ProductDetail | null> {
+    const product = await this.productRepository.findProductById(id)
+
+    if (!product) {
+      return null
+    }
+
+    const brand = await this.brandRepository.findById(product?.brand_id ?? '')
+
+    if (brand?.image) {
+      const image = new Image(
+        brand.image.id,
+        brand.image.path,
+        brand.image.cloud_name,
+        brand.image.width,
+        brand.image.height,
+        brand.image.size
+      )
+      image.fillUrl(process.env.URL_PUBLIC || '')
+      brand.image.url = image.url
+    }
+
+    const category = await this.categoryRepository.findById(product?.category_id ?? '')
+
+    return { ...product, brand: brand, category: category }
   }
 }
