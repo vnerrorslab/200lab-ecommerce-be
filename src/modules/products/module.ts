@@ -11,6 +11,6 @@ export const productService = new ProductService(
     new MySQLProductsRepository(sequelize),
     new MySQLImagesInProductRepository(sequelize),
     new MySQLBrandInProductRepository(sequelize),
-    new MySQLCategoryInProductRepository(sequelize)
+    new MySQLCategoryInProductRepository()
   )
 )

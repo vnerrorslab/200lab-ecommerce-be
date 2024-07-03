@@ -1,4 +1,7 @@
 import { Sequelize } from 'sequelize'
+import { config } from 'dotenv'
+
+config()
 
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME || '',
