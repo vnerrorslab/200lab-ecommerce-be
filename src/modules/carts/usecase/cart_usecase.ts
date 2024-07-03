@@ -5,7 +5,7 @@ import type { ICartRepository } from '../interfaces/repository'
 import type { ICartUseCase } from '../interfaces/usecase'
 import type { CreateCartDTO } from '../infras/transport/dto/cart_addition'
 import type { UpdateCartDTO } from '../infras/transport/dto/cart_update'
-import { Paging } from '~/shared/dto/paging'
+import { BasePaging, Paging } from '~/shared/dto/paging'
 
 export class CartUseCase implements ICartUseCase {
   constructor(readonly cartRepository: ICartRepository) {}
@@ -25,7 +25,7 @@ export class CartUseCase implements ICartUseCase {
     } else {
       const cartId = uuidv4()
 
-      const newCart = new Cart(cartId, dto.product_id, parseInt(dto.quantity), parseInt(dto.unit_price), dto.created_by)
+      const newCart = new Cart(cartId, dto.product_id, parseInt(dto.quantity), dto.created_by)
 
       await this.cartRepository.insert(newCart)
     }
@@ -71,7 +71,55 @@ export class CartUseCase implements ICartUseCase {
     }
   }
 
-  async listCarts(condition: CartListingConditionDTO, paging: Paging): Promise<{ carts: Cart[]; total_pages: number }> {
-    return await this.cartRepository.list(condition, paging)
+  async listCarts(condition: CartListingConditionDTO, paging: Paging): Promise<BasePaging<Cart[]>> {
+    const carts = await this.cartRepository.list(condition, paging)
+    console.log('cart', carts)
+    const productIds = new Set(carts.data.map((product) => product))
+    // const categoryId = new Set(carts.products.map((product) => product.category_id))
+
+    // const categoryMap = new Map<string, Category>()
+    // if (categoryId.size !== 0) {
+    //   const categories = await this.categoryRepository.findByIds(Array.from(categoryId))
+    //   categories.forEach((category) => categoryMap.set(category.id, category))
+    // }
+
+    // const brandMap = new Map<string, Brand>()
+    // if (brandId.size !== 0) {
+    //   const brands = await this.brandRepository.findByIds(Array.from(brandId))
+    //   brands.forEach((brand: Brand) => {
+    //     if (brand.image) {
+    //       const image = new Image(
+    //         brand.image.id,
+    //         brand.image.path,
+    //         brand.image.cloud_name,
+    //         brand.image.width,
+    //         brand.image.height,
+    //         brand.image.size
+    //       )
+    //       image.fillUrl(process.env.URL_PUBLIC || '')
+    //       brand.image.url = image.url
+    //     }
+    //   })
+
+    //   brands.forEach((brand) => brandMap.set(brand.id, brand))
+    // }
+
+    // const listProductDetail = listProducts.products.map((product) => {
+    //   return new ProductDetail(
+    //     product.id,
+    //     product.name,
+    //     product.images,
+    //     product.price,
+    //     product.quantity,
+    //     brandMap.get(product.brand_id) ?? null,
+    //     categoryMap.get(product.category_id) ?? null,
+    //     product.description,
+    //     product.status,
+    //     product.created_by,
+    //     product.updated_by
+    //   )
+    // })
+
+    return { data: [], total_pages: 0 }
   }
 }

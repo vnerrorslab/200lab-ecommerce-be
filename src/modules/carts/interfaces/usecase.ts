@@ -1,4 +1,4 @@
-import type { Paging } from '../../../shared/dto/paging'
+import type { BasePaging, Paging } from '../../../shared/dto/paging'
 import type { CreateCartDTO } from '../infras/transport/dto/cart_addition'
 import type { UpdateCartDTO } from '../infras/transport/dto/cart_update'
 import type { Cart, CartListingConditionDTO } from '../model/cart'
@@ -10,5 +10,5 @@ export interface ICartUseCase {
 
   deleteCart(id: string): Promise<boolean>
 
-  listCarts(condition: CartListingConditionDTO, paging: Paging): Promise<{ carts: Cart[]; total_pages: number }>
+  listCarts(condition: CartListingConditionDTO, paging: Paging): Promise<BasePaging<Cart[]>>
 }
