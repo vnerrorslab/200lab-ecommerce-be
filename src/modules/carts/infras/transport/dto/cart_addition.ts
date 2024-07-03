@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ErrProductIdEmpty, ErrQuantityEmpty, ErrUserIdEmpty } from '~/shared/error'
+import { ErrProductIdEmpty, ErrQuantityEmpty } from '~/shared/error'
 
 export class CreateCartDTO {
   constructor(
@@ -12,16 +12,13 @@ export class CreateCartDTO {
     const schema = z.object({
       product_id: z.string().min(1, { message: ErrProductIdEmpty.message }),
 
-      quantity: z.string().min(1, { message: ErrQuantityEmpty.message }),
-
-      created_by: z.string().min(1, { message: ErrUserIdEmpty.message })
+      quantity: z.string().min(1, { message: ErrQuantityEmpty.message })
     })
 
     try {
       schema.parse({
         product_id: this.product_id,
-        quantity: this.quantity,
-        created_by: this.created_by
+        quantity: this.quantity
       })
     } catch (error: any) {
       throw new Error(error.errors[0].message)

@@ -10,7 +10,7 @@ export class Paging {
 
 export class BasePaging<T> {
   constructor(
-    readonly data: T[],
+    readonly data: T,
     readonly total_pages: number
   ) {}
 }
