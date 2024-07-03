@@ -64,7 +64,7 @@ const port = process.env.PORT || 8080
     const auth = authMiddleware(new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService))
 
     app.use('/v1', userService.setupRoutes())
-    app.use('/v1', authService.setupRoutes())
+    app.use('/v1', authService.setupRoutes(auth))
     app.use('/v1', cartService.setupRoutes())
     app.use('/v1', brandService.setupRoutes())
     app.use('/v1', categoryService.setupRoutes())
