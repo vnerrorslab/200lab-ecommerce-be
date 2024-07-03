@@ -1,13 +1,10 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 
-import type { ITokenService } from '~/shared/interfaces/token-service'
-import type { IAuthRepository } from '../../../interfaces/repository'
 import type { IAuthUseCase } from '../../../interfaces/usecase'
 
-import { InsertUserDTO } from '../dto/auth_register'
-import { LoginUserDTO } from '../dto/auth_login'
+import { InsertUserDTO } from '../dto/auth-register'
+import { LoginUserDTO } from '../dto/auth-login'
 
-import { authMiddleware } from '~/shared/middleware/auth-middleware'
 import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
 
 import { actions } from '~/shared/constant/actions.contat'
@@ -16,18 +13,15 @@ import { roles } from '~/shared/constant/roles.constant'
 import { ErrUserNotFound } from '../../../model/user.error'
 
 export class AuthService {
-  constructor(
-    readonly authUseCase: IAuthUseCase,
-    readonly tokenService: ITokenService,
-    readonly authReponsitory: IAuthRepository
-  ) {}
+  constructor(readonly authUseCase: IAuthUseCase) {}
 
   async register(req: Request, res: Response) {
     try {
       const { first_name, last_name, email, password, role, actions } = req.body
+
       const userDTO = new InsertUserDTO(first_name, last_name, email, password, role, actions)
 
-      const user = await this.authUseCase.regitser(userDTO)
+      const user = await this.authUseCase.register(userDTO)
 
       res.status(201).send({ code: 201, message: 'insert user successful', data: user })
     } catch (error: any) {
@@ -54,18 +48,12 @@ export class AuthService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
-    const auth = authMiddleware(this.tokenService, this.authReponsitory)
 
-    router.post(
-      '/auth/admin/register',
-      auth,
-      authorizeMiddleWare([roles.ADMIN], actions.CREATED),
-      this.register.bind(this)
-    )
-    router.post('/auth/register', this.register.bind(this))
-    router.post('/auth/login', this.login.bind(this))
+    router.post('/admin/register', auth, authorizeMiddleWare([roles.ADMIN], actions.CREATED), this.register.bind(this))
+    router.post('/register', this.register.bind(this))
+    router.post('/login', this.login.bind(this))
 
     return router
   }

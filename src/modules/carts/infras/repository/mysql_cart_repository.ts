@@ -1,6 +1,6 @@
 import { Sequelize, Op, type WhereOptions } from 'sequelize'
 
-import type { Paging } from '~/shared/dto/paging'
+import type { BasePaging, Paging } from '~/shared/dto/paging'
 import type { ICartRepository } from '../../interfaces/repository'
 import { CartPersistence } from './dto/cart'
 import { Cart, CartListingConditionDTO, CartUpdateDTO } from '../../model/cart'
@@ -14,7 +14,6 @@ export class MySQLCartRepository implements ICartRepository {
         id: data.id,
         product_id: data.product_id,
         quantity: data.quantity,
-        unit_price: data.unit_price,
         created_by: data.created_by
       }
 
@@ -44,21 +43,21 @@ export class MySQLCartRepository implements ICartRepository {
     }
   }
 
-  async list(condition: CartListingConditionDTO, paging: Paging): Promise<{ carts: Cart[]; total_pages: number }> {
+  async list(condition: CartListingConditionDTO, paging: Paging): Promise<BasePaging<Cart[]>> {
     try {
       let whereClause: WhereOptions = {}
 
-      if (condition.searchStr) {
-        whereClause = {
-          ...whereClause,
-          [Op.or]: [{ unit_price: { [Op.like]: `%${condition.searchStr}%` } }]
-        }
-      }
+      //   if (condition.searchStr) {
+      //     whereClause = {
+      //       ...whereClause,
+      //       [Op.or]: [{ unit_price: { [Op.like]: `%${condition.searchStr}%` } }]
+      //     }
+      //   }
 
-      if (condition.id) {
+      if (condition.userId) {
         whereClause = {
           ...whereClause,
-          created_by: condition.id
+          created_by: condition.userId
         }
       }
 
@@ -71,7 +70,7 @@ export class MySQLCartRepository implements ICartRepository {
       const total_pages = Math.ceil(total_count / paging.limit)
 
       return {
-        carts: carts.map((cart) => cart.get({ plain: true })),
+        data: carts.map((cart) => cart.get({ plain: true })),
         total_pages
       }
     } catch (error: any) {

@@ -15,9 +15,10 @@ export function initPermission(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: 0
       },
-      user_id: {
+      userId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        field: 'user_id'
       }
     },
     {

@@ -1,8 +1,10 @@
-import type { LoginUserDTO } from '../infras/transport/dto/auth_login'
-import type { InsertUserDTO } from '../infras/transport/dto/auth_register'
+import type { LoginUserDTO } from '../infras/transport/dto/auth-login'
+import type { InsertUserDTO } from '../infras/transport/dto/auth-register'
 
 export interface IAuthUseCase {
-  regitser(dto: InsertUserDTO): Promise<boolean>
+  middlewareCheck(token: string): Promise<{ userId: string; role: string; actions: number }>
+
+  register(dto: InsertUserDTO): Promise<boolean>
 
   login(dto: LoginUserDTO): Promise<string>
 }

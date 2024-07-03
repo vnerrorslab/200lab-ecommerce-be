@@ -1,9 +1,10 @@
+import { ProductDetail } from './product'
+
 export class Cart {
   constructor(
     readonly id: string,
     readonly product_id: string,
     readonly quantity: number,
-    readonly unit_price: number,
     readonly created_by: string
   ) {}
 }
@@ -13,10 +14,7 @@ export class CartUpdateDTO {
 }
 
 export class CartListingConditionDTO {
-  constructor(
-    readonly searchStr: string,
-    readonly id: string
-  ) {}
+  constructor(readonly userId: string) {}
 }
 
 export class CartDeleteDTO {

@@ -12,7 +12,7 @@ export interface IProductUseCase {
 
   deleteProduct(id: string): Promise<boolean>
 
-  listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail>>
+  listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail[]>>
 
   detailProduct(id: string): Promise<ProductDetail | null>
 }

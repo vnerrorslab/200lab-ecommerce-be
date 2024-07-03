@@ -17,10 +17,6 @@ export function initCarts(sequelize: Sequelize) {
         type: DataTypes.BIGINT,
         allowNull: false
       },
-      unit_price: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
-      },
       created_by: {
         type: DataTypes.UUID,
         allowNull: false

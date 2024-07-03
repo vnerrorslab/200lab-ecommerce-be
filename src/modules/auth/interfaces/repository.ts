@@ -9,5 +9,5 @@ export interface IAuthRepository {
 
   insertPermission(data: UserPermission): Promise<string>
 
-  findPermissionsByUserId(user_id: string): Promise<number>
+  findPermissionsByUserId(userId: string): Promise<number>
 }
