@@ -1,33 +1,34 @@
 import dotenv from 'dotenv'
 import express, { type Express, type Request, type Response } from 'express'
-import { initUsers } from './modules/users/infras/repository/dto/user'
-import { initBrands } from './modules/brands/infras/repository/dto/brand'
-import { initCategories } from './modules/categories/infras/repository/dto/category'
-import { initProducts } from './modules/products/infras/repository/dto/product'
-import { initProducts as initProductsInCart } from './modules/carts/infras/rpc-client/dto/product'
-import { initCarts } from './modules/carts/infras/repository/dto/cart'
-import { JwtTokenService } from './shared/token/jwt-token-service'
-import { initInventory } from './modules/inventories/infas/repository/dto/inventory'
+import { sequelize } from './infras/sequelize'
 import { initAuth } from './modules/auth/infras/repository/dto/auth'
 import { initPermission } from './modules/auth/infras/repository/dto/user-permission'
-import { AuthUseCase } from './modules/auth/usecase/auth-usecase'
 import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql-auth-repository'
-import { initImages } from './modules/images/infras/repository/dto/image'
-import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
-import { initImages as initImagesInProduct } from './modules/products/infras/rpc-client/dto/image'
+import { authService } from './modules/auth/module'
+import { AuthUseCase } from './modules/auth/usecase/auth-usecase'
+import { initBrands } from './modules/brands/infras/repository/dto/brand'
 import { initImages as initImagesInBrand } from './modules/brands/infras/rpc-client/dto/image'
+import { brandService } from './modules/brands/module'
+import { initCarts } from './modules/carts/infras/repository/dto/cart'
+import { initProducts as initProductsInCart } from './modules/carts/infras/rpc-client/dto/product'
+import { cartService } from './modules/carts/module'
+import { initCategories } from './modules/categories/infras/repository/dto/category'
+import { categoryService } from './modules/categories/module'
+import { initImages } from './modules/images/infras/repository/dto/image'
+import { imageService } from './modules/images/module'
+import { initInventory } from './modules/inventories/infas/repository/dto/inventory'
+import { inventoryService } from './modules/inventories/module'
+import { orderService } from './modules/order/module'
+import { initProducts } from './modules/products/infras/repository/dto/product'
 import { initBrands as initBrandInProduct } from './modules/products/infras/rpc-client/dto/brand'
 import { initCategories as initCategoryInProduct } from './modules/products/infras/rpc-client/dto/category'
-import { authMiddleware } from './shared/middleware/auth-middleware'
-import { cartService } from './modules/carts/module'
-import { authService } from './modules/auth/module'
-import { brandService } from './modules/brands/module'
-import { categoryService } from './modules/categories/module'
-import { imageService } from './modules/images/module'
-import { inventoryService } from './modules/inventories/module'
+import { initImages as initImagesInProduct } from './modules/products/infras/rpc-client/dto/image'
 import { productService } from './modules/products/module'
+import { initUsers } from './modules/users/infras/repository/dto/user'
+import { initImages as initImagesInUser } from './modules/users/infras/rpc-client/dto/image'
 import { userService } from './modules/users/module'
-import { sequelize } from './infras/sequelize'
+import { authMiddleware } from './shared/middleware/auth-middleware'
+import { JwtTokenService } from './shared/token/jwt-token-service'
 
 dotenv.config()
 
@@ -73,6 +74,7 @@ const port = process.env.PORT || 8080
     app.use('/v1', imageService.setupRoutes())
     app.use('/v1', inventoryService.setupRoutes())
     app.use('/v1', productService.setupRoutes())
+    app.use('/v1', orderService.setupRoutes(auth))
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}`)
