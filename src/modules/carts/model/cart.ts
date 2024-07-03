@@ -3,7 +3,6 @@ export class Cart {
     readonly id: string,
     readonly product_id: string,
     readonly quantity: number,
-    readonly unit_price: number,
     readonly created_by: string
   ) {}
 }

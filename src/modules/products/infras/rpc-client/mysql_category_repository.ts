@@ -1,11 +1,9 @@
-import { Op, Sequelize } from 'sequelize'
+import { Op } from 'sequelize'
 import { ICategoryRepository } from '../../interfaces/repository'
 import { Category } from '../../model/category'
 import { CategoryPersistence } from './dto/category'
 
 export class MySQLCategoryRepository implements ICategoryRepository {
-  constructor(readonly sequelize: Sequelize) {}
-
   async findById(id: string): Promise<Category | null> {
     try {
       const category = await CategoryPersistence.findByPk(id)

@@ -1,11 +1,10 @@
 import { z } from 'zod'
-import { ErrProductIdEmpty, ErrQuantityEmpty, ErrUnitPriceEmpty, ErrUserIdEmpty } from '~/shared/error'
+import { ErrProductIdEmpty, ErrQuantityEmpty, ErrUserIdEmpty } from '~/shared/error'
 
 export class CreateCartDTO {
   constructor(
     readonly product_id: string,
     readonly quantity: string,
-    readonly unit_price: string,
     readonly created_by: string
   ) {}
 
@@ -15,8 +14,6 @@ export class CreateCartDTO {
 
       quantity: z.string().min(1, { message: ErrQuantityEmpty.message }),
 
-      unit_price: z.string().min(1, { message: ErrUnitPriceEmpty.message }),
-
       created_by: z.string().min(1, { message: ErrUserIdEmpty.message })
     })
 
@@ -24,7 +21,6 @@ export class CreateCartDTO {
       schema.parse({
         product_id: this.product_id,
         quantity: this.quantity,
-        unit_price: this.unit_price,
         created_by: this.created_by
       })
     } catch (error: any) {

@@ -10,8 +10,8 @@ export class CartService {
 
   async insert_cart(req: Request, res: Response) {
     try {
-      const { product_id, quantity, unit_price, created_by } = req.body
-      const cartDTO = new CreateCartDTO(product_id, quantity, unit_price, created_by)
+      const { product_id, quantity, created_by } = req.body
+      const cartDTO = new CreateCartDTO(product_id, quantity, created_by)
 
       const cart = await this.cartUseCase.createCart(cartDTO)
 
@@ -33,11 +33,11 @@ export class CartService {
 
       const paging: Paging = new Paging(page, 0, limit)
 
-      const { carts, total_pages } = await this.cartUseCase.listCarts(condition, paging)
+      const { data, total_pages } = await this.cartUseCase.listCarts(condition, paging)
 
       const total = Math.ceil(total_pages / limit)
 
-      return res.status(200).json({ code: 200, message: 'list carts', data: carts, total_pages: total })
+      return res.status(200).json({ code: 200, message: 'list carts', data, total_pages: total })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
     }

@@ -21,7 +21,7 @@ export function authMiddleware(tokenService: ITokenService, authRepository: IAut
 
     const actions = await authRepository.findPermissionsByUserId(userId)
 
-    req.user = { role: user.role, actions }
+    req.user = { userId: user.id, role: user.role, actions }
 
     next()
   }
