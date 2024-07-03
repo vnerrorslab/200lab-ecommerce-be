@@ -13,8 +13,8 @@ import {
 
 export class InsertUserDTO {
   constructor(
-    readonly first_name: string,
-    readonly last_name: string,
+    readonly firstName: string,
+    readonly lastName: string,
     readonly email: string,
     readonly password: string,
     readonly role: string,
@@ -23,12 +23,12 @@ export class InsertUserDTO {
 
   validate(): void {
     const schema = z.object({
-      first_name: z
+      firstName: z
         .string()
         .min(1, { message: ErrFirstNameEmpty.message })
         .regex(/^[A-Za-z]+$/, { message: ErrFirstNamePattern.message }),
 
-      last_name: z
+      lastName: z
         .string()
         .min(1, { message: ErrLastNameEmpty.message })
         .regex(/^[A-Za-z]+$/, { message: ErrLastNamePattern.message }),
@@ -45,8 +45,8 @@ export class InsertUserDTO {
 
     try {
       schema.parse({
-        first_name: this.first_name,
-        last_name: this.last_name,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.email,
         password: this.password,
         role: this.role,
