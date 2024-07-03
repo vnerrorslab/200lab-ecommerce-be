@@ -1,9 +1,10 @@
 import { Op, Sequelize } from 'sequelize'
-import { IImageRepository } from '../../interfaces/repository'
+import { IImageRepository as ImageAdapter } from '../../interfaces/repository'
 import { Image } from '../../model/image'
 import { ImagePersistence } from './dto/image'
 
-export class MySQLImagesRepository implements IImageRepository {
+export class MySQLImagesRepository implements ImageAdapter {
+  // ImageClient | ImageAdapter(rc)
   constructor(readonly sequelize: Sequelize) {}
 
   async findById(id: string): Promise<Image | null> {
