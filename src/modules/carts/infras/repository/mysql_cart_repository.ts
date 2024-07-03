@@ -47,17 +47,17 @@ export class MySQLCartRepository implements ICartRepository {
     try {
       let whereClause: WhereOptions = {}
 
-      if (condition.searchStr) {
-        whereClause = {
-          ...whereClause,
-          [Op.or]: [{ unit_price: { [Op.like]: `%${condition.searchStr}%` } }]
-        }
-      }
+      //   if (condition.searchStr) {
+      //     whereClause = {
+      //       ...whereClause,
+      //       [Op.or]: [{ unit_price: { [Op.like]: `%${condition.searchStr}%` } }]
+      //     }
+      //   }
 
-      if (condition.id) {
+      if (condition.userId) {
         whereClause = {
           ...whereClause,
-          created_by: condition.id
+          created_by: condition.userId
         }
       }
 

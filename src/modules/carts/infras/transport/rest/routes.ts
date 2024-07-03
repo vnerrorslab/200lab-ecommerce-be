@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 import { CreateCartDTO } from '../dto/cart_addition'
 import { UpdateCartDTO } from '../dto/cart_update'
 import { ICartUseCase } from '~/modules/carts/interfaces/usecase'
@@ -10,8 +10,9 @@ export class CartService {
 
   async insert_cart(req: Request, res: Response) {
     try {
-      const { product_id, quantity, created_by } = req.body
-      const cartDTO = new CreateCartDTO(product_id, quantity, created_by)
+      const userId = req.user?.userId as string
+      const { product_id, quantity } = req.body
+      const cartDTO = new CreateCartDTO(product_id, quantity, userId)
 
       const cart = await this.cartUseCase.createCart(cartDTO)
 
@@ -23,9 +24,9 @@ export class CartService {
 
   async list_carts(req: Request, res: Response) {
     try {
-      const { searchStr } = req.query
-      const { id } = req.params
-      const condition = new CartListingConditionDTO(searchStr as string, id)
+      const userId = req.user?.userId as string
+
+      const condition = new CartListingConditionDTO(userId)
 
       //phân trang á nè nha
       const limit = parseInt(req.query.limit as string) || 10
@@ -70,16 +71,16 @@ export class CartService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/carts/:id', this.list_carts.bind(this))
+    router.get('/carts', auth, this.list_carts.bind(this))
 
-    router.post('/carts', this.insert_cart.bind(this))
+    router.post('/carts', auth, this.insert_cart.bind(this))
 
-    router.put('/carts/:id', this.update_cart.bind(this))
+    router.put('/carts/:id', auth, this.update_cart.bind(this))
 
-    router.delete('/carts/:id', this.delete_cart.bind(this))
+    router.delete('/carts/:id', auth, this.delete_cart.bind(this))
 
     return router
   }

@@ -1,6 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { Product, ProductDetail, ProductListingConditionDTO } from '../model/product'
+import { BasePaging, Paging } from '~/shared/dto/paging'
+import { BaseStatus } from '~/shared/dto/status'
+import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
+import type { CreateProductDTO } from '../infras/transport/dto/product_creation'
+import type { UpdateProductDTO } from '../infras/transport/dto/product_update'
 import type {
   IBrandRepository,
   ICategoryRepository,
@@ -8,16 +12,11 @@ import type {
   IProductRepository
 } from '../interfaces/repository'
 import type { IProductUseCase } from '../interfaces/usecase'
-import type { CreateProductDTO } from '../infras/transport/dto/product_creation'
-import type { UpdateProductDTO } from '../infras/transport/dto/product_update'
-import { ErrProductExists, ErrProductInActive } from '../model/product.error'
-import type { ProductDetailDTO } from '../infras/transport/dto/product_detail'
-import { BaseStatus } from '~/shared/dto/status'
-import { BasePaging, Paging } from '~/shared/dto/paging'
-import { Image } from '../model/image'
-import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
 import { Brand } from '../model/brand'
 import { Category } from '../model/category'
+import { Image } from '../model/image'
+import { Product, ProductDetail, ProductListingConditionDTO } from '../model/product'
+import { ErrProductExists, ErrProductInActive } from '../model/product.error'
 
 export class ProductUseCase implements IProductUseCase {
   constructor(
@@ -117,7 +116,7 @@ export class ProductUseCase implements IProductUseCase {
     return true
   }
 
-  async listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail>> {
+  async listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail[]>> {
     const listProducts = await this.productRepository.listingProduct(condition, paging)
     const brandId = new Set(listProducts.products.map((product) => product.brand_id))
     const categoryId = new Set(listProducts.products.map((product) => product.category_id))

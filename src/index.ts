@@ -4,6 +4,7 @@ import { initUsers } from './modules/users/infras/repository/dto/user'
 import { initBrands } from './modules/brands/infras/repository/dto/brand'
 import { initCategories } from './modules/categories/infras/repository/dto/category'
 import { initProducts } from './modules/products/infras/repository/dto/product'
+import { initProducts as initProductsInCart } from './modules/carts/infras/rpc-client/dto/product'
 import { initCarts } from './modules/carts/infras/repository/dto/cart'
 import { JwtTokenService } from './shared/token/jwt-token-service'
 import { initInventory } from './modules/inventories/infas/repository/dto/inventory'
@@ -52,6 +53,7 @@ const port = process.env.PORT || 8080
     initImagesInBrand(sequelize)
     initBrandInProduct(sequelize)
     initCategoryInProduct(sequelize)
+    initProductsInCart(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
@@ -65,7 +67,7 @@ const port = process.env.PORT || 8080
 
     app.use('/v1', userService.setupRoutes())
     app.use('/v1', authService.setupRoutes(auth))
-    app.use('/v1', cartService.setupRoutes())
+    app.use('/v1', cartService.setupRoutes(auth))
     app.use('/v1', brandService.setupRoutes())
     app.use('/v1', categoryService.setupRoutes())
     app.use('/v1', imageService.setupRoutes())
