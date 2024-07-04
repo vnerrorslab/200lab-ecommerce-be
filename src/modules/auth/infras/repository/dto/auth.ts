@@ -15,7 +15,7 @@ export function initAuth(sequelize: Sequelize) {
         allowNull: false,
         field: 'first_name'
       },
-      last_name: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'last_name'

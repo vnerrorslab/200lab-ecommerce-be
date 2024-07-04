@@ -1,6 +1,7 @@
 import { OrderItem } from '~/modules/order/model/order'
 
 export class OrderResponseDTO {
+  trackingNumber?: string
   constructor(
     readonly id: string,
     readonly userId: string,
@@ -12,7 +13,6 @@ export class OrderResponseDTO {
     readonly shippingMethod: string,
     readonly paymentMethod: string,
     readonly paymentStatus: string,
-    readonly trackingNumber: string,
     readonly createdat: Date,
     readonly updatedAt: Date
   ) {}

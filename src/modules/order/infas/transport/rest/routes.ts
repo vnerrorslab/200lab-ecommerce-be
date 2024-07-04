@@ -37,18 +37,22 @@ export class OrderService {
   }
 
   async createOrder(req: Request, res: Response) {
-    const { cartItems } = req.body
-    const userId = req.user?.userId as string
+    try {
+      const { cartItems } = req.body
+      const userId = req.user?.userId as string
 
-    const orderDTO = new CreateOrderDTO(userId, 'pending', new Date())
+      const orderDTO = new CreateOrderDTO(userId, 'pending', new Date())
 
-    const order = await this.orderUseCase.createOrder(orderDTO, cartItems)
+      const order = await this.orderUseCase.createOrder(orderDTO, cartItems)
 
-    if (!order) {
-      throw new Error('Failed to create order')
+      if (!order) {
+        throw new Error('Failed to create order')
+      }
+
+      return res.status(201).json({ order })
+    } catch (error: any) {
+      res.status(400).json({ code: 400, message: error.message })
     }
-
-    return res.status(201).json({ order })
   }
 
   async updateOrder(req: Request, res: Response) {

@@ -19,9 +19,10 @@ export function initInventoryAdapter(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      cost_price: {
+      costPrice: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: false,
+        field: 'cost_price'
       },
       status: {
         type: DataTypes.STRING,
@@ -41,7 +42,7 @@ export function initInventoryAdapter(sequelize: Sequelize) {
     },
     {
       sequelize,
-      modelName: 'Inventory',
+      modelName: 'InventoryAdapter',
       timestamps: true,
       tableName: 'inventories'
     }

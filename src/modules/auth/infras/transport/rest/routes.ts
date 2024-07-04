@@ -17,9 +17,9 @@ export class AuthService {
 
   async register(req: Request, res: Response) {
     try {
-      const { first_name, last_name, email, password, role, actions } = req.body
+      const { firstName, lastName, email, password, role, actions } = req.body
 
-      const userDTO = new InsertUserDTO(first_name, last_name, email, password, role, actions)
+      const userDTO = new InsertUserDTO(firstName, lastName, email, password, role, actions)
 
       const user = await this.authUseCase.register(userDTO)
 
