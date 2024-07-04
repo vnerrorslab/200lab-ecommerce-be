@@ -29,6 +29,9 @@ import { initImages as initImagesInUser } from './modules/users/infras/rpc-clien
 import { userService } from './modules/users/module'
 import { authMiddleware } from './shared/middleware/auth-middleware'
 import { JwtTokenService } from './shared/token/jwt-token-service'
+import { initOrder } from './modules/order/infas/repository/dto/order'
+import { initOrderItem } from './modules/order/infas/repository/dto/order-item'
+import { initInventoryAdapter } from './modules/order/infas/rpc-client/dto/inventory'
 
 dotenv.config()
 
@@ -55,6 +58,9 @@ const port = process.env.PORT || 8080
     initBrandInProduct(sequelize)
     initCategoryInProduct(sequelize)
     initProductsInCart(sequelize)
+    initOrder(sequelize)
+    initOrderItem(sequelize)
+    initInventoryAdapter(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
