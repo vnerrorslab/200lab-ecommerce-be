@@ -11,7 +11,6 @@ export class MysqlInventoryAdapter implements IInventoryAdapter {
         productId: { [Op.in]: productIds }
       }
     })
-    console.log(inventories)
 
     return inventories ? inventories.map((inv) => inv.get({ plain: true })) : []
   }
