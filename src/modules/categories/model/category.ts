@@ -6,7 +6,9 @@ export class Category {
     readonly name: string,
     readonly description: string,
     readonly status: BaseStatus,
-    readonly parentId: string
+    readonly parentId: string,
+    readonly updatedBy: string,
+    readonly createdBy: string
   ) {}
 }
 
@@ -15,6 +17,7 @@ export class CategoryUpdateDTO {
   description?: string
   status?: BaseStatus
   parentId?: string
+  updatedBy?: string
 }
 
 export class CategoryListingConditionDTO {

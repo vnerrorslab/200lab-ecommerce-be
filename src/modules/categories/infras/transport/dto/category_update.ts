@@ -7,7 +7,8 @@ export class UpdateCategoryDTO {
     readonly name: string,
     readonly description: string,
     readonly parentId: string,
-    readonly status: BaseStatus
+    readonly status: BaseStatus,
+    readonly updatedBy: string
   ) {}
 
   validate(): void {

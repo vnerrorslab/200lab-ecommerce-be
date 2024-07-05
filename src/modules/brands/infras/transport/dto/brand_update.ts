@@ -1,7 +1,6 @@
 import { z } from 'zod'
-import { ErrStatusPattern, ErrorBrandNameEmpty, ErrorLogoEmpty } from '~/shared/error'
+import { ErrStatusPattern, ErrorBrandNameEmpty } from '~/shared/error'
 import { BaseStatus } from '~/shared/dto/status'
-import { Image } from '~/modules/brands/model/image'
 
 export class UpdateBrandDTO {
   constructor(
@@ -9,7 +8,8 @@ export class UpdateBrandDTO {
     readonly image: string,
     readonly tagLine: string,
     readonly description: string,
-    readonly status: BaseStatus
+    readonly status: BaseStatus,
+    readonly updatedBy: string
   ) {}
 
   validate(): void {

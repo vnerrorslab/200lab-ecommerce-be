@@ -31,6 +31,18 @@ export function initCategories(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: true,
         field: 'parent_id'
+      },
+
+      updatedBy: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'updated_by'
+      },
+
+      createdBy: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'created_by'
       }
     },
     {

@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 
 import { CreateBrandDTO } from '../dto/brand_creation'
 import { UpdateBrandDTO } from '../dto/brand_update'
@@ -12,12 +12,13 @@ export class BrandService {
 
   async insert_brand(req: Request, res: Response) {
     try {
+      const userId = req.user?.userId as string
       const { name, image, tagLine, description } = req.body
-      const brandDTO = new CreateBrandDTO(name, image, tagLine, description)
+      const brandDTO = new CreateBrandDTO(name, image, tagLine, description, userId, userId)
 
-      const brand = await this.brandUseCase.createBrand(brandDTO)
+      await this.brandUseCase.createBrand(brandDTO)
 
-      res.status(201).send({ code: 201, message: 'insert brand successful', data: brand })
+      res.status(201).send({ code: 201, message: 'insert brand successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }
@@ -25,13 +26,14 @@ export class BrandService {
 
   async update_brand(req: Request, res: Response) {
     try {
+      const userId = req.user?.userId as string
       const { id } = req.params
       const { name, image, tagLine, description, status } = req.body
-      const brandDTO = new UpdateBrandDTO(name, image, tagLine, description, status)
+      const brandDTO = new UpdateBrandDTO(name, image, tagLine, description, status, userId)
 
-      const brand = await this.brandUseCase.updateBrand(id, brandDTO)
+      await this.brandUseCase.updateBrand(id, brandDTO)
 
-      res.status(200).send({ code: 200, message: 'update brand successful', data: brand })
+      res.status(200).send({ code: 200, message: 'update brand successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }
@@ -116,14 +118,14 @@ export class BrandService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.post('/brands', this.insert_brand.bind(this))
+    router.post('/brands', auth, this.insert_brand.bind(this))
 
-    router.put('/brands/:id', this.update_brand.bind(this))
+    router.put('/brands/:id', auth, this.update_brand.bind(this))
 
-    router.delete('/brands/:id', this.delete_brand.bind(this))
+    router.delete('/brands/:id', auth, this.delete_brand.bind(this))
 
     router.get('/brands', this.listing_brand.bind(this))
 

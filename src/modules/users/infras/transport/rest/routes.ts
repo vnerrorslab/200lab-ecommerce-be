@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 import { CreateUserDTO } from '../dto/user_creation'
 import { User, UserListingConditionDTO } from '../../../model/user'
 import { Paging } from '../../../../../shared/dto/paging'
@@ -11,6 +11,7 @@ export class UserService {
 
   async insert_user(req: Request, res: Response) {
     try {
+      const userId = req.user?.userId as string
       const { firstName, lastName, email, password, phone, address, identificationCard, imageId } = req.body
       const userDTO = new CreateUserDTO(
         firstName,
@@ -20,12 +21,13 @@ export class UserService {
         phone,
         address,
         identificationCard,
-        imageId
+        imageId,
+        userId
       )
 
-      const user = await this.userUseCase.createUser(userDTO)
+      await this.userUseCase.createUser(userDTO)
 
-      res.status(201).send({ code: 201, message: 'insert user successful', data: user })
+      res.status(201).send({ code: 201, message: 'insert user successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }
@@ -85,9 +87,9 @@ export class UserService {
         status
       )
 
-      const user = await this.userUseCase.updateUser(id, userDTO)
+      await this.userUseCase.updateUser(id, userDTO)
 
-      return res.status(200).send({ code: 200, message: 'update user successful', data: user })
+      return res.status(200).send({ code: 200, message: 'update user successful' })
     } catch (error: any) {
       return res.status(400).send({ error: error.message })
     }
@@ -134,12 +136,12 @@ export class UserService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/users', this.list_users.bind(this))
+    router.get('/users', auth, this.list_users.bind(this))
 
-    router.post('/users', this.insert_user.bind(this))
+    router.post('/users', auth, this.insert_user.bind(this))
 
     router.put('/users/:id', this.update_user.bind(this))
 

@@ -5,7 +5,9 @@ export class CreateCategoryDTO {
   constructor(
     readonly name: string,
     readonly description: string,
-    readonly parentId: string
+    readonly parentId: string,
+    readonly updatedBy: string,
+    readonly createdBy: string
   ) {}
 
   validate(): void {

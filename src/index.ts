@@ -72,14 +72,14 @@ const port = process.env.PORT || 8080
     const tokenService = new JwtTokenService(process.env.JWT_SECRET_KEY || '200', '1h')
     const auth = authMiddleware(new AuthUseCase(new MySQLAuthRepository(sequelize), tokenService))
 
-    app.use('/v1', userService.setupRoutes())
+    app.use('/v1', userService.setupRoutes(auth))
     app.use('/v1', authService.setupRoutes(auth))
     app.use('/v1', cartService.setupRoutes(auth))
-    app.use('/v1', brandService.setupRoutes())
-    app.use('/v1', categoryService.setupRoutes())
-    app.use('/v1', imageService.setupRoutes())
+    app.use('/v1', brandService.setupRoutes(auth))
+    app.use('/v1', categoryService.setupRoutes(auth))
+    app.use('/v1', imageService.setupRoutes(auth))
     app.use('/v1', inventoryService.setupRoutes())
-    app.use('/v1', productService.setupRoutes())
+    app.use('/v1', productService.setupRoutes(auth))
     app.use('/v1', orderService.setupRoutes(auth))
 
     app.listen(port, () => {

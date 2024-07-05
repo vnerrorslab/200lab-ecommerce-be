@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 import { CreateProductDTO } from '../dto/product_creation'
 import { UpdateProductDTO } from '../dto/product_update'
 import { Paging } from '~/shared/dto/paging'
@@ -11,7 +11,8 @@ export class ProductService {
 
   async insert_product(req: Request, res: Response) {
     try {
-      const { name, images, price, quantity, brandId, categoryId, description, createdBy, updatedBy } = req.body
+      const userId = req.user?.userId as string
+      const { name, images, price, quantity, brandId, categoryId, description } = req.body
       const productDTO = new CreateProductDTO(
         name,
         images,
@@ -20,8 +21,8 @@ export class ProductService {
         brandId,
         categoryId,
         description,
-        createdBy,
-        updatedBy
+        userId,
+        userId
       )
 
       const product = await this.productUseCase.createProduct(productDTO)
@@ -38,8 +39,9 @@ export class ProductService {
 
   async update_product(req: Request, res: Response) {
     try {
+      const userId = req?.user?.userId as string
       const { id } = req.params
-      const { name, images, price, quantity, brandId, categoryId, description, status, createdBy, updatedBy } = req.body
+      const { name, images, price, quantity, brandId, categoryId, description, status } = req.body
       const productDTO = new UpdateProductDTO(
         name,
         images,
@@ -49,8 +51,7 @@ export class ProductService {
         categoryId,
         description,
         status,
-        createdBy,
-        updatedBy
+        userId
       )
 
       const product = await this.productUseCase.updateProduct(id, productDTO)
@@ -139,14 +140,14 @@ export class ProductService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.post('/products', this.insert_product.bind(this))
+    router.post('/products', auth, this.insert_product.bind(this))
 
-    router.put('/products/:id', this.update_product.bind(this))
+    router.put('/products/:id', auth, this.update_product.bind(this))
 
-    router.delete('/products/:id', this.delete_product.bind(this))
+    router.delete('/products/:id', auth, this.delete_product.bind(this))
 
     router.get('/products', this.listing_product.bind(this))
 

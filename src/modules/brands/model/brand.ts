@@ -8,7 +8,9 @@ export class Brand {
     public image: Image | null,
     readonly tagLine: string,
     readonly description: string,
-    readonly status: BaseStatus
+    readonly status: BaseStatus,
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 }
 
