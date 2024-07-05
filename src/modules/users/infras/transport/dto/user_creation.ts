@@ -20,24 +20,24 @@ import {
 
 export class CreateUserDTO {
   constructor(
-    readonly first_name: string,
-    readonly last_name: string,
+    readonly firstName: string,
+    readonly lastName: string,
     readonly email: string,
     readonly password: string,
     readonly phone: string,
     readonly address: string,
-    readonly identification_card: string,
-    readonly image_id: string
+    readonly identificationCard: string,
+    readonly imageId: string
   ) {}
 
   validate(): void {
     const schema = z.object({
-      first_name: z
+      firstName: z
         .string()
         .min(1, { message: ErrFirstNameEmpty.message })
         .regex(/^[A-Za-z]+$/, { message: ErrFirstNamePattern.message }),
 
-      last_name: z
+      lastName: z
         .string()
         .min(1, { message: ErrLastNameEmpty.message })
         .regex(/^[A-Za-z]+$/, { message: ErrLastNamePattern.message }),
@@ -64,7 +64,7 @@ export class CreateUserDTO {
           message: ErrAddressPattern.message
         }),
 
-      identification_card: z
+      identificationCard: z
         .string()
         .optional() //khong bat buoc
         .refine((value) => value === undefined || /^[0-9\s]*$/.test(value), {
@@ -77,13 +77,13 @@ export class CreateUserDTO {
 
     try {
       schema.parse({
-        first_name: this.first_name,
-        last_name: this.last_name,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.email,
         password: this.password,
         phone: this.phone,
         address: this.address,
-        identification_card: this.identification_card
+        identificationCard: this.identificationCard
       })
     } catch (error: any) {
       throw new Error(error.errors[0].message)

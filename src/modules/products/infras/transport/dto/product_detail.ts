@@ -8,11 +8,11 @@ export class ProductDetailDTO {
     public images: Image[] | null,
     readonly price: number,
     readonly quantity: number,
-    readonly brand_id: string,
-    readonly category_id: string,
+    readonly brandId: string,
+    readonly categoryId: string,
     readonly description: string,
     readonly status: BaseStatus,
-    readonly created_by: string,
-    readonly updated_by: string
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 }

@@ -11,17 +11,17 @@ export class ProductService {
 
   async insert_product(req: Request, res: Response) {
     try {
-      const { name, images, price, quantity, brand_id, category_id, description, created_by, updated_by } = req.body
+      const { name, images, price, quantity, brandId, categoryId, description, createdBy, updatedBy } = req.body
       const productDTO = new CreateProductDTO(
         name,
         images,
         price,
         quantity,
-        brand_id,
-        category_id,
+        brandId,
+        categoryId,
         description,
-        created_by,
-        updated_by
+        createdBy,
+        updatedBy
       )
 
       const product = await this.productUseCase.createProduct(productDTO)
@@ -39,19 +39,18 @@ export class ProductService {
   async update_product(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { name, images, price, quantity, brand_id, category_id, description, status, created_by, updated_by } =
-        req.body
+      const { name, images, price, quantity, brandId, categoryId, description, status, createdBy, updatedBy } = req.body
       const productDTO = new UpdateProductDTO(
         name,
         images,
         price,
         quantity,
-        brand_id,
-        category_id,
+        brandId,
+        categoryId,
         description,
         status,
-        created_by,
-        updated_by
+        createdBy,
+        updatedBy
       )
 
       const product = await this.productUseCase.updateProduct(id, productDTO)
@@ -95,7 +94,7 @@ export class ProductService {
         data.forEach((product: ProductDetail) => {
           if (product.images) {
             product.images.forEach((item: Image) => {
-              const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
+              const image = new Image(item.id, item.path, item.cloudName, item.width, item.height, item.size)
               image.fillUrl(process.env.URL_PUBLIC || '')
               item.url = image.url
             })
@@ -128,7 +127,7 @@ export class ProductService {
 
       if (product.images) {
         product.images.forEach((item: Image) => {
-          const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
+          const image = new Image(item.id, item.path, item.cloudName, item.width, item.height, item.size)
           image.fillUrl(process.env.URL_PUBLIC || '')
           item.url = image.url
         })

@@ -17,9 +17,10 @@ export function initImages(sequelize: Sequelize) {
         allowNull: false
       },
 
-      cloud_name: {
+      cloudName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'cloud_name'
       },
 
       width: {

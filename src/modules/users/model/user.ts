@@ -4,27 +4,27 @@ import { Image } from './image'
 export class User {
   constructor(
     readonly id: string,
-    readonly first_name: string,
-    readonly last_name: string,
+    readonly firstName: string,
+    readonly lastName: string,
     readonly email: string,
     readonly password: string,
     readonly salt: string,
     readonly phone: string,
     readonly address: string,
-    readonly identification_card: string,
+    readonly identificationCard: string,
     readonly status: UserStatus,
     public image: Image | null
   ) {}
 }
 
 export class UserUpdateDTO {
-  first_name?: string
-  last_name?: string
+  firstName?: string
+  lastName?: string
   email?: string
   password?: string
   phone?: string
   address?: string
-  identification_card?: string
+  identificationCard?: string
   status?: UserStatus
 }
 

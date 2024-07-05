@@ -10,12 +10,12 @@ export class Product {
     readonly images: Image[] | null,
     readonly price: number,
     readonly quantity: number,
-    readonly brand_id: string,
-    readonly category_id: string,
+    readonly brandId: string,
+    readonly categoryId: string,
     readonly description: string,
     readonly status: BaseStatus,
-    readonly created_by: string,
-    readonly updated_by: string
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 }
 
@@ -30,8 +30,8 @@ export class ProductDetail {
     readonly category: Category | null,
     readonly description: string,
     readonly status: BaseStatus,
-    readonly created_by: string,
-    readonly updated_by: string
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 }
 
@@ -40,12 +40,12 @@ export class ProductUpdateDTO {
   images?: string[]
   price?: number
   quantity?: number
-  brand_id?: string
-  category_id?: string
+  brandId?: string
+  categoryId?: string
   description?: string
   status?: BaseStatus
-  created_by?: string
-  updated_by?: string
+  createdBy?: string
+  updatedBy?: string
 }
 
 export class ProductListingConditionDTO {

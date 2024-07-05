@@ -1,12 +1,12 @@
 export class Inventory {
   constructor(
     readonly id: string,
-    readonly product_id: string,
+    readonly productId: string,
     readonly quantity: number,
-    readonly cost_price: number,
+    readonly costPrice: number,
     readonly status: string,
-    readonly created_at: Date,
-    readonly updated_at: Date
+    readonly createdAt: Date,
+    readonly updatedAt: Date
   ) {}
 }
 
@@ -15,9 +15,9 @@ export class InventorySearchDTO {
 }
 
 export class UpdateInventoryDTO {
-  product_id?: string
+  productId?: string
   quantity?: number
   status?: string
-  cost_price?: number
-  updated_at?: Date
+  costPrice?: number
+  updatedAt?: Date
 }

@@ -17,7 +17,8 @@ export class MysqlOrderRepository implements IOrderRepository {
       if (condition.userId) {
         whereClause = {
           ...whereClause,
-          userId: condition.userId
+          userId: condition.userId,
+          orderStatus: condition.status
         }
       }
 

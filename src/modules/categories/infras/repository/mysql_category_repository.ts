@@ -17,7 +17,7 @@ export class MySQLCategoryRepository implements ICategoryRepository {
         name: data.name,
         description: data.description,
         status: data.status,
-        parent_id: data.parent_id
+        parentId: data.parentId
       }
 
       const result = await CategoryPersistence.create(categoryData)
@@ -102,7 +102,7 @@ export class MySQLCategoryRepository implements ICategoryRepository {
 
   async findCategoryById(id: string): Promise<CategoryDetailDTO | null> {
     const category = await CategoryPersistence.findByPk(id, {
-      attributes: ['id', 'name', 'description', 'status', 'parent_id']
+      attributes: ['id', 'name', 'description', 'status', 'parentId']
     })
 
     if (!category) return null

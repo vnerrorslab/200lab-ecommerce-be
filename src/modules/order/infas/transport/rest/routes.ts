@@ -10,11 +10,11 @@ export class OrderService {
   constructor(readonly orderUseCase: IOrderUseCase) {}
 
   async getAllOrders(req: Request, res: Response) {
-    const { searchStr } = req.query
+    const { searchStr, status } = req.query
     const { id } = req.params
     const userId = req.user?.userId as string
 
-    const condition = new OrderSearchDTO(searchStr as string, id, userId)
+    const condition = new OrderSearchDTO(searchStr as string, status as string, id, userId)
 
     const limit = parseInt(req.query.limit as string) || 10
     const page = parseInt(req.query.page as string) || 1
@@ -66,7 +66,8 @@ export class OrderService {
         paymentMethod,
         paymentStatus = PaymentStatus.PENDING,
         orderStatus = OrderStatus.PENDING,
-        trackingNumber = null
+        trackingNumber = null,
+        updatedAt = new Date()
       } = req.body
 
       const orderDTO = new UpdateOrderDTO(
@@ -77,7 +78,7 @@ export class OrderService {
         paymentStatus,
         orderStatus,
         trackingNumber,
-        new Date()
+        updatedAt
       )
 
       const isUpdate = await this.orderUseCase.updateOrder(id, orderDTO)

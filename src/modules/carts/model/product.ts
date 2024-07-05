@@ -9,7 +9,7 @@ export class ProductDetail {
     readonly price: number,
     readonly quantity: number,
     readonly status: BaseStatus,
-    readonly created_by: string,
-    readonly updated_by: string
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 }

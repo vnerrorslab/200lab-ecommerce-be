@@ -10,8 +10,8 @@ export class CategoryService {
 
   async insert_category(req: Request, res: Response) {
     try {
-      const { name, description, parent_id } = req.body
-      const categoryDTO = new CreateCategoryDTO(name, description, parent_id)
+      const { name, description, parentId } = req.body
+      const categoryDTO = new CreateCategoryDTO(name, description, parentId)
 
       const category = await this.categoryUseCase.createCategory(categoryDTO)
 
@@ -24,8 +24,8 @@ export class CategoryService {
   async update_category(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { name, description, parent_id, status } = req.body
-      const categoryDTO = new UpdateCategoryDTO(name, description, parent_id, status)
+      const { name, description, parentId, status } = req.body
+      const categoryDTO = new UpdateCategoryDTO(name, description, parentId, status)
 
       const category = await this.categoryUseCase.updateCategory(id, categoryDTO)
 
