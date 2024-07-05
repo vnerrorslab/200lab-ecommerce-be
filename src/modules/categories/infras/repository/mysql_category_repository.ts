@@ -17,7 +17,9 @@ export class MySQLCategoryRepository implements ICategoryRepository {
         name: data.name,
         description: data.description,
         status: data.status,
-        parentId: data.parentId
+        parentId: data.parentId,
+        updatedBy: data.updatedBy,
+        createdBy: data.createdBy
       }
 
       const result = await CategoryPersistence.create(categoryData)

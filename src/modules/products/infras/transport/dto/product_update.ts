@@ -12,7 +12,6 @@ export class UpdateProductDTO {
     readonly categoryId: string,
     readonly description: string,
     readonly status: BaseStatus,
-    readonly createdBy: string,
     readonly updatedBy: string
   ) {}
 
@@ -30,8 +29,6 @@ export class UpdateProductDTO {
 
       description: z.string().optional(),
 
-      createdBy: z.string().optional(),
-
       updatedBy: z.string().optional(),
 
       status: z.nativeEnum(BaseStatus, { message: ErrStatusPattern.message }).optional()
@@ -47,7 +44,6 @@ export class UpdateProductDTO {
         categoryId: this.categoryId,
         description: this.description,
         status: this.status,
-        createdBy: this.createdBy,
         updatedBy: this.updatedBy
       })
     } catch (error: any) {

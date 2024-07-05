@@ -52,7 +52,8 @@ export class UserUseCase implements IUserUseCase {
       dto.address,
       dto.identificationCard,
       UserStatus.ACTIVE,
-      image
+      image,
+      dto.createdBy
     )
 
     await this.userRepository.insert(newUser)

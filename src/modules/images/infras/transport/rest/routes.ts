@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 import multer from 'multer'
 
 import { IImageUseCase } from '~/modules/images/interfaces/usecase'
@@ -75,7 +75,7 @@ export class ImageService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
     //multer
@@ -100,11 +100,11 @@ export class ImageService {
       }
     })
 
-    router.post('/images', upload.single('image'), this.insert_image.bind(this))
+    router.post('/images', auth, upload.single('image'), this.insert_image.bind(this))
 
-    router.get('/images/:id', this.detail_image.bind(this))
+    router.get('/images/:id', auth, this.detail_image.bind(this))
 
-    router.delete('/images/:id', this.delete_image.bind(this))
+    router.delete('/images/:id', auth, this.delete_image.bind(this))
 
     return router
   }

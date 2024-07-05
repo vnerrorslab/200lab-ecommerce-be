@@ -6,7 +6,9 @@ export class CreateBrandDTO {
     readonly name: string,
     readonly image: string,
     readonly tagLine: string,
-    readonly description: string
+    readonly description: string,
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 
   validate(): void {

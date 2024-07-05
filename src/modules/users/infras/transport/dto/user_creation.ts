@@ -27,7 +27,8 @@ export class CreateUserDTO {
     readonly phone: string,
     readonly address: string,
     readonly identificationCard: string,
-    readonly imageId: string
+    readonly imageId: string,
+    readonly createdBy: string
   ) {}
 
   validate(): void {

@@ -37,6 +37,18 @@ export function initBrands(sequelize: Sequelize) {
       status: {
         type: DataTypes.ENUM(BaseStatus.ACTIVE, BaseStatus.INACTIVE),
         allowNull: false
+      },
+
+      createdBy: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'created_by'
+      },
+
+      updatedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'updated_by'
       }
     },
     {

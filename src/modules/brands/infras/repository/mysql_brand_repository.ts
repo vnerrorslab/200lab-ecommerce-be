@@ -16,9 +16,11 @@ export class MySQLBrandRepository implements IBrandRepository {
         id: data.id,
         name: data.name,
         image: data.image,
-        tag_line: data.tag_line,
+        tagLine: data.tagLine,
         description: data.description,
-        status: data.status
+        status: data.status,
+        createdBy: data.createdBy,
+        updatedBy: data.updatedBy
       }
 
       const result = await BrandPersistence.create(brandData)
@@ -61,7 +63,7 @@ export class MySQLBrandRepository implements IBrandRepository {
           ...whereClause,
           [Op.or]: [
             { name: { [Op.like]: `%${condition.searchStr}%` } },
-            { tag_line: { [Op.like]: `%${condition.searchStr}%` } }
+            { tagLine: { [Op.like]: `%${condition.searchStr}%` } }
           ]
         }
       }
@@ -106,7 +108,7 @@ export class MySQLBrandRepository implements IBrandRepository {
 
   async findBrandById(id: string): Promise<BrandDetailDTO | null> {
     const brand = await BrandPersistence.findByPk(id, {
-      attributes: ['id', 'name', 'image', 'tag_line', 'description', 'status']
+      attributes: ['id', 'name', 'image', 'tagLine', 'description', 'status']
     })
 
     if (!brand) return null

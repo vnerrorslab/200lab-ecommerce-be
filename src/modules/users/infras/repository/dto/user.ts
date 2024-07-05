@@ -54,6 +54,11 @@ export function initUsers(sequelize: Sequelize) {
       image: {
         type: DataTypes.JSON,
         allowNull: true
+      },
+      createdBy: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: 'created_by'
       }
     },
     {

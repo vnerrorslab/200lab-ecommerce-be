@@ -6,7 +6,7 @@ import type { IBrandUseCase } from '../interfaces/usecase'
 import type { CreateBrandDTO } from '../infras/transport/dto/brand_creation'
 import { BaseStatus } from '~/shared/dto/status'
 import type { UpdateBrandDTO } from '../infras/transport/dto/brand_update'
-import { ErrBrandExists, ErrBrandInActive } from '../model/brand.error'
+import { ErrBrandExists, ErrBrandInActive, ErrBrandNotFound } from '../model/brand.error'
 import type { BrandDetailDTO } from '../infras/transport/dto/brand_detail'
 import { Paging } from '~/shared/dto/paging'
 import { USING_IMAGE, sharedEventEmitter } from '~/shared/utils/event-emitter'
@@ -34,7 +34,16 @@ export class BrandUseCase implements IBrandUseCase {
 
     const image = await this.imageRepository.findById(dto.image)
 
-    const newBrand = new Brand(brandId, dto.name, image, dto.tagLine, dto.description, BaseStatus.ACTIVE)
+    const newBrand = new Brand(
+      brandId,
+      dto.name,
+      image,
+      dto.tagLine,
+      dto.description,
+      BaseStatus.ACTIVE,
+      dto.createdBy,
+      dto.updatedBy
+    )
 
     await this.brandRepository.insertBrand(newBrand)
 
@@ -63,7 +72,8 @@ export class BrandUseCase implements IBrandUseCase {
       image: dto.image ?? brand.image,
       tagLine: dto.tagLine ?? brand.tagLine,
       description: dto.description ?? brand.description,
-      status: dto.status ?? brand.status
+      status: dto.status ?? brand.status,
+      updatedBy: dto.updatedBy
     }
 
     await this.brandRepository.updateBrandById(id, updatedBrand)
@@ -75,7 +85,7 @@ export class BrandUseCase implements IBrandUseCase {
     const brand = await this.brandRepository.findById(id)
 
     if (!brand) {
-      throw ErrBrandExists
+      throw ErrBrandNotFound
     }
 
     if (brand.status === BaseStatus.INACTIVE) {

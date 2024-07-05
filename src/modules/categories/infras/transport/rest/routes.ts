@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
 import { CreateCategoryDTO } from '../dto/category_creation'
 import { UpdateCategoryDTO } from '../dto/category_update'
 import { Paging } from '~/shared/dto/paging'
@@ -10,12 +10,13 @@ export class CategoryService {
 
   async insert_category(req: Request, res: Response) {
     try {
+      const userId = req.user?.userId as string
       const { name, description, parentId } = req.body
-      const categoryDTO = new CreateCategoryDTO(name, description, parentId)
+      const categoryDTO = new CreateCategoryDTO(name, description, parentId, userId, userId)
 
-      const category = await this.categoryUseCase.createCategory(categoryDTO)
+      await this.categoryUseCase.createCategory(categoryDTO)
 
-      res.status(201).send({ code: 201, message: 'insert category successful', data: category })
+      res.status(201).send({ code: 201, message: 'insert category successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }
@@ -23,13 +24,14 @@ export class CategoryService {
 
   async update_category(req: Request, res: Response) {
     try {
+      const userId = req.user?.userId as string
       const { id } = req.params
       const { name, description, parentId, status } = req.body
-      const categoryDTO = new UpdateCategoryDTO(name, description, parentId, status)
+      const categoryDTO = new UpdateCategoryDTO(name, description, parentId, status, userId)
 
-      const category = await this.categoryUseCase.updateCategory(id, categoryDTO)
+      await this.categoryUseCase.updateCategory(id, categoryDTO)
 
-      res.status(200).send({ code: 200, message: 'update category successful', data: category })
+      res.status(200).send({ code: 200, message: 'update category successful' })
     } catch (error: any) {
       res.status(400).send({ error: error.message })
     }
@@ -84,14 +86,14 @@ export class CategoryService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.post('/categories', this.insert_category.bind(this))
+    router.post('/categories', auth, this.insert_category.bind(this))
 
-    router.put('/categories/:id', this.update_category.bind(this))
+    router.put('/categories/:id', auth, this.update_category.bind(this))
 
-    router.delete('/categories/:id', this.delete_category.bind(this))
+    router.delete('/categories/:id', auth, this.delete_category.bind(this))
 
     router.get('/categories', this.listing_category.bind(this))
 

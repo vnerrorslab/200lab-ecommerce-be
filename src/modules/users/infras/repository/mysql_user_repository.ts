@@ -7,6 +7,7 @@ import { UserUpdateDTO, UserListingConditionDTO } from '../../model/user'
 import { UserPersistence } from './dto/user'
 import type { UserDetailDTO } from '../transport/dto/user_detail'
 import { UserStatus } from '~/shared/dto/status'
+import { create } from 'domain'
 
 export class MySQLUserRepository implements IUserRepository {
   constructor(readonly sequelize: Sequelize) {}
@@ -24,7 +25,8 @@ export class MySQLUserRepository implements IUserRepository {
         address: data.address,
         identificationCard: data.identificationCard,
         status: data.status,
-        image: data.image
+        image: data.image,
+        createdBy: data.createdBy
       }
 
       const result = await UserPersistence.create(userData)
