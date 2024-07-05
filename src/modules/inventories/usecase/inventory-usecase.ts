@@ -16,18 +16,18 @@ export class InventoryUseCase implements IInventoryUseCase {
       throw new Error(error.message)
     }
 
-    const create_inv = {
+    const createInv = {
       id: uuidv4(),
-      product_id: dto.product_id,
+      productId: dto.productId,
       quantity: dto.quantity,
-      cost_price: dto.cost_price,
+      costPrice: dto.costPrice,
       status: dto.status,
-      created_at: dto.created_at,
-      updated_at: dto.updated_at
+      createdAt: dto.createdAt,
+      updatedAt: dto.updatedAt
     }
-    const inventory = await this.inventoryRepository.save(create_inv)
+    const inventory = await this.inventoryRepository.save(createInv)
 
-    return inventory ? create_inv.id : ''
+    return inventory ? createInv.id : ''
   }
 
   async updateInventory(id: string, dto: UpdateInventoryDTO): Promise<boolean> {
@@ -43,16 +43,16 @@ export class InventoryUseCase implements IInventoryUseCase {
       throw new Error('Inventory not found!')
     }
 
-    const update_inventory = {
+    const updateInventory = {
       ...inventory,
-      product_id: dto.product_id || inventory.product_id,
+      productId: dto.productId || inventory.productId,
       quantity: dto.quantity || inventory.quantity,
       status: dto.status || inventory.status,
-      cost_price: dto.cost_price || inventory.cost_price,
-      updated_at: dto.updated_at || inventory.updated_at
+      costPrice: dto.costPrice || inventory.costPrice,
+      updatedAt: dto.updatedAt || inventory.updatedAt
     }
 
-    const result = await this.inventoryRepository.update(id, update_inventory)
+    const result = await this.inventoryRepository.update(id, updateInventory)
     return result ? true : false
   }
 
@@ -67,12 +67,12 @@ export class InventoryUseCase implements IInventoryUseCase {
     const inventoryMap = new Map()
     if (inventory) {
       for (const item of inventory) {
-        inventoryMap.set(item.product_id, { quantity: item.quantity, status: item.status })
+        inventoryMap.set(item.productId, { quantity: item.quantity, status: item.status })
       }
     }
 
     for (const item of dto) {
-      const productInfo = inventoryMap.get(item.product_id) || { quantity: 0, status: BaseStatus.OUTOFSTOCK }
+      const productInfo = inventoryMap.get(item.productId) || { quantity: 0, status: BaseStatus.OUTOFSTOCK }
 
       if (item.quantity > productInfo.quantity || productInfo.status === BaseStatus.OUTOFSTOCK) {
         return false

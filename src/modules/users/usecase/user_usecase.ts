@@ -39,25 +39,25 @@ export class UserUseCase implements IUserUseCase {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // get image from image id
-    const image = await this.imageRepo.findById(dto.image_id)
+    const image = await this.imageRepo.findById(dto.imageId)
 
     const newUser = new User(
       userId,
-      dto.first_name,
-      dto.last_name,
+      dto.firstName,
+      dto.lastName,
       dto.email,
       hashedPassword,
       salt,
       dto.phone,
       dto.address,
-      dto.identification_card,
+      dto.identificationCard,
       UserStatus.ACTIVE,
       image
     )
 
     await this.userRepository.insert(newUser)
 
-    sharedEventEmitter.emit(USING_IMAGE, { image_id: dto.image_id })
+    sharedEventEmitter.emit(USING_IMAGE, { imageId: dto.imageId })
 
     return true
   }
@@ -86,13 +86,13 @@ export class UserUseCase implements IUserUseCase {
 
     const updatedUser = {
       ...user,
-      first_name: dto.first_name ?? user.first_name,
-      last_name: dto.last_name ?? user.last_name,
+      firstName: dto.firstName ?? user.firstName,
+      lastName: dto.lastName ?? user.lastName,
       email: dto.email ?? user.email,
       password: user.password,
       phone: dto.phone ?? user.phone,
       address: dto.address ?? user.address,
-      identification_card: dto.identification_card ?? user.identification_card,
+      identificationCard: dto.identificationCard ?? user.identificationCard,
       status: dto.status ?? user.status
     }
 

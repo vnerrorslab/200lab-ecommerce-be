@@ -114,8 +114,8 @@ export class OrderUseCase implements IOrderUseCase {
       shippingMethod: dto.shippingMethod ?? order?.shippingMethod,
       paymentMethod: dto.paymentMethod ?? order?.paymentMethod,
       paymentStatus: dto.paymentStatus ?? order?.paymentStatus,
-      trackingNumber: dto.trackingNumber ?? order?.trackingNumber,
       orderStatus: dto.orderStatus ?? order?.orderStatus,
+      trackingNumber: dto.trackingNumber ?? order?.trackingNumber,
       updatedAt: dto.updatedAt ?? order?.updatedAt
     }
 

@@ -11,11 +11,11 @@ export class ImageEventHandler {
     sharedEventEmitter.on(USING_IMAGE, this.handleUsingImage.bind(this))
   }
 
-  async handleUsingImage({ image_id }: UsingImageEvent) {
-    await this.changeImageStatus(image_id, ImageStatus.USED)
+  async handleUsingImage({ imageId }: UsingImageEvent) {
+    await this.changeImageStatus(imageId, ImageStatus.USED)
   }
 
-  async changeImageStatus(image_id: string, status: string) {
-    await this.imageUseCase.changeStatus(image_id, status)
+  async changeImageStatus(imageId: string, status: string) {
+    await this.imageUseCase.changeStatus(imageId, status)
   }
 }

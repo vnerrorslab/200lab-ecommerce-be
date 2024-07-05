@@ -34,11 +34,11 @@ export class BrandUseCase implements IBrandUseCase {
 
     const image = await this.imageRepository.findById(dto.image)
 
-    const newBrand = new Brand(brandId, dto.name, image, dto.tag_line, dto.description, BaseStatus.ACTIVE)
+    const newBrand = new Brand(brandId, dto.name, image, dto.tagLine, dto.description, BaseStatus.ACTIVE)
 
     await this.brandRepository.insertBrand(newBrand)
 
-    sharedEventEmitter.emit(USING_IMAGE, { image_id: dto.image })
+    sharedEventEmitter.emit(USING_IMAGE, { imageId: dto.image })
 
     return true
   }
@@ -61,7 +61,7 @@ export class BrandUseCase implements IBrandUseCase {
       ...brand,
       name: dto.name ?? brand.name,
       image: dto.image ?? brand.image,
-      tag_line: dto.tag_line ?? brand.tag_line,
+      tagLine: dto.tagLine ?? brand.tagLine,
       description: dto.description ?? brand.description,
       status: dto.status ?? brand.status
     }

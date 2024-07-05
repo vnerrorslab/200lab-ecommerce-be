@@ -29,6 +29,7 @@ export class Order {
 export class OrderSearchDTO {
   constructor(
     readonly searchStr: string,
+    readonly status: string,
     readonly id: string,
     readonly userId: string
   ) {}

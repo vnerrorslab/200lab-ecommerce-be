@@ -27,9 +27,10 @@ export function initCategories(sequelize: Sequelize) {
         allowNull: false
       },
 
-      parent_id: {
+      parentId: {
         type: DataTypes.UUID,
-        allowNull: true
+        allowNull: true,
+        field: 'parent_id'
       }
     },
     {

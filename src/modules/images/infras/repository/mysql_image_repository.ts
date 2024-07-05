@@ -13,7 +13,7 @@ export class MySQLImagesRepository implements IImageRepository {
       const imageData = {
         id: data.id,
         path: data.path,
-        cloud_name: data.cloud_name,
+        cloudName: data.cloudName,
         width: data.width,
         height: data.height,
         size: data.size

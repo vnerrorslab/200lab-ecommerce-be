@@ -17,14 +17,14 @@ export class InventoryService {
   }
   async createInventory(req: Request, res: Response) {
     try {
-      const { product_id, quantity, cost_price, status = BaseStatus.OUTOFSTOCK, created_at, updated_at } = req.body
+      const { productId, quantity, costPrice, status = BaseStatus.OUTOFSTOCK, createdAt, updatedAt } = req.body
       const invDTO = new CreateInventoryDTO(
-        product_id,
+        productId,
         quantity,
-        cost_price,
+        costPrice,
         status,
-        new Date(created_at),
-        new Date(updated_at)
+        new Date(createdAt),
+        new Date(updatedAt)
       )
 
       const inventory = await this.inventoryUseCase.createInventory(invDTO)
@@ -38,9 +38,9 @@ export class InventoryService {
   async updateInventory(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { product_id, quantity, cost_price, status, updated_at } = req.body
+      const { productId, quantity, costPrice, status, updatedAt } = req.body
 
-      const invDTO = new UpdateInventoryDTO(product_id, quantity, cost_price, status, new Date(updated_at))
+      const invDTO = new UpdateInventoryDTO(productId, quantity, costPrice, status, new Date(updatedAt))
 
       const inventory = await this.inventoryUseCase.updateInventory(id, invDTO)
 

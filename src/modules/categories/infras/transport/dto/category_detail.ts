@@ -6,6 +6,6 @@ export class CategoryDetailDTO {
     readonly name: string,
     readonly descripiton: string,
     readonly status: BaseStatus,
-    readonly parent_id: string
+    readonly parentId: string
   ) {}
 }

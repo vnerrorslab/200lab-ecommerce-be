@@ -1,6 +1,6 @@
 export class InventoryCheckDTO {
   constructor(
-    readonly product_id: string,
+    readonly productId: string,
     readonly quantity: number
   ) {}
 }

@@ -9,17 +9,19 @@ export function initCarts(sequelize: Sequelize) {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      product_id: {
+      productId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        field: 'product_id'
       },
       quantity: {
         type: DataTypes.BIGINT,
         allowNull: false
       },
-      created_by: {
+      createdBy: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        field: 'created_by'
       }
     },
     {

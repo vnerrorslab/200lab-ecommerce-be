@@ -18,12 +18,12 @@ export class MySQLProductsRepository implements IProductRepository {
         images: data.images,
         price: data.price,
         quantity: data.quantity,
-        brand_id: data.brand_id,
-        category_id: data.category_id,
+        brandId: data.brandId,
+        categoryId: data.categoryId,
         description: data.description,
         status: data.status,
-        created_by: data.created_by,
-        updated_by: data.updated_by
+        createdBy: data.createdBy,
+        updatedBy: data.updatedBy
       }
 
       const result = await ProductPersistence.create(productData)
@@ -110,7 +110,7 @@ export class MySQLProductsRepository implements IProductRepository {
 
   async findProductById(id: string): Promise<ProductDetailDTO | null> {
     const product = await ProductPersistence.findByPk(id, {
-      attributes: ['id', 'name', 'images', 'price', 'quantity', 'brand_id', 'category_id', 'description', 'status']
+      attributes: ['id', 'name', 'images', 'price', 'quantity', 'brandId', 'categoryId', 'description', 'status']
     })
 
     if (!product) return null

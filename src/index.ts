@@ -33,7 +33,6 @@ import { initOrder } from './modules/order/infas/repository/dto/order'
 import { initOrderItem } from './modules/order/infas/repository/dto/order-item'
 import { initInventoryAdapter } from './modules/order/infas/rpc-client/dto/inventory'
 
-
 dotenv.config()
 
 const app: Express = express()

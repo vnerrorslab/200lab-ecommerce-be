@@ -6,7 +6,7 @@ export class Brand {
     readonly id: string,
     readonly name: string,
     public image: Image | null,
-    readonly tag_line: string,
+    readonly tagLine: string,
     readonly description: string,
     readonly status: BaseStatus
   ) {}
@@ -15,7 +15,7 @@ export class Brand {
 export class BrandUpdateDTO {
   name?: string
   image?: string
-  tag_line?: string
+  tagLine?: string
   description?: string
   status?: BaseStatus
 }

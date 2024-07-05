@@ -22,10 +22,11 @@ export function initBrands(sequelize: Sequelize) {
         allowNull: true
       },
 
-      tag_line: {
+      tagLine: {
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true
+        unique: true,
+        field: 'tag_line'
       },
 
       description: {

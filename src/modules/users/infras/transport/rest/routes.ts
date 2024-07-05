@@ -11,16 +11,16 @@ export class UserService {
 
   async insert_user(req: Request, res: Response) {
     try {
-      const { first_name, last_name, email, password, phone, address, identification_card, image_id } = req.body
+      const { firstName, lastName, email, password, phone, address, identificationCard, imageId } = req.body
       const userDTO = new CreateUserDTO(
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         password,
         phone,
         address,
-        identification_card,
-        image_id
+        identificationCard,
+        imageId
       )
 
       const user = await this.userUseCase.createUser(userDTO)
@@ -50,7 +50,7 @@ export class UserService {
             const image = new Image(
               user.image.id,
               user.image.path,
-              user.image.cloud_name,
+              user.image.cloudName,
               user.image.width,
               user.image.height,
               user.image.size
@@ -72,16 +72,16 @@ export class UserService {
   async update_user(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { first_name, last_name, email, password, phone, address, identification_card, status } = req.body
+      const { firstName, lastName, email, password, phone, address, identificationCard, status } = req.body
 
       const userDTO = new UpdateUserDTO(
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         password,
         phone,
         address,
-        identification_card,
+        identificationCard,
         status
       )
 
@@ -119,7 +119,7 @@ export class UserService {
         const image = new Image(
           user.image.id,
           user.image.path,
-          user.image.cloud_name,
+          user.image.cloudName,
           user.image.width,
           user.image.height,
           user.image.size

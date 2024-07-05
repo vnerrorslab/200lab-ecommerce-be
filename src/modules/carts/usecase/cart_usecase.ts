@@ -22,7 +22,7 @@ export class CartUseCase implements ICartUseCase {
       throw new Error(error.message)
     }
 
-    const cart = await this.cartRepository.findProductById(dto.product_id)
+    const cart = await this.cartRepository.findProductById(dto.productId)
 
     if (cart) {
       const updatedQuantity = cart.quantity + parseInt(dto.quantity)
@@ -30,7 +30,7 @@ export class CartUseCase implements ICartUseCase {
     } else {
       const cartId = uuidv4()
 
-      const newCart = new Cart(cartId, dto.product_id, parseInt(dto.quantity), dto.created_by)
+      const newCart = new Cart(cartId, dto.productId, parseInt(dto.quantity), dto.createdBy)
 
       await this.cartRepository.insert(newCart)
     }
@@ -79,7 +79,7 @@ export class CartUseCase implements ICartUseCase {
   async listCarts(condition: CartListingConditionDTO, paging: Paging): Promise<BasePaging<Cart[]>> {
     const listCarts = await this.cartRepository.list(condition, paging)
 
-    const productIds = new Set(listCarts.data.map((product) => product.product_id))
+    const productIds = new Set(listCarts.data.map((product) => product.productId))
 
     const productMap = new Map<string, ProductDetail>()
 
@@ -88,7 +88,7 @@ export class CartUseCase implements ICartUseCase {
       products.forEach((product: ProductDetail) => {
         if (product.images) {
           product.images.forEach((item) => {
-            const image = new Image(item.id, item.path, item.cloud_name, item.width, item.height, item.size)
+            const image = new Image(item.id, item.path, item.cloudName, item.width, item.height, item.size)
             image.fillUrl(process.env.URL_PUBLIC || '')
             item.url = image.url
           })
@@ -99,7 +99,7 @@ export class CartUseCase implements ICartUseCase {
     }
 
     const listProductDetail = listCarts.data.map((cart) => {
-      const product = productMap.get(cart.product_id)
+      const product = productMap.get(cart.productId)
       return {
         ...cart,
         product

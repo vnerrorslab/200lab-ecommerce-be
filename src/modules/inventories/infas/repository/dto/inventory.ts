@@ -10,31 +10,35 @@ export function initInventory(sequelize: Sequelize) {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
       },
-      product_id: {
+      productId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        field: 'product_id'
       },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      cost_price: {
+      costPrice: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: false,
+        field: 'cost_price'
       },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'out_of_stock'
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        field: 'created_at',
         defaultValue: DataTypes.NOW
       },
-      updated_at: {
+      updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        field: 'updated_at',
         defaultValue: DataTypes.NOW
       }
     },

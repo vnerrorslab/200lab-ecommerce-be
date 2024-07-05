@@ -7,7 +7,7 @@ export class UpdateBrandDTO {
   constructor(
     readonly name: string,
     readonly image: string,
-    readonly tag_line: string,
+    readonly tagLine: string,
     readonly description: string,
     readonly status: BaseStatus
   ) {}
@@ -16,7 +16,7 @@ export class UpdateBrandDTO {
     const schema = z.object({
       name: z.string().min(1, { message: ErrorBrandNameEmpty.message }),
 
-      tag_line: z.string().optional(),
+      tagLine: z.string().optional(),
 
       description: z.string().optional(),
 
@@ -27,7 +27,7 @@ export class UpdateBrandDTO {
       schema.parse({
         name: this.name,
         image: this.image,
-        tag_line: this.tag_line,
+        tagLine: this.tagLine,
         description: this.description,
         status: this.status
       })

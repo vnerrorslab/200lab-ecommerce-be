@@ -15,14 +15,14 @@ export class MySQLUserRepository implements IUserRepository {
     try {
       const userData = {
         id: data.id,
-        first_name: data.first_name,
-        last_name: data.last_name,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
         password: data.password,
         salt: data.salt,
         phone: data.phone,
         address: data.address,
-        identification_card: data.identification_card,
+        identificationCard: data.identificationCard,
         status: data.status,
         image: data.image
       }
@@ -55,8 +55,8 @@ export class MySQLUserRepository implements IUserRepository {
         whereClause = {
           ...whereClause,
           [Op.or]: [
-            { first_name: { [Op.like]: `%${condition.searchStr}%` } },
-            { last_name: { [Op.like]: `%${condition.searchStr}%` } },
+            { firstName: { [Op.like]: `%${condition.searchStr}%` } },
+            { lastName: { [Op.like]: `%${condition.searchStr}%` } },
             { email: { [Op.like]: `%${condition.searchStr}%` } }
           ]
         }
@@ -102,17 +102,7 @@ export class MySQLUserRepository implements IUserRepository {
 
   async findUserDetail(id: string): Promise<UserDetailDTO | null> {
     const user = await UserPersistence.findByPk(id, {
-      attributes: [
-        'id',
-        'image',
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'address',
-        'identification_card',
-        'status'
-      ]
+      attributes: ['id', 'image', 'firstName', 'lastName', 'email', 'phone', 'address', 'identificationCard', 'status']
     })
 
     if (!user) return null
