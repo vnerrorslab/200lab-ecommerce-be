@@ -7,11 +7,11 @@ export class CreateProductDTO {
     readonly images: string[],
     readonly price: number,
     readonly quantity: number,
-    readonly brand_id: string,
-    readonly category_id: string,
+    readonly brandId: string,
+    readonly categoryId: string,
     readonly description: string,
-    readonly created_by: string,
-    readonly updated_by: string
+    readonly createdBy: string,
+    readonly updatedBy: string
   ) {}
 
   validate(): void {
@@ -22,15 +22,15 @@ export class CreateProductDTO {
 
       quantity: z.string().optional(),
 
-      brand_id: z.string().optional(),
+      brandId: z.string().optional(),
 
-      category_id: z.string().optional(),
+      categoryId: z.string().optional(),
 
       description: z.string().optional(),
 
-      created_by: z.string().optional(),
+      createdBy: z.string().optional(),
 
-      updated_by: z.string().optional()
+      updatedBy: z.string().optional()
     })
 
     try {
@@ -39,11 +39,11 @@ export class CreateProductDTO {
         images: this.images,
         price: this.price,
         quantity: this.quantity,
-        brand_id: this.brand_id,
-        category_id: this.category_id,
+        brandId: this.brandId,
+        categoryId: this.categoryId,
         description: this.description,
-        created_by: this.created_by,
-        updated_by: this.updated_by
+        createdBy: this.createdBy,
+        updatedBy: this.updatedBy
       })
     } catch (error: any) {
       throw new Error(error.errors[0].message)

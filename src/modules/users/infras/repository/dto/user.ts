@@ -11,13 +11,15 @@ export function initUsers(sequelize: Sequelize) {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'first_name'
       },
-      last_name: {
+      lastName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'last_name'
       },
       email: {
         type: DataTypes.STRING,
@@ -40,9 +42,10 @@ export function initUsers(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true
       },
-      identification_card: {
+      identificationCard: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        field: 'identification_card'
       },
       status: {
         type: DataTypes.ENUM(UserStatus.ACTIVE, UserStatus.INACTIVE),

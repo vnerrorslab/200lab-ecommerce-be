@@ -49,19 +49,19 @@ export class ProductUseCase implements IProductUseCase {
       images,
       dto.price,
       dto.quantity,
-      dto.brand_id,
-      dto.category_id,
+      dto.brandId,
+      dto.categoryId,
       dto.description,
       BaseStatus.ACTIVE,
-      dto.created_by,
-      dto.updated_by
+      dto.createdBy,
+      dto.updatedBy
     )
 
     await this.productRepository.insertProduct(newProduct)
 
     if (images.length > 0) {
       images.forEach(async (image: Image) => {
-        sharedEventEmitter.emit(USING_IMAGE, { image_id: image.id })
+        sharedEventEmitter.emit(USING_IMAGE, { imageId: image.id })
       })
     }
 
@@ -88,11 +88,11 @@ export class ProductUseCase implements IProductUseCase {
       images: dto.images ?? product.images,
       price: dto.price ?? product.price,
       quantity: dto.quantity ?? product.quantity,
-      brand_id: dto.brand_id ?? product.brand_id,
-      category_id: dto.category_id ?? product.category_id,
+      brandId: dto.brandId ?? product.brandId,
+      categoryId: dto.categoryId ?? product.categoryId,
       description: dto.description ?? product.description,
       status: dto.status ?? product.status,
-      updated_by: dto.updated_by ?? product.updated_by
+      updatedBy: dto.updatedBy ?? product.updatedBy
     }
 
     await this.productRepository.updateProductById(id, updatedProduct)
@@ -118,8 +118,8 @@ export class ProductUseCase implements IProductUseCase {
 
   async listingProduct(condition: ProductListingConditionDTO, paging: Paging): Promise<BasePaging<ProductDetail[]>> {
     const listProducts = await this.productRepository.listingProduct(condition, paging)
-    const brandId = new Set(listProducts.products.map((product) => product.brand_id))
-    const categoryId = new Set(listProducts.products.map((product) => product.category_id))
+    const brandId = new Set(listProducts.products.map((product) => product.brandId))
+    const categoryId = new Set(listProducts.products.map((product) => product.categoryId))
 
     const categoryMap = new Map<string, Category>()
     if (categoryId.size !== 0) {
@@ -135,7 +135,7 @@ export class ProductUseCase implements IProductUseCase {
           const image = new Image(
             brand.image.id,
             brand.image.path,
-            brand.image.cloud_name,
+            brand.image.cloudName,
             brand.image.width,
             brand.image.height,
             brand.image.size
@@ -155,12 +155,12 @@ export class ProductUseCase implements IProductUseCase {
         product.images,
         product.price,
         product.quantity,
-        brandMap.get(product.brand_id) ?? null,
-        categoryMap.get(product.category_id) ?? null,
+        brandMap.get(product.brandId) ?? null,
+        categoryMap.get(product.categoryId) ?? null,
         product.description,
         product.status,
-        product.created_by,
-        product.updated_by
+        product.createdBy,
+        product.updatedBy
       )
     })
 
@@ -174,13 +174,13 @@ export class ProductUseCase implements IProductUseCase {
       return null
     }
 
-    const brand = await this.brandRepository.findById(product?.brand_id ?? '')
+    const brand = await this.brandRepository.findById(product?.brandId ?? '')
 
     if (brand?.image) {
       const image = new Image(
         brand.image.id,
         brand.image.path,
-        brand.image.cloud_name,
+        brand.image.cloudName,
         brand.image.width,
         brand.image.height,
         brand.image.size
@@ -189,7 +189,7 @@ export class ProductUseCase implements IProductUseCase {
       brand.image.url = image.url
     }
 
-    const category = await this.categoryRepository.findById(product?.category_id ?? '')
+    const category = await this.categoryRepository.findById(product?.categoryId ?? '')
 
     return { ...product, brand: brand, category: category }
   }

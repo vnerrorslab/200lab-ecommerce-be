@@ -28,7 +28,7 @@ export class CategoryUseCase implements ICategoryUseCase {
 
     const categoryId = uuidv4()
 
-    const newCategory = new Category(categoryId, dto.name, dto.description, BaseStatus.ACTIVE, dto.parent_id)
+    const newCategory = new Category(categoryId, dto.name, dto.description, BaseStatus.ACTIVE, dto.parentId)
 
     await this.categoryRepository.insertCategory(newCategory)
 
@@ -54,7 +54,7 @@ export class CategoryUseCase implements ICategoryUseCase {
       name: dto.name ?? category.name,
       description: dto.description ?? category.description,
       status: dto.status ?? category.status,
-      parent_id: dto.parent_id ?? category.parent_id
+      parentId: dto.parentId ?? category.parentId
     }
 
     await this.categoryRepository.updateCategoryById(id, updatedCategory)

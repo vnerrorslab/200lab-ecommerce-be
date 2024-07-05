@@ -11,8 +11,8 @@ export class CartService {
   async insert_cart(req: Request, res: Response) {
     try {
       const userId = req.user?.userId as string
-      const { product_id, quantity } = req.body
-      const cartDTO = new CreateCartDTO(product_id, quantity, userId)
+      const { productId, quantity } = req.body
+      const cartDTO = new CreateCartDTO(productId, quantity, userId)
 
       const cart = await this.cartUseCase.createCart(cartDTO)
 

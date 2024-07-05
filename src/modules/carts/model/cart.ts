@@ -3,9 +3,9 @@ import { ProductDetail } from './product'
 export class Cart {
   constructor(
     readonly id: string,
-    readonly product_id: string,
+    readonly productId: string,
     readonly quantity: number,
-    readonly created_by: string
+    readonly createdBy: string
   ) {}
 }
 

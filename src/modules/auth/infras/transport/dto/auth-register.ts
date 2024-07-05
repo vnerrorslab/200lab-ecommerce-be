@@ -28,10 +28,7 @@ export class InsertUserDTO {
         .min(1, { message: ErrFirstNameEmpty.message })
         .regex(/^[A-Za-z]+$/, { message: ErrFirstNamePattern.message }),
 
-      lastName: z
-        .string()
-        .min(1, { message: ErrLastNameEmpty.message })
-        .regex(/^[A-Za-z]+$/, { message: ErrLastNamePattern.message }),
+      lastName: z.string().min(1, { message: ErrLastNameEmpty.message }),
 
       email: z.string().min(1, { message: ErrEmailEmpty.message }).email({ message: ErrEmailInvalid.message }),
 

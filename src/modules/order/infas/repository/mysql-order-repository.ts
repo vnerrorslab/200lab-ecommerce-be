@@ -14,24 +14,11 @@ export class MysqlOrderRepository implements IOrderRepository {
     try {
       let whereClause: WhereOptions = {}
 
-      if (condition.searchStr) {
-        whereClause = {
-          ...whereClause,
-          [Op.or]: [{ status: { [Op.like]: `%${condition.searchStr}%` } }]
-        }
-      }
-
-      if (condition.id) {
-        whereClause = {
-          ...whereClause,
-          created_by: condition.id
-        }
-      }
-
       if (condition.userId) {
         whereClause = {
           ...whereClause,
-          created_by: condition.userId
+          userId: condition.userId,
+          orderStatus: condition.status
         }
       }
 
@@ -44,12 +31,12 @@ export class MysqlOrderRepository implements IOrderRepository {
       const orderIds = orders.map((order) => order.getDataValue('id'))
 
       const orderItems = await OrderItemPersistence.findAll({
-        where: { order_id: orderIds }
+        where: { orderId: orderIds }
       })
 
       const ordersWithItems = orders.map((order) => {
         const orderData = order.get({ plain: true })
-        orderData.orderItems = orderItems.filter((item) => item.getDataValue('order_id') === orderData.id)
+        orderData.orderItems = orderItems.filter((item) => item.getDataValue('orderId') === orderData.id)
         return orderData
       })
 

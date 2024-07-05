@@ -39,7 +39,7 @@ export class MysqlInventoryRepository implements IInventoryRepository {
 
   async list_all(): Promise<Inventory[] | null> {
     const inventory = await InventoryPersistence.findAll({
-      attributes: ['product_id', 'quantity', 'status']
+      attributes: ['productId', 'quantity', 'status']
     })
 
     return inventory ? inventory.map((inv) => inv.get({ plain: true })) : null
@@ -49,12 +49,12 @@ export class MysqlInventoryRepository implements IInventoryRepository {
     try {
       const invData = {
         id: data.id,
-        product_id: data.product_id,
+        productId: data.productId,
         quantity: data.quantity,
         status: data.status,
-        cost_price: data.cost_price,
-        created_at: data.created_at,
-        updated_at: data.updated_at
+        costPrice: data.costPrice,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt
       }
 
       const result = await InventoryPersistence.create(invData)
@@ -86,7 +86,7 @@ export class MysqlInventoryRepository implements IInventoryRepository {
         if (updatedInventory.getDataValue('quantity') === 0) {
           await InventoryPersistence.update(
             { status: BaseStatus.OUTOFSTOCK },
-            { where: { product_id: updatedInventory.getDataValue('product_id') } }
+            { where: { productId: updatedInventory.getDataValue('productId') } }
           )
         }
       }

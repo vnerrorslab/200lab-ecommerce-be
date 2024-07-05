@@ -6,7 +6,7 @@ export class UpdateCategoryDTO {
   constructor(
     readonly name: string,
     readonly description: string,
-    readonly parent_id: string,
+    readonly parentId: string,
     readonly status: BaseStatus
   ) {}
 
@@ -14,7 +14,7 @@ export class UpdateCategoryDTO {
     const schema = z.object({
       name: z.string().min(1, { message: ErrorCategoryNameEmpty.message }),
 
-      parent_id: z.string().min(1, { message: ErrorParentEmpty.message }),
+      parentId: z.string().min(1, { message: ErrorParentEmpty.message }),
 
       description: z.string().optional(),
 
@@ -24,7 +24,7 @@ export class UpdateCategoryDTO {
     try {
       schema.parse({
         name: this.name,
-        parent_id: this.parent_id,
+        parentId: this.parentId,
         description: this.description,
         status: this.status
       })

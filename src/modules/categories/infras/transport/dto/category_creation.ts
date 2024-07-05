@@ -5,14 +5,14 @@ export class CreateCategoryDTO {
   constructor(
     readonly name: string,
     readonly description: string,
-    readonly parent_id: string
+    readonly parentId: string
   ) {}
 
   validate(): void {
     const schema = z.object({
       name: z.string().min(1, { message: ErrorCategoryNameEmpty.message }),
 
-      parent_id: z.string().optional(),
+      parentId: z.string().optional(),
 
       description: z.string().optional()
     })
@@ -20,7 +20,7 @@ export class CreateCategoryDTO {
     try {
       schema.parse({
         name: this.name,
-        parent_id: this.parent_id,
+        parentId: this.parentId,
         description: this.description
       })
     } catch (error: any) {

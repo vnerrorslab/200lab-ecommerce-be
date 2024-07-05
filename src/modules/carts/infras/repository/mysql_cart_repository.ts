@@ -12,9 +12,9 @@ export class MySQLCartRepository implements ICartRepository {
     try {
       const cartData = {
         id: data.id,
-        product_id: data.product_id,
+        productId: data.productId,
         quantity: data.quantity,
-        created_by: data.created_by
+        createdBy: data.createdBy
       }
 
       const result = await CartPersistence.create(cartData)
@@ -27,7 +27,7 @@ export class MySQLCartRepository implements ICartRepository {
 
   async findProductById(productId: string): Promise<Cart | null> {
     try {
-      const cart = await CartPersistence.findOne({ where: { product_id: productId } })
+      const cart = await CartPersistence.findOne({ where: { productId: productId } })
       return cart ? cart.get({ plain: true }) : null
     } catch (error: any) {
       throw new Error(`Error finding cart by product ID: ${error.message}`)
@@ -50,14 +50,14 @@ export class MySQLCartRepository implements ICartRepository {
       //   if (condition.searchStr) {
       //     whereClause = {
       //       ...whereClause,
-      //       [Op.or]: [{ unit_price: { [Op.like]: `%${condition.searchStr}%` } }]
+      //       [Op.or]: [{ unitPrice: { [Op.like]: `%${condition.searchStr}%` } }]
       //     }
       //   }
 
       if (condition.userId) {
         whereClause = {
           ...whereClause,
-          created_by: condition.userId
+          createdBy: condition.userId
         }
       }
 

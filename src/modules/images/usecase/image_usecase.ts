@@ -28,7 +28,7 @@ export class ImageUseCase implements IImageUseCase {
     const uploadImages = {
       id: imageId,
       path: filename,
-      cloud_name: this.imageUploader.cloudName(),
+      cloudName: this.imageUploader.cloudName(),
       width: dimensions.width as number,
       height: dimensions.height as number,
       size: filesize,

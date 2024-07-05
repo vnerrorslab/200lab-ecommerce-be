@@ -32,14 +32,16 @@ export function initProducts(sequelize: Sequelize) {
         allowNull: false
       },
 
-      brand_id: {
+      brandId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        field: 'brand_id'
       },
 
-      category_id: {
+      categoryId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        field: 'category_id'
       },
 
       description: {
@@ -52,14 +54,16 @@ export function initProducts(sequelize: Sequelize) {
         allowNull: false
       },
 
-      created_by: {
+      createdBy: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'created_by'
       },
 
-      updated_by: {
+      updatedby: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'updated_by'
       }
     },
     {

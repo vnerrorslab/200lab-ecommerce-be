@@ -6,7 +6,7 @@ export class BrandDetailDTO {
     readonly id: string,
     readonly name: string,
     public image: Image | null,
-    readonly tag_line: string,
+    readonly tagLine: string,
     readonly description: string,
     readonly status: BaseStatus
   ) {}

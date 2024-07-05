@@ -10,11 +10,11 @@ export class OrderService {
   constructor(readonly orderUseCase: IOrderUseCase) {}
 
   async getAllOrders(req: Request, res: Response) {
-    const { searchStr } = req.query
+    const { searchStr, status } = req.query
     const { id } = req.params
     const userId = req.user?.userId as string
 
-    const condition = new OrderSearchDTO(searchStr as string, id, userId)
+    const condition = new OrderSearchDTO(searchStr as string, status as string, id, userId)
 
     const limit = parseInt(req.query.limit as string) || 10
     const page = parseInt(req.query.page as string) || 1
@@ -37,18 +37,22 @@ export class OrderService {
   }
 
   async createOrder(req: Request, res: Response) {
-    const { cartItems } = req.body
-    const userId = req.user?.userId as string
+    try {
+      const { cartItems } = req.body
+      const userId = req.user?.userId as string
 
-    const orderDTO = new CreateOrderDTO(userId, 'pending', new Date())
+      const orderDTO = new CreateOrderDTO(userId, 'pending', new Date())
 
-    const order = await this.orderUseCase.createOrder(orderDTO, cartItems)
+      const order = await this.orderUseCase.createOrder(orderDTO, cartItems)
 
-    if (!order) {
-      throw new Error('Failed to create order')
+      if (!order) {
+        throw new Error('Failed to create order')
+      }
+
+      return res.status(201).json({ order })
+    } catch (error: any) {
+      res.status(400).json({ code: 400, message: error.message })
     }
-
-    return res.status(201).json({ order })
   }
 
   async updateOrder(req: Request, res: Response) {
@@ -62,7 +66,8 @@ export class OrderService {
         paymentMethod,
         paymentStatus = PaymentStatus.PENDING,
         orderStatus = OrderStatus.PENDING,
-        trackingNumber = null
+        trackingNumber = null,
+        updatedAt = new Date()
       } = req.body
 
       const orderDTO = new UpdateOrderDTO(
@@ -73,7 +78,7 @@ export class OrderService {
         paymentStatus,
         orderStatus,
         trackingNumber,
-        new Date()
+        updatedAt
       )
 
       const isUpdate = await this.orderUseCase.updateOrder(id, orderDTO)

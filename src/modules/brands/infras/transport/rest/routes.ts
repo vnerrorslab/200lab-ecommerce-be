@@ -12,8 +12,8 @@ export class BrandService {
 
   async insert_brand(req: Request, res: Response) {
     try {
-      const { name, image, tag_line, description } = req.body
-      const brandDTO = new CreateBrandDTO(name, image, tag_line, description)
+      const { name, image, tagLine, description } = req.body
+      const brandDTO = new CreateBrandDTO(name, image, tagLine, description)
 
       const brand = await this.brandUseCase.createBrand(brandDTO)
 
@@ -26,8 +26,8 @@ export class BrandService {
   async update_brand(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const { name, image, tag_line, description, status } = req.body
-      const brandDTO = new UpdateBrandDTO(name, image, tag_line, description, status)
+      const { name, image, tagLine, description, status } = req.body
+      const brandDTO = new UpdateBrandDTO(name, image, tagLine, description, status)
 
       const brand = await this.brandUseCase.updateBrand(id, brandDTO)
 
@@ -68,7 +68,7 @@ export class BrandService {
             const image = new Image(
               brand.image.id,
               brand.image.path,
-              brand.image.cloud_name,
+              brand.image.cloudName,
               brand.image.width,
               brand.image.height,
               brand.image.size
@@ -101,7 +101,7 @@ export class BrandService {
         const image = new Image(
           brand.image.id,
           brand.image.path,
-          brand.image.cloud_name,
+          brand.image.cloudName,
           brand.image.width,
           brand.image.height,
           brand.image.size
