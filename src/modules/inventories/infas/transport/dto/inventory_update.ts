@@ -5,8 +5,8 @@ export class UpdateInventoryDTO {
   constructor(
     readonly productId: string,
     readonly quantity: number,
-    readonly status: string,
     readonly costPrice: number,
+    readonly status: string,
     readonly updatedAt: Date
   ) {}
 
@@ -22,8 +22,8 @@ export class UpdateInventoryDTO {
       schema.parse({
         productId: this.productId,
         quantity: this.quantity,
-        status: this.status,
         costPrice: this.costPrice,
+        status: this.status,
         updatedAt: this.updatedAt
       })
     } catch (error: any) {
