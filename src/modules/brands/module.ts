@@ -5,5 +5,5 @@ import { BrandService } from './infras/transport/rest/routes'
 import { BrandUseCase } from './usecase/brand_usecase'
 
 export const brandService = new BrandService(
-  new BrandUseCase(new MySQLBrandRepository(sequelize), new MySQLImageInBrandRepository(sequelize))
+  new BrandUseCase(new MySQLBrandRepository(), new MySQLImageInBrandRepository(sequelize))
 )

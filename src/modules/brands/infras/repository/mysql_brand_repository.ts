@@ -1,4 +1,4 @@
-import { Op, Sequelize, type WhereOptions } from 'sequelize'
+import { Op, type WhereOptions } from 'sequelize'
 
 import { BrandPersistence } from './dto/brand'
 import type { Paging } from '~/shared/dto/paging'
@@ -8,8 +8,6 @@ import { Brand, BrandListingConditionDTO, BrandUpdateDTO } from '../../model/bra
 import { BaseStatus } from '~/shared/dto/status'
 
 export class MySQLBrandRepository implements IBrandRepository {
-  constructor(readonly sequelize: Sequelize) {}
-
   async insertBrand(data: Brand): Promise<string> {
     try {
       const brandData = {
