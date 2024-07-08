@@ -12,13 +12,15 @@ export class CreateInventoryDTO {
   ) {}
 
   validate(): void {
-    const schema = z.object({
-      productId: z.string().min(1, { message: ErrProductIdEmpty.message }),
-      quantity: z.number().int().min(0),
-      costPrice: z.number().min(0, { message: ErrPriceEmpty.message }),
-      createdAt: z.date(),
-      updatedAt: z.date()
-    })
+    const schema = z
+      .object({
+        productId: z.string().min(1, { message: ErrProductIdEmpty.message }),
+        quantity: z.number().int().min(0),
+        costPrice: z.number().min(0, { message: ErrPriceEmpty.message }),
+        createdAt: z.date(),
+        updatedAt: z.date()
+      })
+      .required()
 
     try {
       schema.parse({

@@ -6,8 +6,6 @@ import type { Paging } from '../../../../shared/dto/paging'
 import { BaseStatus } from '~/shared/dto/status'
 
 export class MysqlInventoryRepository implements IInventoryRepository {
-  constructor(readonly sequelize: Sequelize) {}
-
   async list_paginate(
     condition: InventorySearchDTO,
     paging: Paging
@@ -18,7 +16,7 @@ export class MysqlInventoryRepository implements IInventoryRepository {
       if (condition.searchStr) {
         whereClause = {
           ...whereClause,
-          [Op.or]: [{ name: { [Op.like]: `%${condition.searchStr}%` } }]
+          [Op.or]: [{ status: { [Op.like]: `%${condition.searchStr}%` } }]
         }
       }
 
@@ -37,12 +35,21 @@ export class MysqlInventoryRepository implements IInventoryRepository {
     }
   }
 
-  async list_all(): Promise<Inventory[] | null> {
-    const inventory = await InventoryPersistence.findAll({
-      attributes: ['productId', 'quantity', 'status']
+  async list_all(productIds: string[]): Promise<Inventory[]> {
+    const inventories = await InventoryPersistence.findAll({
+      attributes: ['productId', 'quantity', 'status'],
+      where: {
+        productId: { [Op.in]: productIds }
+      }
     })
 
-    return inventory ? inventory.map((inv) => inv.get({ plain: true })) : null
+    return inventories.map((inv) => inv.get({ plain: true }))
+  }
+
+  async findByProductId(productId: string): Promise<Inventory> {
+    const inventory = await InventoryPersistence.findOne({ where: { productId } })
+
+    return inventory?.get({ plain: true })
   }
 
   async save(data: Inventory): Promise<string> {
@@ -77,20 +84,7 @@ export class MysqlInventoryRepository implements IInventoryRepository {
 
   async update(id: string, data: UpdateInventoryDTO): Promise<boolean> {
     try {
-      const [affectedCount, [updatedInventory]] = await InventoryPersistence.update(data, {
-        where: { id },
-        returning: true
-      })
-
-      if (affectedCount > 0 && updatedInventory) {
-        if (updatedInventory.getDataValue('quantity') === 0) {
-          await InventoryPersistence.update(
-            { status: BaseStatus.OUTOFSTOCK },
-            { where: { productId: updatedInventory.getDataValue('productId') } }
-          )
-        }
-      }
-
+      const [affectedCount] = await InventoryPersistence.update(data, { where: { id } })
       return affectedCount > 0
     } catch (error: any) {
       throw new Error(`Error updating inventory: ${error.message}`)
