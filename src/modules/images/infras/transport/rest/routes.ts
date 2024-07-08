@@ -5,6 +5,7 @@ import { IImageUseCase } from '~/modules/images/interfaces/usecase'
 import { ErrImageType } from '~/shared/error'
 import { ErrImageNotFound } from '~/modules/images/model/image.error'
 import { ImageEventHandler } from '../conditions/image_event_handler'
+import { ensureDirectoryExistence } from '~/shared/utils/fileUtils'
 
 export class ImageService {
   constructor(readonly imageUseCase: IImageUseCase) {
@@ -81,7 +82,9 @@ export class ImageService {
     //multer
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, 'uploads')
+        const uploadPath = process.env.UPLOAD_PATH || 'uploads'
+        ensureDirectoryExistence(uploadPath)
+        cb(null, uploadPath)
       },
       filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
