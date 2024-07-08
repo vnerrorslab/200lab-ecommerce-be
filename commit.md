@@ -19,8 +19,6 @@ type-enum: Specifies that the commitment types must belong to the list of define
 
 - type-empty: Specifies that the commit type cannot be empty.
 
-- empty scope: Specifies that the commitment range (scope) cannot be empty.
-
 - topic-empty: Specifies that the commit subject cannot be empty.
 
 - topic-full-stop: Specifies that the commit (topic) cannot end with a period.
@@ -34,18 +32,16 @@ In which:
 
 `<type>`: Type of commit, such as feat (new feature), bug fix (bug fix), doc (documentation), chore (small development change), and more other. Specifying commitment types can vary between projects, but typically uses previously defined types.
 
-`<scope>` (option): Scope of the commitment, specifying the portion of the project that will affect the image. For example, authentication, database, user interface and many other scopes. Range also cannot be used in some cases.
-
 `<subject>`: Content of the commit, a brief description of the changes made. Should be written in lower case and use clear language and complete descriptions.
 
 ```bash
-<type>(<scope>): <topic>
+<type>: <topic>
 ```
 
 Example of a standard commit message:
 
 ```bash
-feat(authentication): Add login function
+feature: add login function
 ```
 
 In this example, the commit message indicates that login functionality has been added to the "authentication" scope.
