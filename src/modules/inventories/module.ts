@@ -3,4 +3,4 @@ import { MysqlInventoryRepository } from './infas/repository/mysql_inventory_rep
 import { InventoryService } from './infas/transport/rest/routes'
 import { InventoryUseCase } from './usecase/inventory-usecase'
 
-export const inventoryService = new InventoryService(new InventoryUseCase(new MysqlInventoryRepository(sequelize)))
+export const inventoryService = new InventoryService(new InventoryUseCase(new MysqlInventoryRepository()))

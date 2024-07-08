@@ -17,7 +17,7 @@ export class InventorySearchDTO {
 export class UpdateInventoryDTO {
   productId?: string
   quantity?: number
-  status?: string
   costPrice?: number
+  status?: string
   updatedAt?: Date
 }
