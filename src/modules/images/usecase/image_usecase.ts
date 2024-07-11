@@ -91,4 +91,12 @@ export class ImageUseCase implements IImageUseCase {
       throw new Error(error.message)
     }
   }
+
+  async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
+    const uploadPromises = files.map((file) =>
+      this.uploadImage(file.destination + '/' + file.filename, file.size, file.mimetype)
+    )
+
+    return Promise.all(uploadPromises)
+  }
 }

@@ -76,6 +76,21 @@ export class ImageService {
     }
   }
 
+  async upload_images(req: Request, res: Response) {
+    try {
+      const files = req.files as Express.Multer.File[]
+
+      const imageIds = await this.imageUseCase.uploadImages(files)
+
+      res.status(201).send({
+        code: 201,
+        message: imageIds
+      })
+    } catch (error: any) {
+      res.status(400).send({ error: error.message })
+    }
+  }
+
   setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
@@ -103,7 +118,9 @@ export class ImageService {
       }
     })
 
-    router.post('/images', auth, upload.single('image'), this.insert_image.bind(this))
+    router.post('/image', auth, upload.single('image'), this.insert_image.bind(this))
+
+    router.post('/images', auth, upload.array('image', 5), this.upload_images.bind(this))
 
     router.get('/images/:id', auth, this.detail_image.bind(this))
 

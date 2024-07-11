@@ -59,7 +59,7 @@ export class MySQLProductsRepository implements IProductRepository {
     paging: Paging
   ): Promise<{ products: Product[]; total_pages: number }> {
     try {
-      let whereClause: WhereOptions = {}
+      let whereClause: WhereOptions = { status: BaseStatus.ACTIVE }
 
       if (condition.searchStr) {
         whereClause = {
