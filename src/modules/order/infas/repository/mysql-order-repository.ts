@@ -94,9 +94,6 @@ export class MysqlOrderRepository implements IOrderRepository {
         unitPrice: item.unitPrice,
         quantity: item.quantity
       }))
-      console.log(0)
-
-      console.log(data)
 
       if (orderItemsData && orderItemsData.length > 0) {
         await OrderItemPersistence.bulkCreate(orderItemsData)

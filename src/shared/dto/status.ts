@@ -29,6 +29,6 @@ export enum OrderStatus {
 
 export enum PaymentStatus {
   PENDING = 'pending',
-  PAID = 'paid',
+  SUCCESS = 'success',
   FAILED = 'failed'
 }
