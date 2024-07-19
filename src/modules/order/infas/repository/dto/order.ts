@@ -49,7 +49,7 @@ export function initOrder(sequelize: Sequelize) {
         field: 'payment_method'
       },
       paymentStatus: {
-        type: DataTypes.ENUM(PaymentStatus.PENDING, PaymentStatus.PAID, PaymentStatus.FAILED),
+        type: DataTypes.ENUM(PaymentStatus.PENDING, PaymentStatus.SUCCESS, PaymentStatus.FAILED),
         allowNull: false,
         defaultValue: PaymentStatus.PENDING,
         field: 'payment_status'

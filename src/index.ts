@@ -32,6 +32,8 @@ import { JwtTokenService } from './shared/token/jwt-token-service'
 import { initOrder } from './modules/order/infas/repository/dto/order'
 import { initOrderItem } from './modules/order/infas/repository/dto/order-item'
 import { initInventoryAdapter } from './modules/order/infas/rpc-client/dto/inventory'
+import { paymentService } from './modules/payment/module'
+import { initPayment } from './modules/payment/infas/repository/dto/payment'
 
 dotenv.config()
 
@@ -61,6 +63,7 @@ const port = process.env.PORT || 8080
     initOrder(sequelize)
     initOrderItem(sequelize)
     initInventoryAdapter(sequelize)
+    initPayment(sequelize)
 
     // check API
     app.get('/', (req: Request, res: Response) => {
@@ -78,9 +81,10 @@ const port = process.env.PORT || 8080
     app.use('/v1', brandService.setupRoutes(auth))
     app.use('/v1', categoryService.setupRoutes(auth))
     app.use('/v1', imageService.setupRoutes(auth))
-    app.use('/v1', inventoryService.setupRoutes())
+    app.use('/v1', inventoryService.setupRoutes(auth))
     app.use('/v1', productService.setupRoutes(auth))
     app.use('/v1', orderService.setupRoutes(auth))
+    app.use('/v1', paymentService.setupRoutes(auth))
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}`)

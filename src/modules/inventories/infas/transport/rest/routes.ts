@@ -1,10 +1,13 @@
-import express, { Router, type Request, type Response } from 'express'
+import express, { NextFunction, Router, type Request, type Response } from 'express'
 import type { IInventoryUseCase } from '../../../interfaces/usecase'
 import { CreateInventoryDTO } from '../dto/inventory_create'
 import { UpdateInventoryDTO } from '../dto/inventory_update'
 import { BaseStatus } from '~/shared/dto/status'
 import { InventorySearchDTO } from '~/modules/inventories/model/inventory'
 import { Paging } from '~/shared/dto/paging'
+import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
+import { roles } from '~/shared/constant/roles.constant'
+import { actions } from '~/shared/constant/actions.contat'
 export class InventoryService {
   constructor(readonly inventoryUseCase: IInventoryUseCase) {}
 
@@ -68,13 +71,28 @@ export class InventoryService {
     }
   }
 
-  setupRoutes(): Router {
+  setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/inventories', this.listAllInventory.bind(this))
-    router.post('/inventories/check', this.checkInventory.bind(this))
-    router.post('/inventories', this.createInventory.bind(this))
-    router.put('/inventories/:id', this.updateInventory.bind(this))
+    router.get('/inventories', auth, authorizeMiddleWare([roles.ADMIN], actions.READ), this.listAllInventory.bind(this))
+    router.post(
+      '/inventories/check',
+      auth,
+      authorizeMiddleWare([roles.ADMIN, roles.USER], actions.READ),
+      this.checkInventory.bind(this)
+    )
+    router.post(
+      '/inventories',
+      auth,
+      authorizeMiddleWare([roles.ADMIN], actions.CREATED),
+      this.createInventory.bind(this)
+    )
+    router.put(
+      '/inventories/:id',
+      auth,
+      authorizeMiddleWare([roles.ADMIN], actions.UPDATED),
+      this.updateInventory.bind(this)
+    )
 
     return router
   }
