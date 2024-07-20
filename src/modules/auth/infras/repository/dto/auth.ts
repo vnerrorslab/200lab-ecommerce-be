@@ -1,5 +1,6 @@
 import { DataTypes, Model, type Sequelize } from 'sequelize'
 import { Roles, UserStatus } from '~/shared/dto/status'
+import { UserStatus } from '~/shared/dto/status'
 
 export class AuthPersistence extends Model {}
 
