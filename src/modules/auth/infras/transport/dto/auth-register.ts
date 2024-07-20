@@ -1,14 +1,13 @@
 import { z } from 'zod'
 import {
-  ErrFirstNamePattern,
-  ErrFirstNameEmpty,
-  ErrLastNamePattern,
-  ErrLastNameEmpty,
-  ErrEmailInvalid,
   ErrEmailEmpty,
-  ErrPasswordPattern,
+  ErrEmailInvalid,
+  ErrFirstNameEmpty,
+  ErrFirstNamePattern,
+  ErrLastNameEmpty,
+  ErrPasswordEmpty,
   ErrPasswordMin,
-  ErrPasswordEmpty
+  ErrPasswordPattern
 } from '~/shared/error'
 
 export class InsertUserDTO {
