@@ -1,9 +1,8 @@
 import { Sequelize } from 'sequelize'
 
 import type { IAuthRepository } from '../../interfaces/repository'
-import { User, UserPermission } from '../../model/user'
+import { User } from '../../model/auth'
 import { AuthPersistence } from './dto/auth'
-import { UserPermissionPersistence } from './dto/user-permission'
 
 export class MySQLAuthRepository implements IAuthRepository {
   constructor(readonly sequelize: Sequelize) {}
@@ -17,6 +16,7 @@ export class MySQLAuthRepository implements IAuthRepository {
         email: data.email,
         password: data.password,
         role: data.role,
+        actions: data.actions,
         salt: data.salt,
         status: data.status
       }
@@ -39,24 +39,5 @@ export class MySQLAuthRepository implements IAuthRepository {
     const user = await AuthPersistence.findOne({ where: { email } })
 
     return user ? user.get({ plain: true }) : null
-  }
-
-  async insertPermission(data: UserPermission): Promise<string> {
-    try {
-      const result = await UserPermissionPersistence.create({
-        id: data.id,
-        actions: data.actions,
-        userId: data.userId
-      })
-
-      return result.getDataValue('id')
-    } catch (error: any) {
-      throw new Error(`Error inserting permission: ${error.message}`)
-    }
-  }
-
-  async findPermissionsByUserId(userId: string): Promise<number> {
-    const permission = await UserPermissionPersistence.findOne({ where: { userId } })
-    return permission?.getDataValue('actions')
   }
 }

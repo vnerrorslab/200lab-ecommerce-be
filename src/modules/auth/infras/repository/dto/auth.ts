@@ -1,4 +1,5 @@
 import { DataTypes, Model, type Sequelize } from 'sequelize'
+import { UserStatus } from '~/shared/dto/status'
 
 export class AuthPersistence extends Model {}
 
@@ -34,13 +35,18 @@ export function initAuth(sequelize: Sequelize) {
         allowNull: false
       },
       status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(UserStatus.PENDING, UserStatus.ACTIVE, UserStatus.INACTIVE),
         allowNull: false
       },
       role: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'user'
+      },
+      actions: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 0
       }
     },
     {

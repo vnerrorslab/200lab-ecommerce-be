@@ -7,14 +7,7 @@ export class User {
     readonly password: string,
     readonly salt: string,
     readonly status: string,
-    readonly role: string
-  ) {}
-}
-
-export class UserPermission {
-  constructor(
-    readonly id: string,
-    readonly actions: number,
-    readonly userId: string
+    readonly role: string,
+    readonly actions: number
   ) {}
 }

@@ -1,17 +1,18 @@
-import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
+import { v4 as uuidv4 } from 'uuid'
 
-import type { IAuthUseCase } from '../interfaces/usecase'
 import type { IAuthRepository } from '../interfaces/repository'
+import type { IAuthUseCase } from '../interfaces/usecase'
 
-import type { InsertUserDTO } from '../infras/transport/dto/auth-register'
 import type { LoginUserDTO } from '../infras/transport/dto/auth-login'
+import type { InsertUserDTO } from '../infras/transport/dto/auth-register'
 
-import { User, UserPermission } from '../model/user'
-import { ErrUserExists, ErrUserNotFound } from '../model/user.error'
+import { User } from '../model/auth'
+import { ErrUserExists, ErrUserNotFound } from '../model/auth.error'
 
-import { generateRandomString } from '~/shared/utils/generateRandomString'
 import type { ITokenService } from '~/shared/interfaces/token-service'
+import { generateRandomString } from '~/shared/utils/generateRandomString'
+import { UserStatus } from '~/shared/dto/status'
 
 export class AuthUseCase implements IAuthUseCase {
   constructor(
@@ -30,9 +31,7 @@ export class AuthUseCase implements IAuthUseCase {
       throw new Error('User not found')
     }
 
-    const actions = await this.authRepository.findPermissionsByUserId(userId)
-
-    return { userId: user.id, role: user.role, actions }
+    return { userId: user.id, role: user.role, actions: user.actions }
   }
 
   async register(dto: InsertUserDTO): Promise<boolean> {
@@ -56,13 +55,19 @@ export class AuthUseCase implements IAuthUseCase {
 
     const userId = uuidv4()
 
-    const newUser = new User(userId, dto.firstName, dto.lastName, dto.email, hashedPassword, salt, 'active', dto.role)
+    const newUser = new User(
+      userId,
+      dto.firstName,
+      dto.lastName,
+      dto.email,
+      hashedPassword,
+      salt,
+      UserStatus.ACTIVE,
+      dto.role,
+      dto.actions
+    )
 
     await this.authRepository.insert(newUser)
-
-    const userActions = new UserPermission(uuidv4(), dto.actions, userId)
-
-    await this.authRepository.insertPermission(userActions)
 
     return true
   }

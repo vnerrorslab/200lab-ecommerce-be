@@ -2,15 +2,13 @@ import { NextFunction, Router, type Request, type Response } from 'express'
 
 import type { IAuthUseCase } from '../../../interfaces/usecase'
 
-import { InsertUserDTO } from '../dto/auth-register'
 import { LoginUserDTO } from '../dto/auth-login'
+import { InsertUserDTO } from '../dto/auth-register'
 
 import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
 
-import { actions } from '~/shared/constant/actions.contat'
-import { roles } from '~/shared/constant/roles.constant'
-
-import { ErrUserNotFound } from '../../../model/user.error'
+import { Actions, Roles } from '~/shared/dto/status'
+import { ErrUserNotFound } from '../../../model/auth.error'
 
 export class AuthService {
   constructor(readonly authUseCase: IAuthUseCase) {}
@@ -51,7 +49,7 @@ export class AuthService {
   setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.post('/admin/register', auth, authorizeMiddleWare([roles.ADMIN], actions.CREATED), this.register.bind(this))
+    router.post('/admin/register', auth, authorizeMiddleWare([Roles.ADMIN], Actions.CREATED), this.register.bind(this))
     router.post('/register', this.register.bind(this))
     router.post('/login', this.login.bind(this))
 

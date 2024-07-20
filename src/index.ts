@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import express, { type Express, type Request, type Response } from 'express'
 import { sequelize } from './infras/sequelize'
 import { initAuth } from './modules/auth/infras/repository/dto/auth'
-import { initPermission } from './modules/auth/infras/repository/dto/user-permission'
 import { MySQLAuthRepository } from './modules/auth/infras/repository/mysql-auth-repository'
 import { authService } from './modules/auth/module'
 import { AuthUseCase } from './modules/auth/usecase/auth-usecase'
@@ -52,7 +51,6 @@ const port = process.env.PORT || 8080
     initCarts(sequelize)
     initInventory(sequelize)
     initAuth(sequelize)
-    initPermission(sequelize)
     initImages(sequelize)
     initImagesInUser(sequelize)
     initImagesInProduct(sequelize)

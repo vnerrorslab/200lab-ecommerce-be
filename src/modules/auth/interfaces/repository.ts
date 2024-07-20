@@ -1,4 +1,4 @@
-import type { User, UserPermission } from '../model/user'
+import type { User } from '../model/auth'
 
 export interface IAuthRepository {
   insert(data: User): Promise<string>
@@ -6,8 +6,4 @@ export interface IAuthRepository {
   findById(id: string): Promise<User | null>
 
   findByEmail(email: string): Promise<User | null>
-
-  insertPermission(data: UserPermission): Promise<string>
-
-  findPermissionsByUserId(userId: string): Promise<number>
 }

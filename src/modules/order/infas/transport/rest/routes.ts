@@ -2,12 +2,10 @@ import { NextFunction, Router, type Request, type Response } from 'express'
 import { IOrderUseCase } from '~/modules/order/interfaces/usecase'
 import { OrderSearchDTO } from '~/modules/order/model/order'
 import { Paging } from '~/shared/dto/paging'
+import { Actions, OrderStatus, PaymentStatus, Roles } from '~/shared/dto/status'
+import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
 import { CreateOrderDTO } from '../dto/order-create'
 import { UpdateOrderDTO } from '../dto/order-update'
-import { OrderStatus, PaymentStatus } from '~/shared/dto/status'
-import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
-import { roles } from '~/shared/constant/roles.constant'
-import { actions } from '~/shared/constant/actions.contat'
 
 export class OrderService {
   constructor(readonly orderUseCase: IOrderUseCase) {}
@@ -95,20 +93,20 @@ export class OrderService {
   setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/orders', auth, authorizeMiddleWare([roles.ADMIN], actions.READ), this.getAllOrders.bind(this))
+    router.get('/orders', auth, authorizeMiddleWare([Roles.ADMIN], Actions.READ), this.getAllOrders.bind(this))
     router.get(
       '/orders/:id',
       auth,
-      authorizeMiddleWare([roles.ADMIN, roles.USER], actions.READ),
+      authorizeMiddleWare([Roles.ADMIN, Roles.USER], Actions.READ),
       this.getOrderById.bind(this)
     )
     router.post(
       '/orders',
       auth,
-      authorizeMiddleWare([roles.ADMIN, roles.USER], actions.CREATED),
+      authorizeMiddleWare([Roles.ADMIN, Roles.USER], Actions.CREATED),
       this.createOrder.bind(this)
     )
-    router.put('/orders/:id', auth, authorizeMiddleWare([roles.ADMIN], actions.UPDATED), this.updateOrder.bind(this))
+    router.put('/orders/:id', auth, authorizeMiddleWare([Roles.ADMIN], Actions.UPDATED), this.updateOrder.bind(this))
 
     return router
   }

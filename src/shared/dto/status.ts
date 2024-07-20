@@ -32,3 +32,15 @@ export enum PaymentStatus {
   SUCCESS = 'success',
   FAILED = 'failed'
 }
+
+export enum Roles {
+  ADMIN = 'admin',
+  USER = 'user'
+}
+
+export enum Actions {
+  CREATED = 1,
+  UPDATED = 2,
+  DELETED = 4,
+  READ = 0
+}
