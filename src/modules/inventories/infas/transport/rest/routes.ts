@@ -1,13 +1,11 @@
-import express, { NextFunction, Router, type Request, type Response } from 'express'
+import { NextFunction, Router, type Request, type Response } from 'express'
+import { InventorySearchDTO } from '~/modules/inventories/model/inventory'
+import { Paging } from '~/shared/dto/paging'
+import { Actions, BaseStatus, Roles } from '~/shared/dto/status'
+import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
 import type { IInventoryUseCase } from '../../../interfaces/usecase'
 import { CreateInventoryDTO } from '../dto/inventory_create'
 import { UpdateInventoryDTO } from '../dto/inventory_update'
-import { BaseStatus } from '~/shared/dto/status'
-import { InventorySearchDTO } from '~/modules/inventories/model/inventory'
-import { Paging } from '~/shared/dto/paging'
-import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
-import { roles } from '~/shared/constant/roles.constant'
-import { actions } from '~/shared/constant/actions.contat'
 export class InventoryService {
   constructor(readonly inventoryUseCase: IInventoryUseCase) {}
 
@@ -74,23 +72,23 @@ export class InventoryService {
   setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/inventories', auth, authorizeMiddleWare([roles.ADMIN], actions.READ), this.listAllInventory.bind(this))
+    router.get('/inventories', auth, authorizeMiddleWare([Roles.ADMIN], Actions.READ), this.listAllInventory.bind(this))
     router.post(
       '/inventories/check',
       auth,
-      authorizeMiddleWare([roles.ADMIN, roles.USER], actions.READ),
+      authorizeMiddleWare([Roles.ADMIN, Roles.USER], Actions.READ),
       this.checkInventory.bind(this)
     )
     router.post(
       '/inventories',
       auth,
-      authorizeMiddleWare([roles.ADMIN], actions.CREATED),
+      authorizeMiddleWare([Roles.ADMIN], Actions.CREATED),
       this.createInventory.bind(this)
     )
     router.put(
       '/inventories/:id',
       auth,
-      authorizeMiddleWare([roles.ADMIN], actions.UPDATED),
+      authorizeMiddleWare([Roles.ADMIN], Actions.UPDATED),
       this.updateInventory.bind(this)
     )
 
