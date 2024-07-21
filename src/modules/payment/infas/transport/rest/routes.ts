@@ -5,10 +5,8 @@ import { NextFunction, Request, Response, Router } from 'express'
 import moment from 'moment'
 import { IPaymentUseCase } from '~/modules/payment/interfaces/usecase'
 import { IPaymentZaloType, PaymentSearchDTO } from '~/modules/payment/model/payment'
-import { actions } from '~/shared/constant/actions.contat'
-import { roles } from '~/shared/constant/roles.constant'
 import { Paging } from '~/shared/dto/paging'
-import { PaymentStatus } from '~/shared/dto/status'
+import { Actions, PaymentStatus, Roles } from '~/shared/dto/status'
 import { authorizeMiddleWare } from '~/shared/middleware/authorization-middleware'
 import { PaymentCreateDTO } from '../dto/payment-create'
 import qs from 'qs'
@@ -184,11 +182,11 @@ export class PaymentService {
   setupRoutes(auth: (req: Request, res: Response, next: NextFunction) => void): Router {
     const router = Router()
 
-    router.get('/payment', auth, authorizeMiddleWare([roles.ADMIN], actions.READ), this.getAllPayment.bind(this))
+    router.get('/payment', auth, authorizeMiddleWare([Roles.ADMIN], Actions.READ), this.getAllPayment.bind(this))
     router.get(
       '/payment/:id',
       auth,
-      authorizeMiddleWare([roles.ADMIN, roles.USER], actions.READ),
+      authorizeMiddleWare([Roles.ADMIN, Roles.USER], Actions.READ),
       this.getPaymentById.bind(this)
     )
     router.post('/payment', auth, this.payment.bind(this))
