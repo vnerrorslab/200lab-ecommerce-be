@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { Image } from '~/modules/products/model/image'
 import { BaseStatus } from '~/shared/dto/status'
 import { ErrImageEmpty, ErrPriceEmpty, ErrProductNameEmpty, ErrStatusPattern } from '~/shared/error'
 

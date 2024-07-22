@@ -82,10 +82,12 @@ export class ProductUseCase implements IProductUseCase {
       throw ErrProductExists
     }
 
+    const images = await this.imageRepository.findByIds(dto.images)
+
     const updatedProduct = {
       ...product,
       name: dto.name ?? product.name,
-      images: dto.images ?? product.images,
+      images: images ?? product.images,
       price: dto.price ?? product.price,
       quantity: dto.quantity ?? product.quantity,
       brandId: dto.brandId ?? product.brandId,

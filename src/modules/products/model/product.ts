@@ -37,7 +37,7 @@ export class ProductDetail {
 
 export class ProductUpdateDTO {
   name?: string
-  images?: string[]
+  images?: Image[]
   price?: number
   quantity?: number
   brandId?: string

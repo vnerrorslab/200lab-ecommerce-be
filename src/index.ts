@@ -34,11 +34,13 @@ import { initInventoryAdapter } from './modules/order/infas/rpc-client/dto/inven
 import { paymentService } from './modules/payment/module'
 import { initPayment } from './modules/payment/infas/repository/dto/payment'
 
+import cors from 'cors'
+
 dotenv.config()
 
 const app: Express = express()
 const port = process.env.PORT || 8080
-
+app.use(cors())
 ;(async () => {
   try {
     // check connection to database
