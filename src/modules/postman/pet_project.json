@@ -1,0 +1,1248 @@
+{
+	"info": {
+		"_postman_id": "5a1938d5-c8c1-4f19-9211-672126454dcd",
+		"name": "Pet Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28562036"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "insert_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Tran\", \r\n    \"lastName\": \"Vy\", \r\n    \"email\": \"{{$randomEmail}}\", \r\n    \"password\": \"Aa@123456\",\r\n    \"phone\":\"0373162586\",\r\n    \"address\":\"70 Huynh Van Banh\",\r\n    \"identificationCard\":\"035701014372\",\r\n    \"imageId\":\"e32657f6-a7b1-4ed7-a212-b2719bbd3bf6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "searchStr",
+									"value": "v",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Nguyen\", \r\n    \"lastName\": \"Thanh\", \r\n    \"email\": \"thanhnn489@gmail.com\", \r\n    \"password\": \"Aa@123456\",\r\n    \"phone\": \"0845002405\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/users/12a65945-f3e1-4998-9370-c2fd5a5aa411",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"12a65945-f3e1-4998-9370-c2fd5a5aa411"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/users/12a65945-f3e1-4998-9370-c2fd5a5aa411",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"12a65945-f3e1-4998-9370-c2fd5a5aa411"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users_detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/users/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "12a65945-f3e1-4998-9370-c2fd5a5aa411"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brand",
+			"item": [
+				{
+					"name": "insert_brand",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"nikae\",\r\n    \"image\": \"e32657f6-a7b1-4ed7-a212-b2719bbd3bf6\",\r\n    \"tagLine\": \"run\",\r\n    \"description\": \"nike\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/brands",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"brands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/brands",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"brands"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "searchStr",
+									"value": "ni",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_brand",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"adidas\",\r\n    \"image\": \"e32657f6-a7b1-4ed7-a212-b2719bbd3bf6\",\r\n    \"tagLine\": \"sport\",\r\n    \"description\": \"adidas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/brands/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "35d0528d-6058-42cb-ac27-3c339322ae91"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_brand",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/brands/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "55b5caf0-77bc-4861-a5ef-6c8d165d49c4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "brands_detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/brands/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "35d0528d-6058-42cb-ac27-3c339322ae91"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "insert_category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"sport\",\r\n    \"description\": \"desc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/categories",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/categories",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "searchStr",
+									"value": "v",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"sneaker\",\r\n    \"description\": \"desc\",\r\n    \"parentId\": \"0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/categories/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9be89cf4-0a53-4bb5-903c-82f6a80526c2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/categories/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9be89cf4-0a53-4bb5-903c-82f6a80526c2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category_detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/categories/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "d4927fb0-2672-456e-89b1-4e300f7a7f74"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "insert_product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"max air 1\",\r\n    \"images\": [\r\n        \"e32657f6-a7b1-4ed7-a212-b2719bbd3bf6\",\r\n        \"12b51ea0-6907-4311-8135-5e4ead01ee0d\"\r\n    ],\r\n    \"price\": \"2500\",\r\n    \"quantity\": \"0\",\r\n    \"brandId\": \"ebfabe9a-cf2f-4b44-9e06-700b1ffdc911\",\r\n    \"categoryId\": \"0012ef1a-b5b8-4f16-804c-9ecfc112d06b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/products?page=1&limit=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "searchStr",
+									"value": "v",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"air 3\",\r\n    \"image_url\": \"/as/air1.png\",\r\n    \"price\": \"2500\",\r\n    \"quantity\": \"0\",\r\n    \"brand_id\": \"ebfabe9a-cf2f-4b44-9e06-700b1ffdc911\",\r\n    \"category_id\": \"0012ef1a-b5b8-4f16-804c-9ecfc112d06b\",\r\n    \"description\": \"desc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/products/c2e46c4b-6a73-4984-b2a0-f3f9c5727a95",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								"c2e46c4b-6a73-4984-b2a0-f3f9c5727a95"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/products/bf523c73-d6e1-430e-81a2-ac05a4127b81",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								"bf523c73-d6e1-430e-81a2-ac05a4127b81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "product_detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/products/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "00e35fb9-29fe-49d7-ad01-2384afe8e8e9"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "images",
+			"item": [
+				{
+					"name": "upload images",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/s3-la-gi.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/v1/images",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/images/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"images",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ee12ba54-e9d1-4f2b-ad77-34e5f9846c24"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/images/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"images",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ee12ba54-e9d1-4f2b-ad77-34e5f9846c24"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "insert_cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": \"bf523c73-d6e1-430e-81a2-ac05a4127b81\",\r\n    \"quantity\": \"10\",\r\n    \"unit_price\": \"2200\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/carts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_carts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/carts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"carts"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "searchStr",
+									"value": "v",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_carts",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/carts/a731a3b5-1b74-4d03-a3c7-790828f33903",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"carts",
+								"a731a3b5-1b74-4d03-a3c7-790828f33903"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_carts",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/carts/c2ae38d6-df97-405c-8c13-ce439f2cad38",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"carts",
+								"c2ae38d6-df97-405c-8c13-ce439f2cad38"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "list users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/user/list",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"user",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Tran\",\r\n    \"last_name\": \"Vy\",\r\n    \"email\": \"trnthuyvy1234567@gmail.com\",\r\n    \"password\": \"Aa@123456\",\r\n    \"role\": \"admin\",\r\n    \"actions\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"code = pm.response.code\r",
+									"if(code ===200){\r",
+									"    const {token} = pm.response.json()\r",
+									"    pm.environment.set(\"ACCESS_TOKEN\", token)\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Joshua_Gaylord@yahoo.com\",\r\n    \"password\": \"Aa@123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "inventories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"product_id\": \"1\",\n    \"quantity\": 55,\n    \"cost_price\": 135000 \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/inventories",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"inventories"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "inventories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/inventories",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"inventories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/orders",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "orders/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/orders/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cartItems\": [\n    {\n      \"product_id\": \"1\",\n      \"quantity\": 2,\n      \"unit_price\": 19\n    },\n    {\n      \"product_id\": \"2\",\n      \"quantity\": 1,\n      \"unit_price\": 29.99\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/v1/orders",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/v1/orders/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"v1",
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
